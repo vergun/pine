@@ -24,46 +24,15 @@ module.exports.routes = {
 	
 	// To route the home page to the "index" action of the "home" controller:
 	'/' : {
-		controller	: 'home'
+		controller: 'main',
+		action: 'index'
+	},
+	'/open' : {
+		controller: 'main',
+		action: 'open'
+	},
+	'/save' : {
+		controller: 'main',
+		action: 'save'
 	}
-
-	// If you want to set up a route only for a particular HTTP method/verb 
-	// (GET, POST, PUT, DELETE) you can specify the verb before the path:
-	// 'post /signup': {
-	//		controller	: 'user',
-	//		action		: 'signup'
-	// }
-
-	// Keep in mind default routes exist for each of your controllers
-	// So if you have a UserController with an action called "juggle" 
-	// a route will be automatically exist mapping it to /user/juggle.
-	//
-	// Additionally, unless you override them, new controllers will have 
-	// create(), find(), findAll(), update(), and destroy() actions, 
-	// and routes will exist for them as follows:
-	/*
-
-	// Standard RESTful routing
-	// (if index is not defined, findAll will be used)
-	'get /user': {
-		controller	: 'user',
-		action		: 'index'
-	},
-	'get /user/:id': {
-		controller	: 'user',
-		action		: 'find'
-	},
-	'post /user': {
-		controller	: 'user',
-		action		: 'create'
-	},
-	'put /user/:id': {
-		controller	: 'user',
-		action		: 'update'
-	},
-	'delete /user/:id': {
-		controller	: 'user',
-		action		: 'destroy'
-	}
-	*/
 };
