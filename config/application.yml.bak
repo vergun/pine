@@ -1,11 +1,29 @@
 development:
   admin_user_name: ''
   admin_password: ''
+  db:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine'
   
 test:
   admin_user_name: ''
   admin_password: ''
+  db:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine_test'
   
 production:
   admin_user_name: ''
   admin_password: ''
+  db:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine'

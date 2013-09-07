@@ -11,7 +11,9 @@
     "ejs": "~0.8.4",
     "js-yaml": "~2.1.0",
     "underscore": "~1.5.1",
-    "bcrypt": "~0.7.7"
+    "bcrypt": "~0.7.7",
+    "wheat": "~0.2.6",
+    "sails-mongo": "~0.9.5"
   },
   "scripts": {
     "start": "node app.js",

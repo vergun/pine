@@ -8,6 +8,8 @@
 
 module.exports = {
   
+  adapter: 'mongo',
+  
   schema: true,
 
   attributes: {
@@ -31,6 +33,14 @@ module.exports = {
     
     encrypted_password: {
       type: 'string'
+    },
+    
+    // Expand toJSON method to
+    // not return certain parameters
+    // in HTTP response or API requests
+    toJSON: function() {
+      var obj = this.toObject();
+      return obj;
     }
     
   }

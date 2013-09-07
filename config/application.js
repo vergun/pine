@@ -1,6 +1,6 @@
 require('js-yaml')
 global._ = require('underscore')
-NODE_ENV = process.env.ENV || 'production'
+NODE_ENV = process.env.ENV || 'development'
 global.appConfig = require('./application.yml')[NODE_ENV]
 
 module.exports = {
