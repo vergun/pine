@@ -16,7 +16,7 @@ module.exports = {
   	
     name: 'string',
     
-    is_admin: {
+    admin: {
       type: 'boolean',
       default: false
     },
@@ -31,7 +31,7 @@ module.exports = {
       type: 'string'
     },
     
-    encrypted_password: {
+    encryptedPassword: {
       type: 'string'
     },
     
@@ -40,9 +40,39 @@ module.exports = {
     // in HTTP response or API requests
     toJSON: function() {
       var obj = this.toObject();
+      delete obj.password;
+      delete obj.confirmation;
+      delete obj.encryptedPassword;
+      delete obj._csrf;
       return obj;
     }
     
+  },
+  
+  // Before a user is created run some validation
+  // on password and password confirmation being the same
+  beforeCreate: function (values, next) {
+    
+    // Check that password is present and password and confirmation equal
+    // one another
+    if (!values.password || values.password != values.confirmation) {
+      return next({ err: "Password doesn't match password confirmation."});
+    }
+    
+    // Hash the provided password with bcrypt, 10 represents the number of
+    // rounds to process the data
+    require('bcrypt').hash(values.password, 10, function passwordEncrypted(err, encryptedPassword) {
+      
+      // if the hash can't be created generate an error
+      if (err) return next(err);
+      
+      // set the encryptedPassword to the returned bcrypt hash
+      values.encryptedPassword = encryptedPassword;
+      
+      // move on to create the user
+      next();
+      
+    })
   }
 
 };

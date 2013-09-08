@@ -1,3 +1,42 @@
-<h1>List users...</h1>
+<div class="container">
+	<h3>User Management</h3>
+	<table class='table table-hover'>
+    <thead>
+  		<tr>
+  			<th>ID</th>
+  			<th>Name</th>
+  			<th>Email</th>
+        <th>Access</th>
+  			<th></th>
+  			<th></th>
+  			<th></th>
+  		</tr>
+    </thead>
+		<tbody class="table-hover">
 
-<a href="/user/new">Add a user</a>
+  		<% _.each(users, function(user) { %>
+  		<tr data-id="<%= user.id %>" data-model="user">
+  			<td><%= user.id %></td>
+  			<td><%= user.name %></td>
+  			<td><%= user.email %></td>	
+        <% if (user.admin) { %>
+          <td>Admin</td>
+          <% } else { %>
+          <td>Not an admin</td>
+        <% } %>
+  			<td><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</a></td>
+  			<td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+
+  			<td><form action="/user/destroy/<%= user.id %>" method="POST">
+  				<input type="hidden" name="_method" value="delete"/>
+  				<input type="submit" class="btn btn-sm btn-danger" value="Delete"/>
+  				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+  			</form></td>
+  		</tr> 
+
+  		<% }) %>
+    
+    </tbody>
+	</table>
+  <a href="/user/new">Add a user</a>
+</div>

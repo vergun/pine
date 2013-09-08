@@ -61,6 +61,11 @@ module.exports = {
   // Only available to administrators
   index: function(req, res, next) {    
     
+    // Redirect to index view if an id is supplied
+    if (req.param('id')) {
+      return res.redirect('/user')
+    }
+    
     // Get an array of users in the users table
     User.find(function foundUsers(err, users) {
       // Error in user lookup
@@ -77,7 +82,7 @@ module.exports = {
   edit: function(req, res, next) {
     
     // User lookup
-    User.findOne(param('id'), function foundUser(err, user) {
+    User.findOne(req.param('id'), function foundUser(err, user) {
       
       // Error in user lookup
       if (err) return next(err);
@@ -135,7 +140,7 @@ module.exports = {
       })
       
       // No error, user object was destroyed
-      req.flash.message = {message: 'User was destroyed.'}
+      req.session.flash = {message: 'User was destroyed.'}
       return res.redirect('/user')
 
     })

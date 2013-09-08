@@ -1,1 +1,12 @@
-<h1>Show user...</h1>
+<div class="container">
+  <div class="row">
+    <div class="span 6">
+    
+  	  <h2><%= user.name %></h2>
+      <p><%= user.email %></p>
+      <hr>
+    	<a class="btn btn-medium btn-primary" href="/user">Cancel</a>
+    	<a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
+    </div>
+  </div>
+</div>
