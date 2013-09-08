@@ -1,12 +1,20 @@
+// App dependencies
 require('js-yaml')
-global._ = require('underscore')
-NODE_ENV = process.env.ENV || 'development'
-global.appConfig = require('./application.yml')[NODE_ENV]
 
+// Node environment
+NODE_ENV = process.env.ENV || 'development'
+
+// Global configuration
+global._ = require('underscore')
+global.appConfig = require('./application.yml')[NODE_ENV]
+global.dbConfig = require('./database.yml')[NODE_ENV]
+global.log = require('winston')
+
+// Export configuration
 module.exports = {
 	
-	appName: "Sugar CRM Support",
-	port: 1337,
+	appName: appConfig.application_title || "Pine",
+	port: appConfig.application_port || 1337,
 	environment: NODE_ENV,
 
 	// Logger

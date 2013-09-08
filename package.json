@@ -13,11 +13,13 @@
     "underscore": "~1.5.1",
     "bcrypt": "~0.7.7",
     "wheat": "~0.2.6",
-    "sails-mongo": "~0.9.5"
+    "sails-mongo": "~0.9.5",
+    "winston": "~0.7.2"
   },
   "scripts": {
     "start": "node app.js",
-    "debug": "node debug app.js"
+    "debug": "node debug app.js",
+    "test": "mocha"
   },
   "main": "app.js",
   "repository": "",
@@ -29,6 +31,8 @@
     "grunt-docco": "~0.2.0",
     "mocha": "~1.12.1",
     "chai": "~1.7.2",
-    "supertest": "~0.7.1"
+    "supertest": "~0.7.1",
+    "wrench": "~1.5.1",
+    "replay": "~1.7.0"
   }
 }

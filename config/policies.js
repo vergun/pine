@@ -16,10 +16,10 @@ module.exports.policies = {
   user: {
     'new': "flashMessage",
     create: "flashMessage",
-    show: "isAdmin",
-    edit: "isAdmin",
-    update: "isAdmin",
-    '*': "isAdmin"
+    show: "flashMessage",
+    edit: "flashMessage",
+    update: "flashMessage",
+    '*': "flashMessage"
   },
   
   article: {

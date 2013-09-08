@@ -1,27 +1,15 @@
-<div class="navbar">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="brand" href="#">SugarCRM</a>
-            <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="span6">
-            <textarea id="editor" oninput="this.editor.update()"></textarea>
-            <a id="open_file" href="#open_dialog" data-toggle="modal" class="btn btn-small btn-default">Open</a>
-            <a id="save_file" href="#save_dialog" data-toggle="modal" class="btn btn-small btn-primary">Save</a>
-        </div>
-        <div class="span6">
-            <div id="preview"></div>
-        </div>
-    </div>
-</div>
-
+  <div class="container">
+      <div class="row">
+          <div class="span6">
+              <textarea id="editor" oninput="this.editor.update()"></textarea>
+              <a id="open_file" href="#open_dialog" data-toggle="modal" class="btn btn-small btn-default">Open</a>
+              <a id="save_file" href="#save_dialog" data-toggle="modal" class="btn btn-small btn-primary">Save</a>
+          </div>
+          <div class="span6">
+              <div id="preview"></div>
+          </div>
+      </div>
+  </div>
 
 <div id="open_dialog" class="modal hide fade">
     <div class="modal-header">

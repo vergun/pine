@@ -49,20 +49,25 @@ module.exports = {
         req.session.flash = { err: "User couldn't be found" };
         return next();
       }
+      
+      // User found, proceed to view
+      res.view({user: user})
 
     })
+    
   },
   
   // User list view ('/user')
   // Only available to administrators
-  index: function(req, res, next) {
+  index: function(req, res, next) {    
     
+    // Get an array of users in the users table
     User.find(function foundUsers(err, users) {
       // Error in user lookup
       if (err) return next(err);
       
       // Else render the view
-      return res.view({ users: users });
+      res.view({ users: users });
       
     })
     

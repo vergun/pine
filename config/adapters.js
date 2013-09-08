@@ -8,11 +8,15 @@ module.exports.adapters = {
 	
 	mongo: {
 		module   : 'sails-mongo',
-    host: appConfig.db.host || 'localhost',
-    port: appConfig.db.port || 27017,
-    user: appConfig.db.user || '',
-    password: appConfig.db.password || '',
-    database: appConfig.db.database || 'pine'
-	}
+    host: dbConfig.mongo.host || 'localhost',
+    port: dbConfig.mongo.port || 27017,
+    user: dbConfig.mongo.user || '',
+    password: dbConfig.mongo.password || '',
+    database: dbConfig.mongo.database || 'pine'
+	},
+  
+  github: {
+    url: dbConfig.github.url || ''
+  }
     
 };
