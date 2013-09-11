@@ -33,6 +33,7 @@
     "chai": "~1.7.2",
     "supertest": "~0.7.1",
     "wrench": "~1.5.1",
-    "replay": "~1.7.0"
+    "replay": "~1.7.0",
+    "casper-chai": "~0.1.6"
   }
 }

@@ -3,5 +3,9 @@
 From the root directory of this repo:
 
 ```
-npm test
+unit tests:
+npm test 
+
+integration tests:
+casperjs test test/integration/:filename
 ```
