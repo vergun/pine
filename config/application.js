@@ -8,7 +8,6 @@ NODE_ENV = process.env.ENV || 'development'
 global._ = require('underscore')
 global.appConfig = require('./application.yml')[NODE_ENV]
 global.dbConfig = require('./database.yml')[NODE_ENV]
-global.log = require('winston')
 
 // Export configuration
 module.exports = {

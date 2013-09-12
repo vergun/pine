@@ -4,6 +4,7 @@
 ---------------------------------------------------------------*/
 
 // Module dependencies
+var git = require('gift')
 
 adapter = {
   

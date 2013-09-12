@@ -12,9 +12,7 @@
     "js-yaml": "~2.1.0",
     "underscore": "~1.5.1",
     "bcrypt": "~0.7.7",
-    "wheat": "~0.2.6",
-    "sails-mongo": "~0.9.5",
-    "winston": "~0.7.2"
+    "sails-mongo": "~0.9.5"
   },
   "scripts": {
     "start": "node app.js",
