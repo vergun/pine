@@ -14,7 +14,7 @@ module.exports = {
   // named with quotes to avoid conflict
   // with javascript "new" keyword
   'new' : function(req, res) {
-    res.view('session/new')
+    return res.view()
   },
   
   // create a new session 
