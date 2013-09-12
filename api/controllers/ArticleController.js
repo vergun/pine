@@ -25,7 +25,7 @@ var ArticleController = {
         var file = req.param('file');
         var content = req.param('content');
         var fs = require('fs');
-        fs.writeFile('files/' + file, content, function(err, data){
+        fs.writeFile(appConfig.submodulePath + file, content, function(err, data){
             if (err) res.send("Couldn't write file: " + err.message);
             else res.send("Success");
         });
