@@ -22,12 +22,21 @@ var ArticleController = {
         });
     },
     save: function(req, res) {
-        var file = req.param('file');
-        var content = req.param('content');
+        var file = req.param('filename');
         var fs = require('fs');
-        fs.writeFile(appConfig.submodulePath + file, content, function(err, data){
+        fs.writeFile(appConfig.submodulePath + file, "", function(err, data){
             if (err) res.send("Couldn't write file: " + err.message);
-            else res.send("Success");
+            else {
+              
+              var spawn = require('child_process').spawn;
+              
+              var postReceive = spawn('sh', [ 'post-receive.sh' ], {
+                cwd: process.cwd(),
+                env:_.extend(process.env, { PATH: process.env.PATH + ':/usr/local/bin' })
+              });
+              
+              res.send("Success");
+            }
         });
     }
 };
