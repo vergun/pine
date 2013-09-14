@@ -18,10 +18,16 @@ module.exports = {
       type: 'string'
     },
   	
-  	text: {
+  	content: {
   	  type: 'string'
-  	}
+  	},
+    
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj._csrf;
+      return obj;
+    }
     
   }
-
-};
+  
+}

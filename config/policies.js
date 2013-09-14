@@ -23,7 +23,7 @@ module.exports.policies = {
   },
   
   article: {
-    '*': true
+    '*': "flashMessage"
   }
   
 };
