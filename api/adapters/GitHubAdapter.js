@@ -27,7 +27,7 @@ module.exports = (function() {
       if(cb) cb();
     },
 
-    save: function(collectionName, file, content, res) {
+    save: function(collectionName, file, content, next) {
 
       // explicitly declare args
       var file = file, content = content;
@@ -43,7 +43,7 @@ module.exports = (function() {
       afterSave();
 
       // and send ok response
-      res.send({ok: {message: "File written."} } );
+      next.send({ok: {message: "File written."} } );
       
         // run post-receive.sh from bash
         function afterSave() {
@@ -54,6 +54,64 @@ module.exports = (function() {
           }); 
         }
 
+      },
+      
+      list: function(collectionName, path, next) {
+        
+        // Do something
+        walk(path, function (err, files) {
+          if (err) next.send(err)
+          if (files) return next.view({ files: files });
+        });
+        
+        // synchronous operation, for asynchronus use walkAsync
+        function walk(dir, done) {
+          var results = [];
+          fs.readdir(dir, function(err, list) {
+            if (err) return done(err);
+            var i = 0;
+            (function next() {
+              var file = list[i++];
+              if (!file) return done(null, results);
+              file = dir + '/' + file;
+              fs.stat(file, function(err, stat) {
+                if (stat && stat.isDirectory()) {
+                  walk(file, function(err, res) {
+                    results = results.concat(res);
+                    next();
+                  });
+                } else {
+                  results.push(file);
+                  next();
+                }
+              });
+            })();
+          });
+        };
+        
+        //Asynchronous operation
+        function walkAsync(dir, done) {
+          var results = [];
+          fs.readdir(dir, function(err, list) {
+            if (err) return done(err);
+            var pending = list.length;
+            if (!pending) return done(null, results);
+            list.forEach(function(file) {
+              file = dir + '/' + file;
+              fs.stat(file, function(err, stat) {
+                if (stat && stat.isDirectory()) {
+                  walk(file, function(err, res) {
+                    results = results.concat(res);
+                    if (!--pending) done(null, results);
+                  });
+                } else {
+                  results.push(file);
+                  if (!--pending) done(null, results);
+                }
+              });
+            });
+          });
+        };
       }
 
   }

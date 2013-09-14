@@ -1,5 +1,12 @@
   <div class="container">
       <div class="row">
+      
+        <ul>
+        <% _.each(files, function(file) { %>
+          <li><%= file %></li>
+        <% }) %>
+        </ul>
+        
           <div class="span6">
               <textarea id="editor" oninput="this.editor.update()"></textarea>
               <a id="open_file" href="#open_dialog" data-toggle="modal" class="btn btn-small btn-default">Open</a>

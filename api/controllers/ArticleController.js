@@ -5,39 +5,26 @@
  * @description	:: Contains logic for handling requests.
  */
 
-var ArticleController = {
-    index: function(req, res) {
-        // var fs = require('fs');
-        // var file = fs.readFileSync('files/test.md');
-        // res.view({ file: file });
+var fs = require('fs')
 
-        res.view({ file: req });
+var ArticleController = {
+    index: function(req, res) {  
+      var path = appConfig.submodulePath + "01_Get_Started/01_End_Users";
+      Article.list(path, res);
     },
     open: function(req, res) {
         var file = req.param('file');
-        var fs = require('fs');
         fs.readFile('files/' + file, function(err, data){
             if (err) res.send("Couldn't open file: " + err.message);
             else res.send(data);
         });
     },
     save: function(req, res) {
-        var file = req.param('filename');
-        var fs = require('fs');
-        fs.writeFile(appConfig.submodulePath + file, "", function(err, data){
-            if (err) res.send("Couldn't write file: " + err.message);
-            else {
-              
-              var spawn = require('child_process').spawn;
-              
-              var postReceive = spawn('sh', [ 'post-receive.sh' ], {
-                cwd: process.cwd(),
-                env:_.extend(process.env, { PATH: process.env.PATH + ':/usr/local/bin' })
-              });
-              
-              res.send("Success");
-            }
-        });
+        Article.save(req.param('file'), req.param('content'), res)
+    },
+    show: function(req, res) {
+      // var fs = require('fs');
+      // var file = fs.readFileSync('files/test.md');
     }
 };
 
