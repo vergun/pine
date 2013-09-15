@@ -26,6 +26,15 @@ module.exports = (function() {
     teardown: function(cb) {
       if(cb) cb();
     },
+    
+    fetch: function(collectionName, file, next) {
+      // hardcoded url for development
+      var testFile = "Pine_Needles/contents/articles/01_Get_Started/01_End_Users/01_Free_Trial/01_Welcome/index.md"
+      
+      // read the contents of the file and store them
+      var file = fs.readFileSync(testFile);
+      next(null, file)  
+    },
 
     save: function(collectionName, file, content, next) {
 
@@ -58,13 +67,13 @@ module.exports = (function() {
       
       list: function(collectionName, path, next) {
         
-        // Do something
+        // traverse the submodule collection tree
+        // and extract all files into an array
         walk(path, function (err, files) {
           if (err) next.send(err)
           if (files) return next.view({ files: files });
         });
-        
-        // synchronous operation, for asynchronus use walkAsync
+
         function walk(dir, done) {
           var results = [];
           fs.readdir(dir, function(err, list) {
@@ -87,33 +96,8 @@ module.exports = (function() {
               });
             })();
           });
-        };
-        
-        //Asynchronous operation
-        function walkAsync(dir, done) {
-          var results = [];
-          fs.readdir(dir, function(err, list) {
-            if (err) return done(err);
-            var pending = list.length;
-            if (!pending) return done(null, results);
-            list.forEach(function(file) {
-              file = dir + '/' + file;
-              fs.stat(file, function(err, stat) {
-                if (stat && stat.isDirectory()) {
-                  walk(file, function(err, res) {
-                    results = results.concat(res);
-                    if (!--pending) done(null, results);
-                  });
-                } else {
-                  results.push(file);
-                  if (!--pending) done(null, results);
-                }
-              });
-            });
-          });
-        };
+        }
       }
-
   }
 
   return adapter;
