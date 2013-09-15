@@ -1,22 +1,26 @@
-  <div class="container">
-      <div class="row">
+<div class="container">
+  <div class="row">
+  
+    <table class='table table-hover'>
+      <thead>
+        <tr>
+          <th>Files</th>
+          <th></th>
+        </tr>
+      </thead>
       
-        <ul>
+      <tbody class="table-hover">
         <% _.each(files, function(file) { %>
-          <li><%= file %></li>
+        <tr>
+          <td><%= file %></td>
+			    <td><a href="/article/show/<%= file.serialize %>" class="btn btn-sm btn-primary">Show</a></td>
+        </tr>
         <% }) %>
-        </ul>
-        
-          <div class="span6">
-              <textarea id="editor" oninput="this.editor.update()"></textarea>
-              <a id="open_file" href="#open_dialog" data-toggle="modal" class="btn btn-small btn-default">Open</a>
-              <a id="save_file" href="#save_dialog" data-toggle="modal" class="btn btn-small btn-primary">Save</a>
-          </div>
-          <div class="span6">
-              <div id="preview"></div>
-          </div>
-      </div>
+      </tbody
+    </table>
+      
   </div>
-
+</div>
+<%- include modals/_editor.ejs %> 
 <%- include modals/_open.ejs %>
 <%- include modals/_save.ejs %>
