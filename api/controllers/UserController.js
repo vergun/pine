@@ -16,10 +16,8 @@ module.exports = {
   
   // Create a new user (posted params)
   create: function(req, res, next) {
-    
     // Attempt to create a user with all request parameters
-    User.create(req.params.all(), function userCreated (err, user) {
-      
+    User.create(req.params.all(), function userCreated (err, user) {      
       // Return error and redirect if an error
       if (err) {
         req.session.flash = { err: err }

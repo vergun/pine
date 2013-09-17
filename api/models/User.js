@@ -18,7 +18,7 @@ module.exports = {
     
     admin: {
       type: 'boolean',
-      default: false
+      defaultsTo: false
     },
     
     email: {
@@ -47,6 +47,20 @@ module.exports = {
       return obj;
     }
     
+  },
+  
+  // form returns admin as on/unchecked
+  // convert this value to true/false
+  beforeValidation: function(values, next) {
+    
+    if (typeof values.admin !== 'undefined') {
+      if (values.admin === 'unchecked') {
+        values.admin = false;
+      } else if (values.admin[1] === 'on') {
+        values.admin = true;
+      }
+    }
+    next()
   },
   
   // Before a user is created run some validation

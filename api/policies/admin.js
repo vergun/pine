@@ -12,7 +12,12 @@ module.exports = function(req, res, ok) {
   else {
    // Create error for unauthorized user
     var adminRequired = "You must be an admin to access this area."
-    req.session.flash = { err: adminRequired }
-    return res.redirect('main/index')
+    req.session.flash = { err: 
+       [ { msg: adminRequired } ] 
+     }
+    
+    // Proceed to controller
+    res.redirect('/article/index');
+    return;
   }  
 }

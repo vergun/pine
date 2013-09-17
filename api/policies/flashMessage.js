@@ -3,13 +3,13 @@
  * Flash messages are taken from req and moved to res
  */
 
-module.exports = function(req, res, ok) {
+module.exports = function(req, res, next) {
 
   //reset locals flash nessages
  res.locals.flash = {};
  
  // if no flash messages in req proceed to controller
- if(!req.session.flash) return ok();
+ if(!req.session.flash) return next();
 
  // clone req flash messages into res
  // because we'll reset req flash
@@ -19,6 +19,6 @@ module.exports = function(req, res, ok) {
  req.session.flash = {};
 
  // proceed to controller
- return ok();
+ next();
  
 };

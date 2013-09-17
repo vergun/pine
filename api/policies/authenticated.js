@@ -1,21 +1,24 @@
 /**
 * Test whether users are authenticated
 */
-module.exports = function (req,res,ok) {
+module.exports = function (req,res,next) {
 	
 	// User is allowed, proceed to controller
 	if (req.session.authenticated) {
-		return ok();
+		return next();
 	} 
   // User must be authenticated
   // to access this resource
    else {
      
-     // Create error for unauthorized user
-    var loginRequired = "You must be signed in to access this area."
-    req.session.flash = { err: loginRequired }
+     // Create error for unauthorized user    
+    var loginRequired = "You must be an admin to access this area."
     
+    req.session.flash = { err: 
+       [ { msg: loginRequired } ] 
+     }
+         
     // Redirect user to main path
-    return res.redirect('/main/index')
+    res.redirect('/article/index')
 	}
 };

@@ -88,16 +88,15 @@ module.exports = (function() {
           
       },
       
-      list: function(collectionName, path, next) {
+      list: function(collectionName, path, next) {        
         
         // traverse the submodule collection tree
         // and extract all files into an array
-        walk(path, function (err, files) {
-          if (err) next.send(err)
-          if (files) return next.view({ files: files });
+        walk(path, function (err, files) {          
+          next(err, { files: files });
         });
 
-        function walk(dir, done) {
+        function walk(dir, done) {          
           var results = [];
           fs.readdir(dir, function(err, list) {
             if (err) return done(err);

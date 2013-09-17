@@ -7,10 +7,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
     <% if (process.env.NODE_ENV === 'development') { %>
-  		<script src="/linker/jquery.js"></script>
-  		<script src="/linker/bootstrap.js"></script>
-  		<script src="/linker/underscore.js"></script>
-  		<script src="/linker/backbone.js"></script>
+  		<script src="/js/jquery.js"></script>
+  		<script src="/js/bootstrap.js"></script>
+  		<script src="/js/underscore.js"></script>
+  		<script src="/js/backbone.js"></script>
     <% } else { %>
   	  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
@@ -31,10 +31,28 @@
       <div class="navbar-inner">
           <div class="container">
               <a class="brand" href="#">SugarCRM</a>
-              <ul class="nav">
-                  <li class=""><a href="/">Home</a></li>
-                  <li class=""><a href="/user">Users</a></li>
+              <ul class="nav navbar-nav">
+                  <li class=""><a href="/">Articles</a></li>
+                  <% if (session.authenticated) { %>         
+                    <% if (user.admin) { %>
+                      <li class=""><a href="/user">Users</a></li>
+                    <% } %>         
+                  <% } %>
               </ul>
+              <div class=".pull-right">
+                <% if (session.authenticated) { %>
+                  <a class="btn btn-default navbar-btn pull-right" href="/session/destroy">Sign-out</a>
+                <% } %>
+              </div>
+              
+              <% if (!session.authenticated) { %>
+                <form class="navbar-form pull-right form-inline" action="/session/create">
+                  <input type="text" placeholder="Email" name="email" class="form-control">
+                  <input type="password" placeholder="Password" name="password" class="form-control">
+                  <button type="submit" class="btn btn-success">Sign in</button>
+                  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                </form>
+              <% } %>
           </div>
       </div>
   </div>

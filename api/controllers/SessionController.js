@@ -53,7 +53,15 @@ module.exports = {
         // Email/password look good, proceed
         req.session.authenticated = true;
         req.session.User = user;
-        return res.redirect('/');
+        
+        // Admins direct to manage users
+        if (req.session.User.admin) {
+          res.redirect('/user');
+          return;
+        }
+        
+        // Everyone else directs to root
+        res.redirect('/');
       });
       
     });

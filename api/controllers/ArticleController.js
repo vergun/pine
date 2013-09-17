@@ -9,8 +9,16 @@ var fs = require('fs')
 
 var ArticleController = {
     index: function(req, res) {  
-      var path = appConfig.submodulePath + "01_Get_Started/01_End_Users";
-      Article.list(path, res);
+      
+      var user = req.session.User
+      
+      Article.list(appConfig.submodulePath, function(err, articles) {
+        if (err) return res.send(err);
+        res.view({
+          articles: articles.files,
+          user: user
+        })
+      });
     },
     show: function(req, res) {
       var file = req.param('file')

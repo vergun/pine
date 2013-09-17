@@ -1,11 +1,15 @@
 <div class="container">
   <div class="row">
-		<form action="/article/edit" method="POST">
-			<input type="hidden" name="file" value="<%= file %>"/>
-  	  <a href="/article">Back</a>
-			<input type="submit" class="btn btn-sm btn-primary" value="Edit"/>
-			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-		</form>
+  <a href="/article">Back</a>
+  <% if (session.authenticated) { %>         
+    <% if (user.admin) { %>
+  		<form action="/article/edit" method="POST">
+  			<input type="hidden" name="file" value="<%= file %>"/>
+  			<input type="submit" class="btn btn-sm btn-primary" value="Edit"/>
+  			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+  		</form>
+      <% } %>
+    <% } %>
     <%- article %>
   </div>
 </div>

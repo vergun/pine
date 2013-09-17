@@ -3,6 +3,11 @@
     <div class="span 6">
     
   	  <h2><%= user.name %></h2>
+      
+      <% if (user.admin) {
+      <p> Admin </p>
+      <% } %>
+      
       <p><%= user.email %></p>
       <hr>
     	<a class="btn btn-medium btn-primary" href="/user">Cancel</a>

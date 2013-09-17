@@ -9,21 +9,34 @@
           <th></th>
         </tr>
       </thead>
-      <a href="/article/new" class="btn btn-sm btn-primary">New article</a>
+      <% if (session.authenticated) { %>         
+        <% if (user.admin) { %>
+          <a href="/article/new" class="btn btn-sm btn-primary">+ New article</a>
+        <% } %>         
+      <% } %>
       <tbody class="table-hover">
-        <% _.each(files, function(file) { %>
+        <% _.each(articles, function(article) { %>
         <tr>
-          <td><%= file %></td>        
-    			<td><form action="/article/show" method="POST">
-    				<input type="hidden" name="file" value="<%= file %>"/>
-    				<input type="submit" class="btn btn-sm btn-primary" value="Show"/>
-    				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-    			</form></td>
-      		<td><form action="/article/edit" method="POST">
-      			<input type="hidden" name="file" value="<%= file %>"/>
-      			<input type="submit" class="btn btn-sm btn-warning" value="Edit"/>
-      			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-      		</form></td>
+          <td><%= article %></td> 
+      			<td><form action="/article/show" method="POST">
+      				<input type="hidden" name="file" value="<%= article %>"/>
+      				<input type="submit" class="btn btn-sm btn-primary" value="Show"/>
+      				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      			</form></td>
+            <% if (session.authenticated) { %>         
+              <% if (user.admin) { %>
+          		<td><form action="/article/edit" method="POST">
+          			<input type="hidden" name="file" value="<%= article %>"/>
+          			<input type="submit" class="btn btn-sm btn-warning" value="Edit"/>
+          			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          		</form></td>
+            <% } else { %>
+              <td></td>
+              <td></td>          
+            <% } %>
+          <% } %>
+                  
+
         </tr>
         <% }) %>
       </tbody
