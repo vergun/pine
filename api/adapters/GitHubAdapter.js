@@ -28,11 +28,7 @@ module.exports = (function() {
     },
     
     fetch: function(collectionName, file, next) {
-      // hardcoded url for development
-      var testFile = "Pine_Needles/contents/articles/01_Get_Started/01_End_Users/01_Free_Trial/01_Welcome/index.md"
-      
-      // read the contents of the file and store them
-      var file = fs.readFileSync(testFile);
+      var file = fs.readFileSync(file);
       next(null, file)  
     },
 
@@ -65,6 +61,35 @@ module.exports = (function() {
 
       },
       
+      update: function(collectionName, file, content, next) {
+
+        // explicitly declare args
+        var file = file, content = content;
+        // write the file to the filesystem
+        fs.writeFile(file, content, function(err, data) {
+  
+          // send proper error response if an error
+          if (err) res.send({err: {message: "Couldn't write file."} } );
+  
+        });
+
+        // otherwise update GitHub
+        afterSave();
+
+        // and send ok response
+        next.send({ok: {message: "File written."} } );
+      
+          // run post-receive.sh from bash
+          function afterSave() {
+            var spawn = require('child_process').spawn;
+            var postReceive = spawn('sh', [ 'post-receive.sh' ], {
+              cwd: process.cwd(),
+              env:_.extend(process.env, { PATH: process.env.PATH + ':/usr/local/bin' })
+            }); 
+          }
+          
+      },
+      
       list: function(collectionName, path, next) {
         
         // traverse the submodule collection tree
@@ -90,7 +115,9 @@ module.exports = (function() {
                     next();
                   });
                 } else {
-                  results.push(file);
+                  // regular expression for markdown file extension
+                  var re = /\.[md]+$/i;
+                  if (re.test(file)) results.push(file);
                   next();
                 }
               });

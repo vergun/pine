@@ -12,8 +12,12 @@
       <tbody class="table-hover">
         <% _.each(files, function(file) { %>
         <tr>
-          <td><%= file %></td>
-			    <td><a href="/article/show/<%= file.serialize %>" class="btn btn-sm btn-primary">Show</a></td>
+          <td><%= file %></td>        
+    			<td><form action="/article/show" method="POST">
+    				<input type="hidden" name="file" value="<%= file %>"/>
+    				<input type="submit" class="btn btn-sm btn-primary" value="Show"/>
+    				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+    			</form></td>
         </tr>
         <% }) %>
       </tbody
