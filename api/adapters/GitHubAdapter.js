@@ -61,8 +61,7 @@ module.exports = (function() {
 
       },
       
-      update: function(collectionName, file, content, next) {
-
+      refresh: function(collectionName, file, content, next) {
         // explicitly declare args
         var file = file, content = content;
         // write the file to the filesystem
@@ -72,12 +71,13 @@ module.exports = (function() {
           if (err) res.send({err: {message: "Couldn't write file."} } );
   
         });
-
         // otherwise update GitHub
         afterSave();
 
         // and send ok response
         next.send({ok: {message: "File written."} } );
+        // next.redirect('/article/show', { file: file, content: content }  );
+        
       
           // run post-receive.sh from bash
           function afterSave() {

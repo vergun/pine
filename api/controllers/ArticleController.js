@@ -14,7 +14,6 @@ var ArticleController = {
     },
     show: function(req, res) {
       var file = req.param('file')
-      console.log(file)
       Article.fetch(file, function(err, article) {
         if (err) return res.send(err)
         if (!article) return res.send({err: {message: "Article not found."}})
@@ -23,6 +22,9 @@ var ArticleController = {
           file: file
         }) 
       })
+    },
+    new: function(req, res) {
+      res.view({})
     },
     edit: function(req, res) {
       var file = req.param('file')
@@ -35,10 +37,8 @@ var ArticleController = {
         }) 
       })
     },
-    update: function(req, res) {
-      Article.update(req.param('file'), req.param('content'), function(er, res) {
-        //render show view
-      }) 
+    update: function(req, res) {      
+      Article.refresh(req.param('file'), req.param('content'), res)
     },
     open: function(req, res) {
         var file = req.param('file');

@@ -6,7 +6,7 @@
 		<!-- Viewport mobile tag for sensible mobile support -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-    <% if (process.env === 'development') { %>
+    <% if (process.env.NODE_ENV === 'development') { %>
   		<script src="/linker/jquery.js"></script>
   		<script src="/linker/bootstrap.js"></script>
   		<script src="/linker/underscore.js"></script>
