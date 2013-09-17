@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
-	  <td><a href="/article">Back</a></td>
-		<td><form action="/article/edit" method="POST">
+		<form action="/article/edit" method="POST">
 			<input type="hidden" name="file" value="<%= file %>"/>
+  	  <a href="/article">Back</a>
 			<input type="submit" class="btn btn-sm btn-primary" value="Edit"/>
 			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-		</form></td>
+		</form>
     <%- article %>
   </div>
 </div>

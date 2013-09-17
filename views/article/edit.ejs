@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="span6">
-      <a href="#" class="btn btn-small btn-default">Cancel</a>
       <textarea form="article-update-form" name="content"><%= article %></textarea>
 			<form action="/article/update" method="POST" id="article-update-form">
 				<input type="hidden" name="file" value="<%= file %>"/>
+        <a href="/article">Cancel</a>
 				<input type="submit" class="btn btn-sm btn-primary" value="Update"/>        
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>

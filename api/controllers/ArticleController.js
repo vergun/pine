@@ -38,7 +38,9 @@ var ArticleController = {
       })
     },
     update: function(req, res) {      
-      Article.refresh(req.param('file'), req.param('content'), res)
+      Article.refresh(req.param('file'), req.param('content'), function(err, article) {
+        res.redirect('/article');
+      })
     },
     open: function(req, res) {
         var file = req.param('file');

@@ -68,25 +68,23 @@ module.exports = (function() {
         fs.writeFile(file, content, function(err, data) {
   
           // send proper error response if an error
-          if (err) res.send({err: {message: "Couldn't write file."} } );
+          if (err) return res.send({err: {message: "Couldn't write file."} } );
+          
+          // update GitHub
+          afterSave();   
+          // proceed to controller
+          next(err, {file: file, content: content})          
   
-        });
-        // otherwise update GitHub
-        afterSave();
-
-        // and send ok response
-        next.send({ok: {message: "File written."} } );
-        // next.redirect('/article/show', { file: file, content: content }  );
-        
+        });     
       
-          // run post-receive.sh from bash
-          function afterSave() {
-            var spawn = require('child_process').spawn;
-            var postReceive = spawn('sh', [ 'post-receive.sh' ], {
-              cwd: process.cwd(),
-              env:_.extend(process.env, { PATH: process.env.PATH + ':/usr/local/bin' })
-            }); 
-          }
+        // run post-receive.sh from bash
+        function afterSave() {
+          var spawn = require('child_process').spawn;
+          var postReceive = spawn('sh', [ 'post-receive.sh' ], {
+            cwd: process.cwd(),
+            env:_.extend(process.env, { PATH: process.env.PATH + ':/usr/local/bin' })
+          }); 
+        }
           
       },
       

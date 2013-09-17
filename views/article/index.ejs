@@ -4,7 +4,8 @@
     <table class='table table-hover'>
       <thead>
         <tr>
-          <th>Files</th>
+          <th></th>
+          <th></th>
           <th></th>
         </tr>
       </thead>
@@ -18,6 +19,11 @@
     				<input type="submit" class="btn btn-sm btn-primary" value="Show"/>
     				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
     			</form></td>
+      		<td><form action="/article/edit" method="POST">
+      			<input type="hidden" name="file" value="<%= file %>"/>
+      			<input type="submit" class="btn btn-sm btn-warning" value="Edit"/>
+      			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      		</form></td>
         </tr>
         <% }) %>
       </tbody
