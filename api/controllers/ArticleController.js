@@ -25,9 +25,13 @@ var ArticleController = {
       Article.fetch(file, function(err, article) {
         if (err) return res.send(err)
         if (!article) return res.send({err: {message: "Article not found."}})
+        
+        var breadcrumbs = file.split("/");
+        
         return res.view({
           article: article,
-          file: file
+          file: file,
+          breadcrumbs: breadcrumbs
         }) 
       })
     },
@@ -39,6 +43,7 @@ var ArticleController = {
       Article.fetch(file, function(err, article) { 
         if (err) return res.send(err)
         if (!article) return res.send({err: {message: "Article not found."}})
+        
         return res.view({
           article: article,
           file: file
