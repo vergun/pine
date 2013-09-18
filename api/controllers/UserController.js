@@ -11,7 +11,12 @@ module.exports = {
   // named with quotes to avoid conflict
   // with javascript "new" keyword
   'new': function(req, res) {
-    return res.view();
+    
+    var user = req.session.User;
+    
+    return res.view({
+      user: user
+    });
   },
   
   // Create a new user (posted params)
@@ -25,8 +30,8 @@ module.exports = {
       }
       
       // No err, proceed to log the user in passively
-      req.session.authenticated = true;
-      req.session.User = user;
+      // req.session.authenticated = true;
+      // req.session.User = user;
       
       // Redirect to view
       return res.redirect('/user/show/' + user.id);
@@ -36,20 +41,25 @@ module.exports = {
   // Show the user ('/user/show/:id')
   show: function(req, res, next) {
     
+    var user = req.session.User;
+    
     //Attempt user lookup on :id param
-    User.findOne(req.param('id'), function userFound (err, user) {
+    User.findOne(req.param('id'), function userFound (err, founduser) {
       
       // Error: adapter lookup issue
       if (err) return next(err);
       
       // Error: user couldn't be found
-      if (!user) {
+      if (!founduser) {
         req.session.flash = { err: "User couldn't be found" };
         return next();
       }
       
       // User found, proceed to view
-      res.view({user: user})
+      res.view({
+        user: user,
+        founduser: founduser
+      })
 
     })
     
@@ -84,17 +94,22 @@ module.exports = {
   // User Edit view ('/user/edit/:id')
   edit: function(req, res, next) {
     
+    var user = req.session.User;
+    
     // User lookup
-    User.findOne(req.param('id'), function foundUser(err, user) {
+    User.findOne(req.param('id'), function foundUser(err, founduser) {
       
       // Error in user lookup
       if (err) return next(err);
       
       // User with :id param not found
-      if (!user) return next({err: 'User doesn\'t exist.'})
+      if (!founduser) return next({err: 'User doesn\'t exist.'})
       
       // User found, render edit view with user object
-      return res.view({user: user});
+      return res.view({
+        user: user,
+        founduser: founduser
+      });
     });
     
   },
