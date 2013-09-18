@@ -10,17 +10,16 @@
  */
 
 module.exports.policies = {
-
-  '*': "flashMessage",
   
+  '*': "flashMessage",
+
   user: {
-    'new': ["flashMessage"],
-    index: ["flashMessage", "admin"],
-    create: ["flashMessage"],
-    show: ["flashMessage", "userCanSeeProfile"],
-    edit: ["flashMessage", "userCanSeeProfile"],
-    update: ["flashMessage", "userCanSeeProfile"],
-    '*': "flashMessage"
+  	'new': ["flashMessage", "admin"],
+    create: "flashMessage",
+    show: "userCanSeeProfile",
+    edit: "userCanSeeProfile",
+    update: "userCanSeeProfile",
+    '*': "admin"
   },
   
   article: {

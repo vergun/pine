@@ -10,7 +10,7 @@ var fs = require('fs')
 var ArticleController = {
     index: function(req, res) {  
       
-      var user = req.session.User
+      var user = req.session.User;
       
       Article.list(appConfig.submodulePath, function(err, articles) {
         if (err) return res.send(err);
@@ -21,7 +21,8 @@ var ArticleController = {
       });
     },
     show: function(req, res) {
-      var file = req.param('file')
+      var file = req.param('file'), user = req.session.User;
+      
       Article.fetch(file, function(err, article) {
         if (err) return res.send(err)
         if (!article) return res.send({err: {message: "Article not found."}})
@@ -31,7 +32,8 @@ var ArticleController = {
         return res.view({
           article: article,
           file: file,
-          breadcrumbs: breadcrumbs
+          breadcrumbs: breadcrumbs,
+          user: user
         }) 
       })
     },

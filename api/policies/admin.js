@@ -2,7 +2,7 @@
  * Allow admins and deny non admins
  */
 
-module.exports = function(req, res, ok) {
+module.exports = function(req, res, next) {
   
   // User is an admin
   if (req.session.User && req.session.User.admin) {

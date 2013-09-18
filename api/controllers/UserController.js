@@ -57,7 +57,9 @@ module.exports = {
   
   // User list view ('/user')
   // Only available to administrators
-  index: function(req, res, next) {    
+  index: function(req, res, next) { 
+    
+    var user = req.session.User; 
     
     // Redirect to index view if an id is supplied
     if (req.param('id')) {
@@ -70,7 +72,10 @@ module.exports = {
       if (err) return next(err);
       
       // Else render the view
-      res.view({ users: users });
+      res.view({ 
+        users: users,
+        user: user 
+      });
       
     })
     

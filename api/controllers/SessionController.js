@@ -47,12 +47,12 @@ module.exports = {
           req.session.flash = { err: 'Password is incorrect'}
           return res.redirect('/')
         }
-      
-        if (req.session.User.admin) {} //admin specific behavior
-          
+                
         // Email/password look good, proceed
         req.session.authenticated = true;
         req.session.User = user;
+        
+        if (req.session.User.admin) {} //admin specific behavior
         
         // Admins direct to manage users
         if (req.session.User.admin) {

@@ -3,7 +3,7 @@
  * own profiles
  */
 
-module.exports = function(req, res, ok) {
+module.exports = function(req, res, next) {  
   
   // SessionId 
   var sessionUserMatchesId = req.session.User.id === req.param('id');
@@ -21,6 +21,6 @@ module.exports = function(req, res, ok) {
     return;
   }
   
-  ok();
+  next();
   
 };
