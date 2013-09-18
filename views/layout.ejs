@@ -27,20 +27,21 @@
 
 	<body>
   
+  <% var nav = {}; nav[selected] = 'active' %>
+  
   <div class="navbar">
       <div class="navbar-inner">
           <div class="container">
               <a class="brand" href="#">SugarCRM</a>
               <ul class="nav navbar-nav">
                 <% if (session.authenticated) { %>
-                <li class=""><a href="/user/show/<%= user.id %>"><%= user.name %></a></li>
-                  
+                <li class="<%= nav.editProfile %>"><a href="/user/show/<%= user.id %>"><%= user.name %></a></li>            
                 <% } %>
-                <li class="active"><a href="/">Articles</a></li>
+                <li class="<%= nav.article %>"><a href="/">Articles</a></li>
                 
                 <% if (session.authenticated) { %>         
                   <% if (user.admin) { %>
-                    <li class=""><a href="/user">Users</a></li>
+                    <li class="<%= nav.user %>"><a href="/user">Users</a></li>
                   <% } %>         
                 <% } %>
               </ul>
