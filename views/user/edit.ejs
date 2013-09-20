@@ -19,7 +19,7 @@
         	</div>
 
           <% if (session.authenticated && session.User.admin) { %>
-            <% if (user.admin) { %>
+            <% if (founduser.admin) { %>
               <input type="hidden" name="admin" value="unchecked">
               <label class="checkbox"><input type="checkbox" name="admin" checked> Admin</label>
             <% } else { %>

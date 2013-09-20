@@ -41,6 +41,9 @@ var ArticleController = {
       res.view({})
     },
     edit: function(req, res) {
+      
+      var user = req.session.User;
+      
       var file = req.param('file')
       Article.fetch(file, function(err, article) { 
         if (err) return res.send(err)
@@ -48,7 +51,8 @@ var ArticleController = {
         
         return res.view({
           article: article,
-          file: file
+          file: file,
+          user: user
         }) 
       })
     },

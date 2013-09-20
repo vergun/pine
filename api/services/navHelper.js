@@ -1,3 +1,7 @@
+/*
+ * Assist with layout navigation bar
+ */
+
 exports.getController = function(req, res) {
   return req.target.controller;
 }
