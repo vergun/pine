@@ -92,6 +92,7 @@ var ArticleController = {
                    cssPath: '/linker/styles/bootstrap.css'
                  };
       
+      
       Article.convert(file, pdfPath, opts, function() {
         res.download(pdfPath)
       });

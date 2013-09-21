@@ -4,7 +4,9 @@
 ---------------------------------------------------------------*/
 
 // Module dependencies
-fs = require('fs'), markdownpdf = require('markdown-pdf');
+fs = require('fs'), 
+markdownpdf = require('markdown-pdf');
+pdfHelper = require('../services/pdfHelper'); 
 
 module.exports = (function() {
       
@@ -91,13 +93,9 @@ module.exports = (function() {
       convert: function(collectionName, file, pdfPath, opts, next) {
         var file = file, pdfPath = pdfPath, opts = opts;
         
-        markdownpdf(file, opts, function(err, returnedPath) {
-          if (err) return console.error(err);          
-          
-          fs.rename(returnedPath, pdfPath, function() {
-            next();
-          })
-        });
+        pdfHelper.convert(file, opts, pdfPath, next)
+        
+        
       },
       
       list: function(collectionName, path, next) {        
