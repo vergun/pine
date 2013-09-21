@@ -29,6 +29,7 @@ module.exports = (function() {
       if(cb) cb();
     },
     
+    // Deprecated
     fetch: function(collectionName, file, next) {
       var file = fs.readFileSync(file);
       next(null, file)  

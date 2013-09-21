@@ -9,35 +9,50 @@ var fs = require('fs'), path = require('path');
 
 
 var ArticleController = {
+  
     index: function(req, res) {  
       
       var user = req.session.User;
       
-      Article.list(appConfig.submodulePath, function(err, articles) {
-        if (err) return res.send(err);
-        res.view({
-          articles: articles.files,
-          user: user
-        })
-      });
-    },
-    show: function(req, res) {
-      var file = req.param('file'), user = req.session.User;
-            
-      Article.fetch(file, function(err, article) {
-        if (err) return res.send(err)
-        if (!article) return res.send({err: {message: "Article not found."}})
-        
-        var breadcrumbs = path.normalize(file).split(path.sep);
-        
-        return res.view({
-          article: article,
-          file: file,
-          breadcrumbs: breadcrumbs,
-          user: user
-        }) 
+      Article.find(function foundArticles(err, articles) {
+
+        if (err) return next(err);
+      
+        res.view({ 
+          user: user,
+          articles: articles
+        });
+      
       })
     },
+    
+    show: function(req, res) {
+      
+      var user = req.session.User;
+      
+      Article.findOne(req.param('id'), function articleFound (err, article) {
+      
+        if (err) return next(err);
+      
+        if (!article) {
+          req.session.flash = { err: "Article couldn't be found" };
+          return next();
+        }
+      
+        var breadcrumbs = path.normalize(article.file).split(path.sep);
+        
+        var content = fs.readFileSync(article.file);        
+      
+        res.view({
+          file: article.file,
+          content: content,
+          user: user,
+          breadcrumbs: breadcrumbs
+        })
+
+      })
+    },
+    
     new: function(req, res) {
       var user = req.session.User;
       res.view({
@@ -117,6 +132,11 @@ var ArticleController = {
       .then(function() {
         Article.list(appConfig.submodulePath, function(err, articles) {
           articles.files.forEach(function(file) {
+            
+            // Issues with unique not registering
+            // on slugs due to waterline 
+            // need a workaround as
+            // duplicate slugs exist
             Article.create({file: file}, function(err) {
               if (err) res.send(err);
               if (!err) res.send("ok");
