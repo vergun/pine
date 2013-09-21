@@ -6,20 +6,28 @@
  *
  */
 
+// Utility module for strings
+var path = require('path'), slang = require('slang');
+
 module.exports = {
   
-  adapter: 'gitHub',
+  // Waterline will map out both adapters
+  // methods so they are both mixed in
+  adapter: ['mongo', 'gitHub'],
   
   schema: true,
 
   attributes: {
     
-    title: {
-      type: 'string'
+    file: {
+      type: 'string',
+      required: true
     },
   	
-  	content: {
-  	  type: 'string'
+  	slug: {
+  	  type: 'string',
+      required: true,
+      unique: true
   	},
     
     toJSON: function() {
@@ -28,6 +36,38 @@ module.exports = {
       return obj;
     }
     
-  }
+  },
+  
+  beforeValidation: function(values, next) {
+    
+    if (typeof values.file !== 'undefined') { 
+      
+      // When multiple slashes are found, 
+      // they're replaced by a single one
+      values.file = path
+                    .normalize(values.file);
+                         
+      // Return the last part of the path
+      // as the candidate for the slug
+      values.slug = path
+                    .dirname(values.file)
+                    .split(path.sep).slice(-1)[0];               
+      
+      // Prepare the string 
+      // to be dasherized
+      var re = /[^0-9_]/gi;
+      values.slug = values.slug
+                    .match(re)
+                    .join('');
+                                
+      // When the string is dasherized
+      // Its camelCase is converted to dashes
+      // and the string is lowercased
+      values.slug = slang.dasherize(values.slug);      
+        
+    }
+    
+    next()
+  },
   
 }

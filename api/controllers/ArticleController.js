@@ -5,7 +5,8 @@
  * @description	:: Contains logic for handling requests.
  */
 
-var fs = require('fs')
+var fs = require('fs'), path = require('path');
+
 
 var ArticleController = {
     index: function(req, res) {  
@@ -22,12 +23,12 @@ var ArticleController = {
     },
     show: function(req, res) {
       var file = req.param('file'), user = req.session.User;
-      
+            
       Article.fetch(file, function(err, article) {
         if (err) return res.send(err)
         if (!article) return res.send({err: {message: "Article not found."}})
         
-        var breadcrumbs = file.split("/");
+        var breadcrumbs = path.normalize(file).split(path.sep);
         
         return res.view({
           article: article,
@@ -38,7 +39,30 @@ var ArticleController = {
       })
     },
     new: function(req, res) {
-      res.view({})
+      var user = req.session.User;
+      res.view({
+        user: user
+      })
+    },
+    // Create a new article (posted params)
+    create: function(req, res, next) {
+      
+      // Hardcoded for testing
+      var file = 'Pine_Needles/contents/articles//01_Get_Started/01_End_Users/01_Free_Trial/03_Discover_Sugar/index.md';
+      req.body.file = file
+      
+      Article.create(req.body, function articleCreated (err, article) {  
+
+        // Return error and redirect if an error
+        if (err) {
+          req.session.flash = { err: err }
+          return res.redirect('/article/new');
+        }
+      
+        // Redirect to view
+        res.redirect('/article/' + article.slug);
+      });
+      
     },
     edit: function(req, res) {
       
@@ -60,6 +84,17 @@ var ArticleController = {
       Article.refresh(req.param('file'), req.param('content'), function(err, article) {
         res.redirect('/article');
       })
+    },
+    md_to_pdf: function(req, res) {
+      var file = req.param('file');
+      var pdfPath = "/tmp/article.pdf";
+      var opts = {
+                   cssPath: '/linker/styles/bootstrap.css'
+                 };
+      
+      Article.convert(file, pdfPath, opts, function() {
+        res.download(pdfPath)
+      });
     },
     open: function(req, res) {
         var file = req.param('file');

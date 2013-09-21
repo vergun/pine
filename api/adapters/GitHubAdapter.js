@@ -4,7 +4,7 @@
 ---------------------------------------------------------------*/
 
 // Module dependencies
-var git = require('gift'), fs = require('fs');
+var git = require('gift'), fs = require('fs'), markdownpdf = require('markdown-pdf');
 
 module.exports = (function() {
       
@@ -86,6 +86,18 @@ module.exports = (function() {
           }); 
         }
           
+      },
+      
+      convert: function(collectionName, file, pdfPath, opts, next) {
+        var file = file, pdfPath = pdfPath, opts = opts;
+        
+        markdownpdf(file, opts, function(err, returnedPath) {
+          if (err) return console.error(err);          
+          
+          fs.rename(returnedPath, pdfPath, function() {
+            next();
+          })
+        });
       },
       
       list: function(collectionName, path, next) {        
