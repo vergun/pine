@@ -11,12 +11,7 @@ module.exports = {
   // named with quotes to avoid conflict
   // with javascript "new" keyword
   'new': function(req, res) {
-    
-    var user = req.session.User;
-    
-    return res.view({
-      user: user
-    });
+    return res.view({});
   },
   
   // Create a new user (posted params)
@@ -29,10 +24,6 @@ module.exports = {
         return res.redirect('/user/new');
       }
       
-      // No err, proceed to log the user in passively
-      // req.session.authenticated = true;
-      // req.session.User = user;
-      
       // Redirect to view
       return res.redirect('/user/show/' + user.id);
     });
@@ -40,9 +31,7 @@ module.exports = {
   
   // Show the user ('/user/show/:id')
   show: function(req, res, next) {
-    
-    var user = req.session.User;
-    
+        
     //Attempt user lookup on :id param
     User.findOne(req.param('id'), function userFound (err, founduser) {
       
@@ -57,7 +46,6 @@ module.exports = {
       
       // User found, proceed to view
       res.view({
-        user: user,
         founduser: founduser
       })
 
@@ -68,9 +56,7 @@ module.exports = {
   // User list view ('/user')
   // Only available to administrators
   index: function(req, res, next) { 
-    
-    var user = req.session.User; 
-    
+        
     // Redirect to index view if an id is supplied
     if (req.param('id')) {
       return res.redirect('/user')
@@ -83,8 +69,7 @@ module.exports = {
       
       // Else render the view
       res.view({ 
-        users: users,
-        user: user 
+        users: users
       });
       
     })
@@ -93,9 +78,7 @@ module.exports = {
   
   // User Edit view ('/user/edit/:id')
   edit: function(req, res, next) {
-    
-    var user = req.session.User;
-    
+        
     // User lookup
     User.findOne(req.param('id'), function foundUser(err, founduser) {
       
@@ -107,7 +90,6 @@ module.exports = {
       
       // User found, render edit view with user object
       return res.view({
-        user: user,
         founduser: founduser
       });
     });

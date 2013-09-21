@@ -11,15 +11,12 @@ var fs = require('fs'), path = require('path');
 var ArticleController = {
   
     index: function(req, res) {  
-      
-      var user = req.session.User;
-      
+            
       Article.find(function foundArticles(err, articles) {
 
         if (err) return next(err);
       
         res.view({ 
-          user: user,
           articles: articles
         });
       
@@ -27,9 +24,7 @@ var ArticleController = {
     },
     
     show: function(req, res) {
-      
-      var user = req.session.User;
-      
+            
       Article.findOne(req.param('id'), function articleFound (err, article) {
       
         if (err) return next(err);
@@ -44,9 +39,8 @@ var ArticleController = {
         var content = fs.readFileSync(article.file);        
       
         res.view({
-          file: article.file,
+          article: article,
           content: content,
-          user: user,
           breadcrumbs: breadcrumbs
         })
 
@@ -54,10 +48,7 @@ var ArticleController = {
     },
     
     new: function(req, res) {
-      var user = req.session.User;
-      res.view({
-        user: user
-      })
+      res.view({})
     },
     // Create a new article (posted params)
     create: function(req, res, next) {
@@ -79,20 +70,23 @@ var ArticleController = {
       });
       
     },
-    edit: function(req, res) {
+    edit: function(req, res) {      
+            
+      Article.findOne(req.param('id'), function articleFound (err, article) {
       
-      var user = req.session.User;
-      
-      var file = req.param('file')
-      Article.fetch(file, function(err, article) { 
-        if (err) return res.send(err)
-        if (!article) return res.send({err: {message: "Article not found."}})
+        if (err) return next(err);
         
-        return res.view({
+        if (!article) {
+          req.session.flash = { err: "Article couldn't be found" };
+          return next();
+        }
+        
+        var content = fs.readFileSync(article.file);        
+        
+        res.view({
           article: article,
-          file: file,
-          user: user
-        }) 
+          content: content
+        })
       })
     },
     update: function(req, res) {      
@@ -100,16 +94,31 @@ var ArticleController = {
         res.redirect('/article');
       })
     },
-    md_to_pdf: function(req, res) {
-      var file = req.param('file');
-      var pdfPath = "/tmp/article.pdf";
-      var opts = {
-                   cssPath: '/linker/styles/bootstrap.css'
-                 };
+    
+    // Article :: convert
+    // Turns parsed markdown
+    // into downloadable pdf
+    convert: function(req, res) {
       
+      Article.findOne(req.param('id'), function articleFound (err, article) {
       
-      Article.convert(file, pdfPath, opts, function() {
-        res.download(pdfPath)
+        if (err) return next(err);
+        
+        if (!article) {
+          req.session.flash = { err: "Article couldn't be found" };
+          return next();
+        }
+        
+        var file = article.file;       
+        var pdfPath = "/tmp/article.pdf";
+        var opts = {
+                     cssPath: '/linker/styles/bootstrap.css'
+                   };
+      
+        Article.convert(file, pdfPath, opts, function() {
+          res.download(pdfPath)
+        });
+  
       });
     },
     open: function(req, res) {

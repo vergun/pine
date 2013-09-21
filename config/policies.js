@@ -11,25 +11,25 @@
 
 module.exports.policies = {
   
-  '*': ["flashMessage", "nav"],
+  '*': ["flashMessage", "nav", "currentUser"],
 
   user: {
-  	'new': ["flashMessage", "admin", "nav"],
-    create: ["flashMessage", "nav"],
-    show: ["userCanSeeProfile", "nav"],
-    edit: ["userCanSeeProfile", "nav"],
-    update: ["userCanSeeProfile", "nav"],
-    '*': ["admin", "nav"]
+  	'new': ["flashMessage", "admin", "nav", "currentUser"],
+    create: ["flashMessage", "nav", "currentUser"],
+    show: ["userCanSeeProfile", "nav", "currentUser"],
+    edit: ["userCanSeeProfile", "nav", "currentUser"],
+    update: ["userCanSeeProfile", "nav", "currentUser"],
+    '*': ["admin", "nav", "currentUser"]
   },
   
   article: {
-    '*': ["flashMessage", "nav"],
-    create: ["admin", "nav"],
-    'new': ["admin", "nav"],
-    edit: ["admin", "nav"],
-    update: ["admin", "nav"],
-    save: ["admin", "nav"],
-    destroy: ["admin", "nav"]
+    '*': ["flashMessage", "nav", "currentUser"],
+    create: ["admin", "nav", "currentUser"],
+    'new': ["admin", "nav", "currentUser"],
+    edit: ["admin", "nav", "currentUser"],
+    update: ["admin", "nav", "currentUser"],
+    save: ["admin", "nav", "currentUser"],
+    destroy: ["admin", "nav", "currentUser"]
   }
   
 };

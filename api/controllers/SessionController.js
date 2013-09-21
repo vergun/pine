@@ -51,9 +51,7 @@ module.exports = {
         // Email/password look good, proceed
         req.session.authenticated = true;
         req.session.User = user;
-        
-        if (req.session.User.admin) {} //admin specific behavior
-        
+                
         // Admins direct to manage users
         if (req.session.User.admin) {
           res.redirect('/user');

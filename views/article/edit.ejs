@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="span6">
-      <textarea form="article-update-form" name="content"><%= article %></textarea>
+      <textarea form="article-update-form" name="content"><%= content %></textarea>
 			<form action="/article/update" method="POST" id="article-update-form">
-				<input type="hidden" name="file" value="<%= file %>"/>
+				<input type="hidden" name="file" value="<%= article.file %>"/>
         <a href="/article">Cancel</a>
 				<input type="submit" class="btn btn-sm btn-primary" value="Update"/>        
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
