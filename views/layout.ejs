@@ -8,19 +8,27 @@
 
     <% if (process.env.NODE_ENV === 'development') { %>
   		<script src="/js/jquery.js"></script>
+  		<script src="/js/jquery-ui.js"></script>
+      <script src="/js/rangy.js"></script>
   		<script src="/js/bootstrap.js"></script>
   		<script src="/js/underscore.js"></script>
   		<script src="/js/backbone.js"></script>
+      <script src="/js/hallo.js"></script>
+      <script src="/js/client.js"></script>
     <% } else { %>
   	  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+      <script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
   		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
   		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
   		<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+      <script src="/js/hallo.js"></script>     
     <% } %>
     
 		<!--STYLES-->
-<link rel="stylesheet" href="/linker/styles/bootstrap-responsive.css">
-<link rel="stylesheet" href="/linker/styles/bootstrap.css">
+<link rel="stylesheet" href="/linker/styles/bootstrap-no-icons.css">
+<link rel="stylesheet" href="/linker/styles/font-awesome.css">
+<link rel="stylesheet" href="/linker/styles/jquery-ui.css">
 <link rel="stylesheet" href="/linker/styles/style.css">
 <!--STYLES END-->
 	</head>
