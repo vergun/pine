@@ -109,6 +109,8 @@ var ArticleController = {
     
     // Task that seeds db articles from
     // Pine_Needles branch into mongo
+    // Warning: destroys all current
+    // records
     populate: function(req, res) {
       Article.destroy({})
       .then(function() {
