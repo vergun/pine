@@ -4,7 +4,7 @@
 ---------------------------------------------------------------*/
 
 // Module dependencies
-var git = require('gift'), fs = require('fs'), markdownpdf = require('markdown-pdf');
+fs = require('fs'), markdownpdf = require('markdown-pdf');
 
 module.exports = (function() {
       

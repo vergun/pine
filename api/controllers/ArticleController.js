@@ -105,7 +105,24 @@ var ArticleController = {
     },
     save: function(req, res) {
         Article.save(req.param('file'), req.param('content'), res)
+    },
+    
+    // Task that seeds db articles from
+    // Pine_Needles branch into mongo
+    populate: function(req, res) {
+      Article.destroy({})
+      .then(function() {
+        Article.list(appConfig.submodulePath, function(err, articles) {
+          articles.files.forEach(function(file) {
+            Article.create({file: file}, function(err) {
+              if (err) res.send(err);
+              if (!err) res.send("ok");
+            })
+          })       
+        })
+      })
     }
+    
 };
 
 module.exports = ArticleController;

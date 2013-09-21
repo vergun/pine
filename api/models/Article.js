@@ -16,6 +16,9 @@ module.exports = {
   adapter: ['mongo', 'gitHub'],
   
   schema: true,
+  
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
 
   attributes: {
     
@@ -27,7 +30,12 @@ module.exports = {
   	slug: {
   	  type: 'string',
       required: true,
-      unique: true
+      
+      // when unique is set
+      // an index is automatically
+      // generated
+      unique: true,
+      
   	},
     
     toJSON: function() {
