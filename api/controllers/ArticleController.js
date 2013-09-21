@@ -30,7 +30,13 @@ var ArticleController = {
         if (err) return next(err);
       
         if (!article) {
-          req.session.flash = { err: "Article couldn't be found" };
+          
+          var noArticleFound = [{name: 'noArticleFound', message: "An article with the given information could not be found."}]
+   
+          req.session.flash = {
+            err: noArticleFound
+          }  
+          
           return next();
         }
       
@@ -77,7 +83,11 @@ var ArticleController = {
         if (err) return next(err);
         
         if (!article) {
-          req.session.flash = { err: "Article couldn't be found" };
+          var noArticleFound = [{name: 'noArticleFound', message: "An article with the given information could not be found."}]
+   
+          req.session.flash = {
+            err: noArticleFound
+          }  
           return next();
         }
         
@@ -91,8 +101,48 @@ var ArticleController = {
     },
     update: function(req, res) {      
       Article.refresh(req.param('file'), req.param('content'), function(err, article) {
+        
+        // error on save
+        if (err)  {
+          req.session.flash = { err: err }
+        }
+        
+        // article not found
+        if (!article) {
+          
+          var articleNotFound = [{name: 'articleNotFound', message: "Article could not be found."}]
+    
+          req.session.flash = {
+            err: articleNotFound
+          }
+                    
+        }
+        
+        // article was updated
+        else {
+          
+          var articleUpdated = [{name: 'articleUpdated', message: "Article was successfully updated."}]
+          
+          req.session.flash = {
+            info: articleUpdated
+          }
+        }
+ 
+        
         res.redirect('/article');
       })
+    },
+    
+    destroy: function(req, res) {
+      
+      var articleDestroyed = [{name: 'articleDestroyed', message: "Article was destroyed."}]
+    
+      req.session.flash = {
+        info: articleDestroyed
+      }
+      
+      res.redirect('/article')
+      
     },
     
     // Article :: convert
@@ -102,11 +152,16 @@ var ArticleController = {
       
       Article.findOne(req.param('id'), function articleFound (err, article) {
       
-        if (err) return next(err);
+        if (err) req.session.flash = { err: err };
         
         if (!article) {
-          req.session.flash = { err: "Article couldn't be found" };
-          return next();
+          
+          var noArticleFound = [{name: 'noArticleFound', message: "An article with the given information could not be found."}]
+   
+          req.session.flash = {
+            err: noArticleFound
+          }  
+          res.send(404, req.session.flash)
         }
         
         var file = article.file;       
@@ -121,21 +176,12 @@ var ArticleController = {
   
       });
     },
-    open: function(req, res) {
-        var file = req.param('file');
-        fs.readFile('files/' + file, function(err, data){
-            if (err) res.send("Couldn't open file: " + err.message);
-            else res.send(data);
-        });
-    },
-    save: function(req, res) {
-        Article.save(req.param('file'), req.param('content'), res)
-    },
     
     // Task that seeds db articles from
     // Pine_Needles branch into mongo
     // Warning: destroys all current
     // records
+    // todo: move to tasks service
     populate: function(req, res) {
       Article.destroy({})
       .then(function() {

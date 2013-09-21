@@ -11,12 +11,12 @@ module.exports = function (req,res,next) {
   // to access this resource
    else {
      
-     // Create error for unauthorized user    
-    var loginRequired = "You must be an admin to access this area."
+     // Create error for unauthorized user   
+    var loginRequired = [{name: 'loginRequired', message: "You must be logged in to access this area."}]
     
-    req.session.flash = { err: 
-       [ { msg: loginRequired } ] 
-     }
+    req.session.flash = {
+      err: loginRequired
+    }  
          
     // Redirect user to main path
     res.redirect('/article/index')

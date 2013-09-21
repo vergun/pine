@@ -33,7 +33,12 @@ module.exports = {
       if (err) return next(err);
       // No user was found
       if (!user) {
-        req.session.flash = {err: 'No user with such e-mail address found.'}
+        var noUserFound = [{name: 'noUserFound', message: "No user with such e-mail address found."}]
+ 
+        req.session.flash = {
+          err: noUserFound
+        }  
+        
         return res.redirect('/');
       }
       
@@ -44,7 +49,11 @@ module.exports = {
         
         // Password doesn't match
         if (!ok) {
-          req.session.flash = { err: 'Password is incorrect'}
+          var passwordIncorrect = [{name: 'passwordIncorrect', message: "Password is incorrect."}]
+   
+          req.session.flash = {
+            err: passwordIncorrect
+          }  
           return res.redirect('/')
         }
                 

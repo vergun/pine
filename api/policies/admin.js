@@ -8,13 +8,16 @@ module.exports = function(req, res, next) {
   if (req.session.User && req.session.User.admin) {
     return next();
   }
+  
   //User is not an admin
   else {
-   // Create error for unauthorized user
-    var adminRequired = "You must be an admin to access this area."
-    req.session.flash = { err: 
-       [ { msg: adminRequired } ] 
-     }
+    
+    // Create error for unauthorized user
+    var adminRequired = [{name: 'adminRequired', message: "You must be logged in to access this area."}]
+   
+    req.session.flash = {
+      err: adminRequired
+    }  
     
     // Proceed to controller
     res.redirect('/article/index');

@@ -25,7 +25,7 @@ module.exports = {
       }
       
       // Redirect to view
-      return res.redirect('/user/show/' + user.id);
+      res.redirect('/user/show/' + user.id);
     });
   },
   
@@ -40,7 +40,13 @@ module.exports = {
       
       // Error: user couldn't be found
       if (!founduser) {
-        req.session.flash = { err: "User couldn't be found" };
+        
+        var noUserFound = [{name: 'noUserFound', message: "User could not be found."}]
+ 
+        req.session.flash = {
+          err: noUserFound
+        }  
+        
         return next();
       }
       
@@ -86,7 +92,17 @@ module.exports = {
       if (err) return next(err);
       
       // User with :id param not found
-      if (!founduser) return next({err: 'User doesn\'t exist.'})
+      if (!founduser) {
+        
+        var userNotExist = [{name: 'userNotExist', message: "USer doesn\'t exist."}]
+ 
+        req.session.flash = {
+          err: userNotExist
+        }  
+        
+        return next();
+        
+      }
       
       // User found, render edit view with user object
       return res.view({
@@ -113,10 +129,13 @@ module.exports = {
       
       
     })
-    
     // User was updated successfully
     // Proceed to /user/show view
-    req.session.flash = {message: "User was successfully updated."}
+    var userUpdated = [{name: 'userUpdated', message: "User was successfully updated."}]
+    
+    req.session.flash = {
+      info: userUpdated
+    }
     return res.redirect('/user/show/' + req.param('id'));
   },
   
@@ -140,7 +159,12 @@ module.exports = {
       })
       
       // No error, user object was destroyed
-      req.session.flash = {message: 'User was destroyed.'}
+      var userDestroyed = [{name: 'userDestroyed', message: "User was destroye."}]
+    
+      req.session.flash = {
+        info: userDestroyed
+      }
+      
       return res.redirect('/user')
 
     })
