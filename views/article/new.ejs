@@ -1,7 +1,25 @@
+<%= include includes/_markdownLayout %>
+
 <div class="container">
   <div class="row">
-    <p class="editable"></p>
-    <%- include includes/_editor.ejs %> 
-    <%- include modals/_save.ejs %>
+    <div class="span6">
+      <h1>Content</h1>
+      <article>
+      <div class="editable" contenteditable="true">
+        <p>Type your article text here</p>
+       </div>
+      </article>
+    </div>
+      
+    <div class="span6">
+      <h1>Source output</h1>
+      <textarea form="new-article-form" name="content" id="source"></textarea>
+			<form action="/article/update" method="POST" id="article-update-form">
+        <a href="/article">Cancel</a>
+				<input type="submit" class="btn btn-sm btn-primary" value="Safe file"/>        
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			</form>
+    </div>
   </div>
+      
 </div>

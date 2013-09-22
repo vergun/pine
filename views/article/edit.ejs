@@ -1,25 +1,28 @@
+<%= include includes/_markdownLayout %>
+
 <div class="container">
   <div class="row">
     <div class="span6">
-    
-      <!-- test -->
-      <div class="editable">
+      <h1>Content</h1>
+      <article>
+      <div class="editable" contenteditable="true">
         <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+          <%= content %>
         </p>
        </div>
-       
-       
-      <!-- test -->
+      </article>
+    </div>
       
-      <textarea form="article-update-form" name="content"><%= content %></textarea>
+    <div class="span6">
+      <h1>Source output</h1>
+      <textarea form="article-update-form" name="content" id="source"></textarea>
 			<form action="/article/update" method="POST" id="article-update-form">
 				<input type="hidden" name="file" value="<%= article.file %>"/>
         <a href="/article">Cancel</a>
 				<input type="submit" class="btn btn-sm btn-primary" value="Update"/>        
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form>
-      <div id="preview"></div>
     </div>
   </div>
+      
 </div>
