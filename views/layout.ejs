@@ -61,6 +61,22 @@
       </div>
   </div>
   
+  <% if (typeof flash!= 'undefined') { %>
+    <% ['error', 'info', 'success'].forEach(function(kind) { %>
+      <% if (flash[kind]) { %>
+        <div class="container">
+          <div class="alert alert-block" style="background-color:#f2dede;color:#b94a48;boder-color:#eed3d7">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4><strong><%= kind.charAt(0).toUpperCase() + kind.slice(1) %></strong></h4> 
+          	<% Object.keys(flash[kind]).forEach(function(obj) { %>
+          		<p><%- flash[kind][obj].message %></p>
+          	<% }) %>          
+          </div>
+        </div>
+      <% } %>
+    <% }) %>
+  <% } %>
+  
 		<%- body %>
 
 		<!-- Templates from your view path are included here -->

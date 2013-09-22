@@ -24,7 +24,8 @@ module.exports = {
     
     // Redirect to main/index if no email address or password in request
     if (!req.param('email') || !req.param('password')) {
-      req.session.flash = { err: 'Email address and/or password missing.'}
+      var emailOrPasswordMissing = [{name: 'emailOrPasswordMissing', message: 'Email address and/or password missing.'}]
+      req.session.flash = { error: emailOrPasswordMissing }
       return res.redirect('/')
     }
     
@@ -36,7 +37,7 @@ module.exports = {
         var noUserFound = [{name: 'noUserFound', message: "No user with such e-mail address found."}]
  
         req.session.flash = {
-          err: noUserFound
+          error: noUserFound
         }  
         
         return res.redirect('/');
@@ -52,7 +53,7 @@ module.exports = {
           var passwordIncorrect = [{name: 'passwordIncorrect', message: "Password is incorrect."}]
    
           req.session.flash = {
-            err: passwordIncorrect
+            error: passwordIncorrect
           }  
           return res.redirect('/')
         }

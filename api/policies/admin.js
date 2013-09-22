@@ -16,7 +16,7 @@ module.exports = function(req, res, next) {
     var adminRequired = [{name: 'adminRequired', message: "You must be logged in to access this area."}]
    
     req.session.flash = {
-      err: adminRequired
+      error: adminRequired
     }  
     
     // Proceed to controller

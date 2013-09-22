@@ -20,7 +20,7 @@ module.exports = {
     User.create(req.params.all(), function userCreated (err, user) {      
       // Return error and redirect if an error
       if (err) {
-        req.session.flash = { err: err }
+        req.session.flash = { error: err }
         return res.redirect('/user/new');
       }
       
@@ -44,7 +44,7 @@ module.exports = {
         var noUserFound = [{name: 'noUserFound', message: "User could not be found."}]
  
         req.session.flash = {
-          err: noUserFound
+          error: noUserFound
         }  
         
         return next();
@@ -97,7 +97,7 @@ module.exports = {
         var userNotExist = [{name: 'userNotExist', message: "USer doesn\'t exist."}]
  
         req.session.flash = {
-          err: userNotExist
+          error: userNotExist
         }  
         
         return next();
@@ -123,7 +123,7 @@ module.exports = {
       // Error in user update
       // Show /user/edit view again
       if (err) {
-        req.session.flash = {err: err}
+        req.session.flash = {error: err}
         return res.redirect('/user/edit' + req.param('id'));
       }
       
@@ -148,7 +148,13 @@ module.exports = {
       if (err) return next(err);
       
       // User with :id param not found
-      if (!user) return next({err: 'User doesn\'t exist.'});
+      if (!user) { 
+        var userDoesntExist = [{name: 'userDoesntExist', message: 'User doesn\'t exist.'}]
+        req.session.flash = {
+          info: userDoesntExist
+        }
+        return next();
+      }
       
       // User found, destroy the user object
       User.destroy(req.param('id'), function destroyUser(err) {

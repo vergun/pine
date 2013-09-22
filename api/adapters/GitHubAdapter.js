@@ -43,7 +43,7 @@ module.exports = (function() {
       fs.writeFile(appConfig.submodulePath + file, content, function(err, data) {
   
         // send proper error response if an error
-        if (err) res.send({err: {message: "Couldn't write file."} } );
+        if (err) res.send({error: {message: "Couldn't write file."} } );
   
       });
 
@@ -71,7 +71,7 @@ module.exports = (function() {
         fs.writeFile(file, content, function(err, data) {
   
           // send proper error response if an error
-          if (err) return res.send({err: {message: "Couldn't write file."} } );
+          if (err) return res.send({error: [{name: "fileWriteError", message: "Couldn't write file."}] } );
           
           // update GitHub
           afterSave();   

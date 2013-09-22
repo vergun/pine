@@ -14,7 +14,7 @@ module.exports = function(req, res, next) {
   if (!(sessionUserMatchesId || isAdmin)) {
     var noRightsError = [{name: 'noRights', message: "You must be an admin."}]
     req.session.flash = {
-      err: noRightsError
+      error: noRightsError
     }
     
     res.redirect('/session/new');

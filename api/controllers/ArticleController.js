@@ -34,7 +34,7 @@ var ArticleController = {
           var noArticleFound = [{name: 'noArticleFound', message: "An article with the given information could not be found."}]
    
           req.session.flash = {
-            err: noArticleFound
+            error: noArticleFound
           }  
           
           return next();
@@ -67,7 +67,7 @@ var ArticleController = {
 
         // Return error and redirect if an error
         if (err) {
-          req.session.flash = { err: err }
+          req.session.flash = { error: err }
           return res.redirect('/article/new');
         }
       
@@ -86,7 +86,7 @@ var ArticleController = {
           var noArticleFound = [{name: 'noArticleFound', message: "An article with the given information could not be found."}]
    
           req.session.flash = {
-            err: noArticleFound
+            error: noArticleFound
           }  
           return next();
         }
@@ -104,7 +104,7 @@ var ArticleController = {
         
         // error on save
         if (err)  {
-          req.session.flash = { err: err }
+          req.session.flash = { error: err }
         }
         
         // article not found
@@ -113,7 +113,7 @@ var ArticleController = {
           var articleNotFound = [{name: 'articleNotFound', message: "Article could not be found."}]
     
           req.session.flash = {
-            err: articleNotFound
+            error: articleNotFound
           }
                     
         }
@@ -152,14 +152,14 @@ var ArticleController = {
       
       Article.findOne(req.param('id'), function articleFound (err, article) {
       
-        if (err) req.session.flash = { err: err };
+        if (err) req.session.flash = { error: err };
         
         if (!article) {
           
           var noArticleFound = [{name: 'noArticleFound', message: "An article with the given information could not be found."}]
    
           req.session.flash = {
-            err: noArticleFound
+            error: noArticleFound
           }  
           res.send(404, req.session.flash)
         }

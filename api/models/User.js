@@ -71,7 +71,8 @@ module.exports = {
     // Check that password is present and password and confirmation equal
     // one another
     if (!values.password || values.password != values.confirmation) {
-      return next({ err: "Password doesn't match password confirmation."});
+      var passwordAndConfirmationNotMatch = [{name: 'passwordAndConfirmationNotMatch', message: "Password doesn't match password confirmation."}]
+      return next({ error: passwordAndConfirmationNotMatch});
     }
     
     // Hash the provided password with bcrypt, 10 represents the number of

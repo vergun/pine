@@ -15,7 +15,7 @@ module.exports = function (req,res,next) {
     var loginRequired = [{name: 'loginRequired', message: "You must be logged in to access this area."}]
     
     req.session.flash = {
-      err: loginRequired
+      error: loginRequired
     }  
          
     // Redirect user to main path
