@@ -1,0 +1,29 @@
+development:
+  mongo:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine'
+  github:
+    url: ''
+  
+test:
+  mongo:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine_test'
+  github:
+    url: ''
+  
+production:
+  mongo:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine'
+  github:
+    url: ''

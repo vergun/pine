@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+  
+    <table class='table table-hover'>
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <% if (session.authenticated) { %>         
+          <a href="/article/new" class="btn btn-sm btn-primary">+ New article</a>
+      <% } %>
+      <tbody class="table-hover">
+        <% _.each(articles, function(article) { %>
+        <tr>
+          <td><%= article.file %></td> 
+    			<td><a href="/article/show/<%= article.id %>" class="btn btn-sm btn-primary">Show</a></td>
+          <% if (session.authenticated) { %>  
+    			  <td><a href="/article/edit/<%= article.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+            <td><a href="/article/destroy/<%= article.id %>" class="btn btn-sm btn-danger">Destroy</a></td>
+          <% } %>
+        </tr>
+        <% }) %>
+      </tbody
+    </table>
+      
+  </div>
+</div>

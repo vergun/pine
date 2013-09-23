@@ -1,14 +1,6 @@
 module.exports.routes = {
   '/': {
-    controller: 'main',
+    controller: 'article',
     action: 'index'
-  },
-  '/open': {
-    controller: 'main',
-    action: 'open'
-  },
-  '/save': {
-    controller: 'main',
-    action: 'save'
   }
 };

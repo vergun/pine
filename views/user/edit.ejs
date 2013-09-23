@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="span 6">
+    
+  	  <h3>Edit <%= founduser.name %></h3>
+      
+      <form action="/user/update/<%= founduser.id %>" method="POST" role="form">
+
+        <div class="form-group"> 
+
+        	<div class="form-group">
+            <label for="name">Full name</label>
+          	<input type="text" class="form-control" placeholder="Full name" name="name" value="<%= founduser.name %>">
+        	</div>
+	
+        	<div class="form-group">
+            <label for="email">E-mail address</label>
+          	<input type="text" class="form-control" placeholder="E-mail address" name="email" value="<%= founduser.email %>">
+        	</div>
+
+          <% if (session.authenticated && session.User.admin) { %>
+            <% if (founduser.admin) { %>
+              <input type="hidden" name="admin" value="unchecked">
+              <label class="checkbox"><input type="checkbox" name="admin" checked> Admin</label>
+            <% } else { %>
+              <input type="hidden" name="admin" value="unchecked">
+              <label class="checkbox"><input type="checkbox" name="admin"> Admin</label>
+              <% } %>
+          <% } %>
+
+          <div class="form-group">
+        	  <a href="/user/show/<%= founduser.id %>">Cancel</a>
+          	<button type="submit" id="update-user" class="btn btn-default">Update user</button>
+          	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+development:
+  application_title: 'Pine'
+  application_port: 1337
+  submodulePath: '/Pine_Needles/contents/articles/'
+  
+test:
+  application_title: 'Pine'
+  application_port: ''
+  submodulePath: '/Pine_Needles/contents/articles/'
+  
+  
+production:
+  application_title: 'Pine'
+  application_port: 80
+  submodulePath: '/Pine_Needles/contents/articles/'

@@ -1,0 +1,26 @@
+/*
+ * Allow authenticated users to see their 
+ * own profiles
+ */
+
+module.exports = function(req, res, next) {  
+  
+  // SessionId 
+  var sessionUserMatchesId = req.session.User.id === req.param('id');
+  var isAdmin = req.session.User.admin;
+  
+  // The requested id does not match the user's id
+  // and this is not an admin
+  if (!(sessionUserMatchesId || isAdmin)) {
+    var noRightsError = [{name: 'noRights', message: "You must be an admin."}]
+    req.session.flash = {
+      error: noRightsError
+    }
+    
+    res.redirect('/session/new');
+    return;
+  }
+  
+  next();
+  
+};
