@@ -11,7 +11,9 @@
       <p><%= founduser.email %></p>
       <hr>
     	<a href="/user">Cancel</a>
+      <% if (typeof user != 'undefined') { %>
     	<a class="btn btn-medium btn-primary" id="edit-user" href="/user/edit/<%= founduser.id %>">Edit</a>
+      <% } %>
     </div>
   </div>
 </div>
