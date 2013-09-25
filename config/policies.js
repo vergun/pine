@@ -14,7 +14,8 @@ module.exports.policies = {
   '*': ["flashMessage", "nav", "currentUser"],
 
   user: {
-  	'new': ["flashMessage", "admin", "nav", "currentUser"],
+    // 'new': ["flashMessage", "admin", "nav", "currentUser"],
+    'new': ["flashMessage", "nav"],
     create: ["flashMessage", "nav", "currentUser"],
     show: ["userCanSeeProfile", "nav", "currentUser"],
     edit: ["userCanSeeProfile", "nav", "currentUser"],
