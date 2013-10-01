@@ -138,7 +138,7 @@ var ArticleController = {
       var articleDestroyed = [{name: 'articleDestroyed', message: "Article was destroyed."}]
     
       req.session.flash = {
-        error: articleDestroyed
+        success: articleDestroyed
       }
       
       res.redirect('/article')

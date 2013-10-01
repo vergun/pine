@@ -16,7 +16,7 @@
         <% _.each(articles, function(article) { %>
         <tr>
           <td><%= article.file %></td> 
-    			<td><a href="/article/show/<%= article.id %>" class="btn btn-sm btn-primary">Show</a></td>
+    			<td><a href="/article/show/<%= article.id %>" class="btn btn-sm btn-primary index-article-show" data-id="<%= article.id %>">Show</a></td>
           <% if (session.authenticated) { %>  
     			  <td><a href="/article/edit/<%= article.id %>" class="btn btn-sm btn-warning">Edit</a></td>
             <td><a href="/article/destroy/<%= article.id %>" class="btn btn-sm btn-danger">Destroy</a></td>

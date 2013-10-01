@@ -10,8 +10,7 @@ config =
   port: '1337'
   url: 'http://localhost'
   title: 'Pine'
-  userId: ''
-  articleLength: 0
+  articleId: ''
   
 fs = require 'fs'
 casper = require('casper').create()
@@ -82,6 +81,7 @@ casper.then ->
   @test.assertSelectorHasText "td a.btn-warning", "Edit", "For authenticated users the Edit article button is visible on the article index page"
   @test.assertSelectorHasText "td a.btn-danger", "Destroy", "For authenticated users the Delete article button is visible on the article index page"
   @test.article = casper.fetchText "tr:first-child td:first-child"
+  # Todo: add article edit assertions from index
   
 casper.thenClick "tr:first-child td a.btn-primary", ->
   @test.comment "Article show (authenticated non-admin user)"
@@ -91,24 +91,44 @@ casper.thenClick "tr:first-child td a.btn-primary", ->
   @test.assertSelectorHasText "ul.nav li:nth-child(2)", "Download as a pdf", "For authenticated users Download as a pdf is on the article show page"
   @test.assertSelectorHasText ".show-edit-article a", "Edit article", "For authenticated users Edit article is on the article show page"  
   @test.assertSelectorHasText ".show-destroy-article a", "Destroy article", "For authenticated users Destroy article is on the article show page"
-
+    
 casper.thenClick ".show-edit-article a", ->
+  url = @getCurrentUrl()
+  index = url.lastIndexOf "/"
+  articleId = url.substr(index)[1..-1]
+  config.articleId = articleId
+  # This regex compares against a 24 hex character string 
+  re = new RegExp "^[0-9a-fA-F]{24}$"
+  @test.assertMatch articleId, re, 'Article _id is a valid mongo id'
+  @test.assertExists "input[value=Update]", "Article submit button is on the article edit page."
+  
+casper.thenClick "input[value=Update]", ->
+  @test.assertSelectorHasText ".alert p", "Article was successfully updated.", "Success message was displayed."
+
+casper.thenClick "button.close", ->
+  @test.assertNotVisible ".alert", "Clicking the 'x' on the alert box removes it from the DOM"  
   
 casper.then ->
   @test.info "Authenticated user non-admin: GET /article -> DESTROY /article/:id"
-
+  @test.comment "Article index (authenticated non-admin user) destroy"
+  @click ".index-article-show"
+  
+casper.thenClick ".show-destroy-article a", ->
+  @waitForText "Success"
+  @test.assertSelectorHasText ".alert p", "Article was destroyed.", "Article destroyed message was displayed."
+  # Todo: save article path then test if it's on the index page after destroyed
+  
+casper.thenClick "button.close", ->
+  @test.assertNotVisible ".alert", "Clicking the 'x' on the alert box removes it from the DOM"  
+  
 casper.then ->
-  @test.info "Authenticated user admin: GET /article/edit/:id -> POST /article/:id"
-  
-  
-   
-  
+  @test.info "Authenticated user non-admin: GET /article/:id -> DESTROY /article/:id"
+  @test.comment "Article show (authenticated non-admin user) destroy"
   
   
   
-  
-  # @waitForText @test.article
-  # @test.assertExists @test.article
+# casper.then ->
+#   @test.info "Authenticated user admin: GET /article/edit/:id -> POST /article/:id"
   
 casper.run ->
   @echo "Done!"
