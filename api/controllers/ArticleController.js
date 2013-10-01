@@ -124,7 +124,7 @@ var ArticleController = {
           var articleUpdated = [{name: 'articleUpdated', message: "Article was successfully updated."}]
           
           req.session.flash = {
-            info: articleUpdated
+            success: articleUpdated
           }
         }
  
@@ -138,7 +138,7 @@ var ArticleController = {
       var articleDestroyed = [{name: 'articleDestroyed', message: "Article was destroyed."}]
     
       req.session.flash = {
-        info: articleDestroyed
+        error: articleDestroyed
       }
       
       res.redirect('/article')

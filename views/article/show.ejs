@@ -6,10 +6,8 @@
         <li><a href="/article">Back to articles</a></li>  
         <li><a href="/article/convert?id=<%= article.id %>">Download as a pdf</a></li>
         <% if (session.authenticated) { %>         
-          <% if (user.admin) { %>
-            <li><a href="/article/edit/<%= article.id %>">Edit article</a></li>
-            <li><a href="/article/destroy/<%= article.id %>">Destroy article</a></li>
-          <% } %>
+            <li class="show-edit-article"><a href="/article/edit/<%= article.id %>">Edit article</a></li>
+            <li class="show-destroy-article"><a href="/article/destroy/<%= article.id %>">Destroy article</a></li>
         <% } %>
       </ul>
       <div class="tab-content">
