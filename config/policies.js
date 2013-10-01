@@ -14,11 +14,11 @@ module.exports.policies = {
   '*': ["flashMessage", "nav", "currentUser"],
 
   user: {
-    // 'new': ["flashMessage", "admin", "nav", "currentUser"],
-    'new': ["flashMessage", "nav"],
+    'new': ["flashMessage", "admin", "nav", "currentUser"],
+    // 'new': ["flashMessage", "nav"],
     create: ["flashMessage", "nav", "currentUser"],
-    // show: ["userCanSeeProfile", "nav", "currentUser"],
-    show: ["nav"],
+    show: ["userCanSeeProfile", "nav", "currentUser"],
+    // show: ["nav"],
     edit: ["userCanSeeProfile", "nav", "currentUser"],
     update: ["userCanSeeProfile", "nav", "currentUser"],
     '*': ["admin", "nav", "currentUser"]
@@ -26,12 +26,12 @@ module.exports.policies = {
   
   article: {
     '*': ["flashMessage", "nav", "currentUser"],
-    create: ["admin", "nav", "currentUser"],
-    'new': ["admin", "nav", "currentUser"],
-    edit: ["admin", "nav", "currentUser"],
-    update: ["admin", "nav", "currentUser"],
-    save: ["admin", "nav", "currentUser"],
-    destroy: ["admin", "nav", "currentUser"]
+    create: ["authenticated", "nav", "currentUser"],
+    'new': ["authenticated", "nav", "currentUser"],
+    edit: ["authenticated", "nav", "currentUser"],
+    update: ["authenticated", "nav", "currentUser"],
+    save: ["authenticated", "nav", "currentUser"],
+    destroy: ["authenticated", "nav", "currentUser"]
   }
   
 };
