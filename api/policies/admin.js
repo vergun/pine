@@ -13,7 +13,7 @@ module.exports = function(req, res, next) {
   else {
     
     // Create error for unauthorized user
-    var adminRequired = [{name: 'adminRequired', message: "You must be logged in to access this area."}]
+    var adminRequired = [{name: 'adminRequired', message: "You must be an administrator to access this area."}]
    
     req.session.flash = {
       error: adminRequired
