@@ -5,8 +5,8 @@
 
 // Module dependencies
 fs = require('fs'), 
-markdownpdf = require('markdown-pdf');
-pdfHelper = require('../services/pdfHelper'); 
+markdownpdf = require('markdown-pdf'),
+pdfHelper = require('../services/pdfHelper');
 
 module.exports = (function() {
       

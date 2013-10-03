@@ -39,5 +39,4 @@ TODOs:
 * improve CRUD operations with git hooks
 * move population tasks to boostrap.js
 * add a population task for first user in dev
-* 
 
