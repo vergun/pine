@@ -21,6 +21,7 @@ module.exports.policies = {
     // show: ["nav"],
     edit: ["userCanSeeProfile", "nav", "currentUser"],
     update: ["userCanSeeProfile", "nav", "currentUser"],
+    populate: ["flashMessage", "nav", "currentUser"],
     '*': ["admin", "nav", "currentUser"]
   },
   

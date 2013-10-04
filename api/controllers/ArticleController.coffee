@@ -15,8 +15,9 @@ ArticleController =
       return next(err)  if err
       res.view articles: articles
 
-  show: (req, res) ->
-    Article.findOne req.param("id"), articleFound = (err, article) ->
+  show: (req, res, next) ->
+    id = req.param('id')
+    Article.findOne id, articleFound = (err, article) ->
       return next(err)  if err
       unless article
         noArticleFound = [
@@ -33,7 +34,7 @@ ArticleController =
         breadcrumbs: breadcrumbs
 
   'new': (req, res) ->
-    res.view
+    res.view {}
 
   create: (req, res, next) ->
     file = "Pine_Needles/contents/articles//01_Get_Started/01_End_Users/01_Free_Trial/03_Discover_Sugar/index.md"
@@ -54,6 +55,7 @@ ArticleController =
         ]
         req.session.flash = error: noArticleFound
         return next()
+        
       content = fs.readFileSync(article.file)
       res.view
         article: article

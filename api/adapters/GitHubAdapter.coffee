@@ -3,7 +3,6 @@
 #  -> adapter
 #---------------------------------------------------------------
 
-# Module dependencies
 fs = require("fs")
 markdownpdf = require("markdown-pdf")
 pdfHelper = require("../services/pdfHelper")

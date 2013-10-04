@@ -57,6 +57,26 @@ module.exports =
     ]
     req.session.flash = info: userUpdated
     res.redirect "/user/show/" + req.param("id")
+    
+  populate: (req, res, next) ->
+    _.extend req.params.all(),
+      name: "Test User"
+      email: "test@test.com"
+      password: "password"
+      confirmation: "password"
+      admin: [
+        "checked"
+        "on"
+      ]
+    
+    User.create req.params.all(), userCreated = (err, user) ->
+      if err 
+        return res.send err
+      if user
+        user = _.extend user,
+                 pass: "password"
+        return res.send ok: user
+      res.redirect "/"
 
   destroy: (req, res, next) ->
     User.findOne req.param("id"), foundUser = (err, user) ->

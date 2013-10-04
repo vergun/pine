@@ -28,11 +28,17 @@ Make sure your Mongodb instance is running (in console):
 
 Lift your server and populate your database by navigating your url path to: 
 
-    http://localhost:1337/article/populate
+    http://localhost:1337/article/populate    
+
+Populate your first user by navigating to:
+
+    http://localhost:1337/user/populate
 
 You can navigate to the root path and use the app:
 
-    http://localhost:1337
+    http://localhost:1337    
+
+Default user credentials are "test@test.com" // "password"
 
 TODOs:
 
