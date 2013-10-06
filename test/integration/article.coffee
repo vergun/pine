@@ -60,12 +60,12 @@ casper.thenClick "ul.nav li:first-child a", ->
   @test.assertTitle config.title, "The title is #{config.title}"
   @test.assertExists ".table", "The table is on the page"
   @fill "form[action='/session/create']", 
-    email: "test@test.com"
+    email: "nonadmin@test.com"
     password: "password"
   , false 
   
 casper.then ->
-  @test.assertField("email", "test@test.com")
+  @test.assertField("email", "nonadmin@test.com")
   @test.assertField("password", "password")
   
 casper.then ->
