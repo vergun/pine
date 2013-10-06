@@ -12,8 +12,7 @@ module.exports = (->
     # @param : subject [article, user]
     # @param : action  describes what the subject is doing
     
-    update: (type, subject, action) ->
-      console.log req
+    update: (req, type, subject, action) ->
       subject = subject.charAt(0).toUpperCase() + subject.slice(1)
       process[type+subject] = [
         name: type+subject

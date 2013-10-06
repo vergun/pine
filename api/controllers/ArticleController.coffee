@@ -7,7 +7,7 @@ ArticleController
 
 fs = require("fs")
 path = require("path")
-flashHelper = require('../services/flashHelper')
+fh = require('../services/flashHelper')
 
 
 ArticleController =
@@ -21,7 +21,7 @@ ArticleController =
     Article.findOne req.param('id'), articleFound = (err, article) ->
       return next(err)  if err
       unless article
-        flashHelper.update req, "error", "article", "with the given information could not be found."
+        fh.update req, "error", "article", "with the given information could not be found."
         return next()
       breadcrumbs = path.normalize(article.file).split(path.sep)
       content = fs.readFileSync(article.file)
@@ -46,7 +46,7 @@ ArticleController =
     Article.findOne req.param("id"), articleFound = (err, article) ->
       return next(err)  if err
       unless article
-        flashHelper.update req, "error", "article", "with the given information could not be found."
+        fh.update req, "error", "article", "with the given information could not be found."
         return next()
       content = fs.readFileSync(article.file)
       res.view
@@ -57,21 +57,21 @@ ArticleController =
     Article.refresh req.param("file"), req.param("content"), (err, article) ->
       req.session.flash = error: err  if err
       unless article
-        flashHelper.update req, "error", "article", "could not be found."
+        fh.update req, "error", "article", "could not be found."
       else
-        flashHelper.update "success", "article", "was successfully updated."
+        fh.update req, "success", "article", "was successfully updated."
       res.redirect "/article"
 
 
   destroy: (req, res) ->
-    flashHelper.update req, "success", "article", "was destroyed."
+    fH.update req, "success", "article", "was destroyed."
     res.redirect "/article"
 
   convert: (req, res) ->
     Article.findOne req.param("id"), articleFound = (err, article) ->
       req.session.flash = error: err  if err
       unless article
-        flashHelper.update req, "error", "article", "with the given information could not be found."
+        fh.update req, "error", "article", "with the given information could not be found."
         res.send 404, req.session.flash
       file = article.file
       pdfPath = "/tmp/article.pdf"

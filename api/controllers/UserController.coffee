@@ -4,6 +4,9 @@ UserController
 @module    	:: Controller
 @description	:: Contains logic for handling requests.
 ###
+
+fh = require('../services/flashHelper')
+
 module.exports =
 
   'new': (req, res) ->
@@ -20,11 +23,7 @@ module.exports =
     User.findOne req.param("id"), userFound = (err, founduser) ->
       return next(err)  if err
       unless founduser
-        noUserFound = [
-          name: "noUserFound"
-          message: "User could not be found."
-        ]
-        req.session.flash = error: noUserFound
+        fh.update req, "error", "user", "could not be found."
         return next()
       res.view founduser: founduser
 
@@ -38,11 +37,7 @@ module.exports =
     User.findOne req.param("id"), foundUser = (err, founduser) ->
       return next(err)  if err
       unless founduser
-        userNotExist = [
-          name: "userNotExist"
-          message: "USer doesn't exist."
-        ]
-        req.session.flash = error: userNotExist
+        fh.update req, "error", "user", "doesn\'t exist."
         return next()
       res.view founduser: founduser
 
@@ -51,11 +46,7 @@ module.exports =
       if err
         req.session.flash = error: err
         res.redirect "/user/edit" + req.param("id")
-    userUpdated = [
-      name: "userUpdated"
-      message: "User was successfully updated."
-    ]
-    req.session.flash = info: userUpdated
+    fh.update req, "success", "user", "was successfully updated."
     res.redirect "/user/show/" + req.param("id")
     
   populate: (req, res, next) ->
@@ -79,7 +70,7 @@ module.exports =
       confirmation: "password"
       
     _.each [admin, nonadmin], (user)  ->
-      User.create user, userCreated = (err, user) ->        
+      User.findOrCreate email: user.email, user, userCreated = (err, user) ->        
         user["_password"] = "password"
         
         users.push user
@@ -90,17 +81,13 @@ module.exports =
     User.findOne req.param("id"), foundUser = (err, user) ->
       return next(err)  if err
       unless user
-        userDoesntExist = [
-          name: "userDoesntExist"
-          message: "User doesn't exist."
-        ]
-        req.session.flash = info: userDoesntExist
+        fh.update req, "error", "user", "doesn\'t exist"
         return next()
       User.destroy req.param("id"), destroyUser = (err) ->
         next err  if err
-      userDestroyed = [
-        name: "userDestroyed"
-        message: "User was destroye."
-      ]
-      req.session.flash = info: userDestroyed
-      res.redirect "/user"
+        if user.id is req.session.User.id
+          req.session.destroy()
+          res.redirect "/"
+        else
+          fh.update req, "success", "user", "was destroyed."
+          res.redirect "/user"
