@@ -5,9 +5,10 @@ UserController
 @description	:: Contains logic for handling requests.
 ###
 
-fh = require('../services/flashHelper')
+flash           = require '../services/flashHelper'
+PopulateHelper  = require '../services/populateHelper'
 
-module.exports =
+UserController =
 
   'new': (req, res) ->
     res.view {}
@@ -23,8 +24,8 @@ module.exports =
     User.findOne req.param("id"), userFound = (err, founduser) ->
       return next(err)  if err
       unless founduser
-        fh.update req, "error", "user", "could not be found."
-        return next()
+        flash.msg req, "error", "user", "could not be found.", ->
+          return next()
       res.view founduser: founduser
 
   index: (req, res, next) ->
@@ -37,8 +38,8 @@ module.exports =
     User.findOne req.param("id"), foundUser = (err, founduser) ->
       return next(err)  if err
       unless founduser
-        fh.update req, "error", "user", "doesn\'t exist."
-        return next()
+        flash.msg req, "error", "user", "doesn\'t exist.", ->
+          return next()
       res.view founduser: founduser
 
   update: (req, res, next) ->
@@ -46,48 +47,27 @@ module.exports =
       if err
         req.session.flash = error: err
         res.redirect "/user/edit" + req.param("id")
-    fh.update req, "success", "user", "was successfully updated."
-    res.redirect "/user/show/" + req.param("id")
-    
-  populate: (req, res, next) ->
-    
-    users = []
-    
-    admin =
-      name: "Admin User"
-      email: "admin@test.com"
-      password: "password"
-      confirmation: "password"
-      admin: [
-        "checked"
-        "on"
-      ]
-    
-    nonadmin =
-      name: "Nonadmin User"
-      email: "nonadmin@test.com"
-      password: "password"
-      confirmation: "password"
-      
-    _.each [admin, nonadmin], (user)  ->
-      User.findOrCreate email: user.email, user, userCreated = (err, user) ->        
-        user["_password"] = "password"
-        
-        users.push user
-        if users.length is 2
-          res.send ok: users
-
+    flash.msg req, "success", "user", "was successfully updated.", ->
+      res.redirect "/user/show/" + req.param("id")
+  
   destroy: (req, res, next) ->
     User.findOne req.param("id"), foundUser = (err, user) ->
       return next(err)  if err
       unless user
-        fh.update req, "error", "user", "doesn\'t exist"
-        return next()
+        flash.msg req, "error", "user", "doesn\'t exist", ->
+          return next()
       User.destroy req.param("id"), destroyUser = (err) ->
         next err  if err
         if user.id is req.session.User.id
           req.session.destroy()
           res.redirect "/"
         else
-          fh.update req, "success", "user", "was destroyed."
-          res.redirect "/user"
+          flash.msg req, "success", "user", "was destroyed.", ->
+            res.redirect "/user"
+  
+  populate: (req, res) ->
+    PopulateHelper.populateUsers (users) ->
+      res.send ok: users
+      
+module.exports = UserController
+

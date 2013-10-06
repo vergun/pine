@@ -3,9 +3,10 @@
 #  -> adapter
 #---------------------------------------------------------------
 
-fs = require("fs")
-markdownpdf = require("markdown-pdf")
-pdfHelper = require("../services/pdfHelper")
+fs          = require "fs"
+markdownpdf = require "markdown-pdf" 
+PdfHelper   = require "../services/pdfHelper"
+wrench      = require "wrench"
 
 module.exports = (->
   
@@ -79,34 +80,14 @@ module.exports = (->
       file = file
       pdfPath = pdfPath
       opts = opts
-      pdfHelper.convert file, opts, pdfPath, next
+      PdfHelper.convert file, opts, pdfPath, next
 
-    list: (collectionName, path, next) ->
-      walk = (dir, done) ->
-        results = []
-        fs.readdir dir, (err, list) ->
-          return done(err)  if err
-          i = 0
-          (next = ->
-            file = list[i++]
-            return done(null, results)  unless file
-            file = dir + "/" + file
-            fs.stat file, (err, stat) ->
-              if stat and stat.isDirectory()
-                walk file, (err, res) ->
-                  results = results.concat(res)
-                  next()
-
-              else
-                isItMarkdown = /\.[md]+$/i
-                results.push file  if isItMarkdown.test(file)
-                next()
-
-          )()
-
-      walk path, (err, files) ->
-        next err,
-          files: files
+    list: (collectionName, path, next) ->   
+      results = new Array()  
+      _.each wrench.readdirSyncRecursive(path), (file) ->
+        results.push(file) if file.match(/\.[md]+$/i)
+      
+      next results
 
   adapter
 )()

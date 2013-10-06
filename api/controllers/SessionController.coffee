@@ -5,7 +5,9 @@ SessionController
 @description	:: Contains logic for handling requests.
 ###
 
-bcrypt = require("bcrypt")
+bcrypt    = require 'bcrypt'
+flash     = require '../services/flashHelper'
+
 module.exports =
   
   'new': (req, res) ->
@@ -13,34 +15,18 @@ module.exports =
 
   create: (req, res, next) ->  
     if not req.param("email") or not req.param("password")
-      emailOrPasswordMissing = [
-        name: "emailOrPasswordMissing"
-        message: "Email address and/or password missing."
-      ]
-      
-      req.session.flash = error: emailOrPasswordMissing
-      return res.redirect("/")
+      flash.msg req, "error", "email", "address and/or password missing.", ->
+        return res.redirect("/")
       
     User.findOneByEmail req.param("email"), foundAUser = (err, user) ->      
       return next(err)  if err
       unless user
-        noUserFound = [
-          name: "noUserFound"
-          message: "No user with such e-mail address found."
-        ]
-        req.session.flash = error: noUserFound
+        flash.msg req, "error", "user", "with such e-mail address not found."
         return res.redirect("/")
       bcrypt.compare req.param("password"), user.encryptedPassword, (err, ok) ->
         return next(err)  if err
         unless ok
-          
-          passwordIncorrect = [
-            name: "passwordIncorrect"
-            message: "Password is incorrect."
-          ]
-          
-          req.session.flash = error: passwordIncorrect
-          
+          flash.msg req, "error", "password", "is incorrect."
           return res.redirect("/")
 
         req.session.authenticated = true
