@@ -73,7 +73,7 @@ ArticleController =
         ]
         req.session.flash = error: articleNotFound
       else
-        flashHelper.update req, success, article, updated
+        flashHelper.update req, "success", "article", "updated"
       res.redirect "/article"
 
 
