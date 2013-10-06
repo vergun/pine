@@ -18,8 +18,7 @@ ArticleController =
       res.view articles: articles
 
   show: (req, res, next) ->
-    id = req.param('id')
-    Article.findOne id, articleFound = (err, article) ->
+    Article.findOne req.param('id'), articleFound = (err, article) ->
       return next(err)  if err
       unless article
         flashHelper.update req, "error", "article", "with the given information could not be found."
@@ -60,7 +59,7 @@ ArticleController =
       unless article
         flashHelper.update req, "error", "article", "could not be found."
       else
-        flashHelper.update req, "success", "article", "was successfully updated."
+        flashHelper.update "success", "article", "was successfully updated."
       res.redirect "/article"
 
 
