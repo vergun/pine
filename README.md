@@ -38,11 +38,15 @@ You can navigate to the root path and use the app:
 
     http://localhost:1337    
 
-Default user credentials are "admin@test.com" // "password" for admin, "nonadmin@test.com" // "password" for nonadmin
+Default user credentials are:
+
+    admin user:    "admin@test.com"    // "password"
+    nonadmin user: "nonadmin@test.com" // "password"
 
 A note on tests:
 
-Integration tests use functions from the development version of CasperJS. To install with homebrew
+Integration tests use functions from the development version of CasperJS. To install with homebrew:
+
     brew install casperjs --devel
 
 TODOs:
