@@ -22,11 +22,7 @@ ArticleController =
     Article.findOne id, articleFound = (err, article) ->
       return next(err)  if err
       unless article
-        noArticleFound = [
-          name: "noArticleFound"
-          message: "An article with the given information could not be found."
-        ]
-        req.session.flash = error: noArticleFound
+        flashHelper.update req, "error", "article", "with the given information could not be found."
         return next()
       breadcrumbs = path.normalize(article.file).split(path.sep)
       content = fs.readFileSync(article.file)
@@ -51,13 +47,8 @@ ArticleController =
     Article.findOne req.param("id"), articleFound = (err, article) ->
       return next(err)  if err
       unless article
-        noArticleFound = [
-          name: "noArticleFound"
-          message: "An article with the given information could not be found."
-        ]
-        req.session.flash = error: noArticleFound
+        flashHelper.update req, "error", "article", "with the given information could not be found."
         return next()
-        
       content = fs.readFileSync(article.file)
       res.view
         article: article
@@ -67,33 +58,21 @@ ArticleController =
     Article.refresh req.param("file"), req.param("content"), (err, article) ->
       req.session.flash = error: err  if err
       unless article
-        articleNotFound = [
-          name: "articleNotFound"
-          message: "Article could not be found."
-        ]
-        req.session.flash = error: articleNotFound
+        flashHelper.update req, "error", "article", "could not be found."
       else
-        flashHelper.update req, "success", "article", "updated"
+        flashHelper.update req, "success", "article", "was successfully updated."
       res.redirect "/article"
 
 
   destroy: (req, res) ->
-    articleDestroyed = [
-      name: "articleDestroyed"
-      message: "Article was destroyed."
-    ]
-    req.session.flash = success: articleDestroyed
+    flashHelper.update req, "success", "article", "was destroyed."
     res.redirect "/article"
 
   convert: (req, res) ->
     Article.findOne req.param("id"), articleFound = (err, article) ->
       req.session.flash = error: err  if err
       unless article
-        noArticleFound = [
-          name: "noArticleFound"
-          message: "An article with the given information could not be found."
-        ]
-        req.session.flash = error: noArticleFound
+        flashHelper.update req, "error", "article", "with the given information could not be found."
         res.send 404, req.session.flash
       file = article.file
       pdfPath = "/tmp/article.pdf"
