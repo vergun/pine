@@ -7,6 +7,8 @@ ArticleController
 
 fs = require("fs")
 path = require("path")
+flashHelper = require('../services/flashHelper')
+
 
 ArticleController =
   
@@ -71,11 +73,7 @@ ArticleController =
         ]
         req.session.flash = error: articleNotFound
       else
-        articleUpdated = [
-          name: "articleUpdated"
-          message: "Article was successfully updated."
-        ]
-        req.session.flash = success: articleUpdated
+        flashHelper.update req, success, article, updated
       res.redirect "/article"
 
 
