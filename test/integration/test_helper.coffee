@@ -19,9 +19,6 @@ routine.login = (email, password) ->
 # Teardown #
 var teardownSteps = []
 
-# todo rewrite walk function for phantom.js fs module, partially functional
-# so that the assertElementCount is dynamic not hardcoded
-# https://github.com/ariya/phantomjs/wiki/API-Reference-FileSystem
 walk = (path, callback) ->
   results = []
   (iterator = (path) ->
@@ -38,4 +35,5 @@ walk = (path, callback) ->
           results.push fs.workingDirectory + "/" + file
       results
       )(path)
+
         

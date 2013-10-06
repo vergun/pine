@@ -5,35 +5,14 @@
    GET /article/show/:id
    ###
 
-# Configuration options
 config =
   port: '1337'
   url: 'http://localhost'
   title: 'Pine'
   articleId: ''
   
-fs = require 'fs'
-casper = require('casper').create()
-
-# todo rewrite walk function for phantom.js fs module, partially functional
-# so that the assertElementCount is dynamic not hardcoded
-# https://github.com/ariya/phantomjs/wiki/API-Reference-FileSystem
-walk = (path, callback) ->
-  results = []
-  (iterator = (path) ->
-    fs.changeWorkingDirectory path
-    casper.test.info fs.workingDirectory
-    directory = fs.list path
-    pending = directory.length
-    for file in directory
-      if fs.isDirectory file
-        if file != "." and file != ".."
-          results = results.concat walk fs.workingDirectory + "/" + file
-      if !fs.isDirectory file
-        if /\.[md]+$/i.test file
-          results.push fs.workingDirectory + "/" + file
-      results
-      )(path)
+fs      = require 'fs'
+casper  = require('casper').create()
         
 casper.start "#{config.url}:#{config.port}" + "/article", ->
   @test.info "GET /article -> GET /article/show:id"
@@ -81,7 +60,6 @@ casper.then ->
   @test.assertSelectorHasText "td a.btn-warning", "Edit", "For authenticated users the Edit article button is visible on the article index page"
   @test.assertSelectorHasText "td a.btn-danger", "Destroy", "For authenticated users the Delete article button is visible on the article index page"
   @test.article = casper.fetchText "tr:first-child td:first-child"
-  # Todo: add article edit assertions from index
   
 casper.thenClick "tr:first-child td a.btn-primary", ->
   @test.comment "Article show (authenticated non-admin user)"
@@ -97,9 +75,7 @@ casper.thenClick ".show-edit-article a", ->
   index = url.lastIndexOf "/"
   articleId = url.substr(index)[1..-1]
   config.articleId = articleId
-  # This regex compares against a 24 hex character string 
-  re = new RegExp "^[0-9a-fA-F]{24}$"
-  @test.assertMatch articleId, re, 'Article _id is a valid mongo id'
+  @test.assertMatch articleId, /^[0-9a-fA-F]{24}$/, 'Article _id is a valid mongo id'
   @test.assertExists "input[value=Update]", "Article submit button is on the article edit page."
   
 casper.thenClick "input[value=Update]", ->
@@ -116,7 +92,6 @@ casper.then ->
 casper.thenClick ".show-destroy-article a", ->
   @waitForText "Success"
   @test.assertSelectorHasText ".alert p", "Article was destroyed.", "Article destroyed message was displayed."
-  # Todo: save article path then test if it's on the index page after destroyed
   
 casper.thenClick "button.close", ->
   @test.assertNotVisible ".alert", "Clicking the 'x' on the alert box removes it from the DOM"  
@@ -125,11 +100,14 @@ casper.then ->
   @test.info "Authenticated user non-admin: GET /article/:id -> DESTROY /article/:id"
   @test.comment "Article show (authenticated non-admin user) destroy"
   
-  
-  
-# casper.then ->
-#   @test.info "Authenticated user admin: GET /article/edit/:id -> POST /article/:id"
-  
 casper.run ->
   @echo "Done!"
   @exit()
+
+  # Todos: 
+  # * repeat tests as authenticated user admin
+  # * save article path then test if it's on the index page after destroyed
+  # * add article edit assertions from index
+  # * rewrite walk function in test_helper.coffee for phantom.js fs module, partially functional
+  # * https://github.com/ariya/phantomjs/wiki/API-Reference-FileSystem
+  

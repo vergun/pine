@@ -8,7 +8,6 @@
    POST /user/destroy/:id
    ###
 
-# Configuration options
 config =
   port: '1337'
   url: 'http://localhost'
@@ -18,7 +17,7 @@ config =
 casper = require('casper').create()
 
 casper.start "#{config.url}:#{config.port}", ->
-  casper.test.info "Login as admin"
+  casper.test.comment "Test user flow as administrator"
   @fill "form[action='/session/create']", 
     email: "admin@test.com"
     password: "password"
@@ -57,12 +56,9 @@ casper.then ->
   casper.test.info "GET /user/show/:id -> POST /user/update/:id"
   url = @getCurrentUrl()
   index = url.lastIndexOf "/"
-  userId = url.substr(index)[1..-1]
-  config.userId = userId
-  
-  # This regex compares against a 24 hex character string 
-  re = new RegExp "^[0-9a-fA-F]{24}$"
-  @test.assertMatch userId, re, 'Testing if user _id is valid'
+  config.userId = url.substr(index)[1..-1]
+  re = new RegExp("^[0-9a-fA-F]{24}$")
+  @test.assertMatch config.userId, re, 'user _id is valid'
   @waitForText("Edit")
   
 casper.thenClick "#edit-user", ->
@@ -83,7 +79,7 @@ casper.then ->
   @click('button[type=submit]')
   
 casper.then ->
-  @test.assertSelectorHasText('h3', "Jane Doe")
+  @test.assertSelectorHasText('h3#user-show-name', "Jane Doe")
   
 casper.thenOpen "#{config.url}:#{config.port}" + "/user", ->
   @test.info "GET /user -> POST user/destroy/:id"
@@ -97,6 +93,11 @@ casper.then ->
 casper.then ->
   selector = "form[action='/user/destroy/#{config.userId}'] input[type='submit']"
   @test.assertDoesntExist selector
+  
+casper.thenClick "a[href='/session/destroy']", ->
+  @test.comment "Test user flow as authenticated non-administrator"
+  url = @getCurrentUrl()
+  @test.assertEquals "#{config.url}:#{config.port}/", url
 
 casper.run ->
   @echo "Done!"

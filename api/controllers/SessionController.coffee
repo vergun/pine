@@ -15,8 +15,8 @@ module.exports =
 
   create: (req, res, next) ->  
     if not req.param("email") or not req.param("password")
-      flash.msg req, "error", "email", "address and/or password missing.", ->
-        return res.redirect("/")
+      flash.msg req, "error", "email", "address and/or password missing."
+      return res.redirect("/")
       
     User.findOneByEmail req.param("email"), foundAUser = (err, user) ->      
       return next(err)  if err

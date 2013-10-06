@@ -24,8 +24,8 @@ UserController =
     User.findOne req.param("id"), userFound = (err, founduser) ->
       return next(err)  if err
       unless founduser
-        flash.msg req, "error", "user", "could not be found.", ->
-          return next()
+        flash.msg req, "error", "user", "could not be found."
+        return next()
       res.view founduser: founduser
 
   index: (req, res, next) ->
@@ -38,8 +38,8 @@ UserController =
     User.findOne req.param("id"), foundUser = (err, founduser) ->
       return next(err)  if err
       unless founduser
-        flash.msg req, "error", "user", "doesn\'t exist.", ->
-          return next()
+        flash.msg req, "error", "user", "doesn\'t exist."
+        return next()
       res.view founduser: founduser
 
   update: (req, res, next) ->
@@ -47,23 +47,24 @@ UserController =
       if err
         req.session.flash = error: err
         res.redirect "/user/edit" + req.param("id")
-    flash.msg req, "success", "user", "was successfully updated.", ->
+      console.log req.session
+      # flash.msg req, "success", "user", "was successfully updated."
       res.redirect "/user/show/" + req.param("id")
   
   destroy: (req, res, next) ->
     User.findOne req.param("id"), foundUser = (err, user) ->
       return next(err)  if err
       unless user
-        flash.msg req, "error", "user", "doesn\'t exist", ->
-          return next()
+        flash.msg req, "error", "user", "doesn\'t exist"
+        return next()
       User.destroy req.param("id"), destroyUser = (err) ->
         next err  if err
         if user.id is req.session.User.id
           req.session.destroy()
           res.redirect "/"
         else
-          flash.msg req, "success", "user", "was destroyed.", ->
-            res.redirect "/user"
+          flash.msg req, "success", "user", "was destroyed."
+          res.redirect "/user"
   
   populate: (req, res) ->
     PopulateHelper.populateUsers (users) ->
