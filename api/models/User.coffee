@@ -30,9 +30,9 @@ module.exports =
       obj = @toObject()
       delete obj.password
       delete obj.confirmation
-      delete obj._csrf
       delete obj.createdAt
       delete obj.updatedAt
+      delete obj._csrf
       delete obj.encryptedPassword
       obj
 

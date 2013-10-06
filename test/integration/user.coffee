@@ -17,7 +17,22 @@ config =
 
 casper = require('casper').create()
 
-casper.start "#{config.url}:#{config.port}" + "/user/new", ->
+casper.start "#{config.url}:#{config.port}", ->
+  casper.test.info "Login as admin"
+  @fill "form[action='/session/create']", 
+    email: "admin@test.com"
+    password: "password"
+  , false 
+
+casper.then ->
+  @test.assertField("email", "admin@test.com")
+  @test.assertField("password", "password")
+
+casper.then ->
+  @click "form[action='/session/create'] button[type=submit]"
+  @waitForText "User Management"
+
+casper.thenOpen "#{config.url}:#{config.port}" + "/user/new", ->
   casper.test.info "GET /user/new -> POST /user/create"
   @fill "form[action='/user/create']",  
     name: "John Doe" 
@@ -68,7 +83,7 @@ casper.then ->
   @click('button[type=submit]')
   
 casper.then ->
-  @test.assertSelectorHasText('h2', "Jane Doe")
+  @test.assertSelectorHasText('h3', "Jane Doe")
   
 casper.thenOpen "#{config.url}:#{config.port}" + "/user", ->
   @test.info "GET /user -> POST user/destroy/:id"

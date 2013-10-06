@@ -38,7 +38,7 @@ You can navigate to the root path and use the app:
 
     http://localhost:1337    
 
-Default user credentials are "test@test.com" // "password"
+Default user credentials are "admin@test.com" // "password" for admin, "nonadmin@test.com" // "password" for nonadmin
 
 A note on tests:
 
