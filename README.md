@@ -40,9 +40,14 @@ You can navigate to the root path and use the app:
 
 Default user credentials are "test@test.com" // "password"
 
+A note on tests:
+
+Integration tests use functions from the development version of CasperJS. To install with homebrew
+    brew install casperjs --devel
+
 TODOs:
 
 * improve CRUD operations with git hooks
 * move population tasks to boostrap.js
-* add a population task for first user in dev
+* improve WYSIWIG editor to accomodate html AND md
 

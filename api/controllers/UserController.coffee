@@ -59,9 +59,12 @@ module.exports =
     res.redirect "/user/show/" + req.param("id")
     
   populate: (req, res, next) ->
-    _.extend req.params.all(),
-      name: "Test User"
-      email: "test@test.com"
+    
+    users = []
+    
+    admin =
+      name: "Admin User"
+      email: "admin@test.com"
       password: "password"
       confirmation: "password"
       admin: [
@@ -69,14 +72,19 @@ module.exports =
         "on"
       ]
     
-    User.create req.params.all(), userCreated = (err, user) ->
-      if err 
-        return res.send err
-      if user
-        user = _.extend user,
-                 pass: "password"
-        return res.send ok: user
-      res.redirect "/"
+    nonadmin =
+      name: "Nonadmin User"
+      email: "nonadmin@test.com"
+      password: "password"
+      confirmation: "password"
+      
+    _.each [admin, nonadmin], (user)  ->
+      User.create user, userCreated = (err, user) ->        
+        user["_password"] = "password"
+        
+        users.push user
+        if users.length is 2
+          res.send ok: users
 
   destroy: (req, res, next) ->
     User.findOne req.param("id"), foundUser = (err, user) ->
