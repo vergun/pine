@@ -47,8 +47,7 @@ UserController =
       if err
         req.session.flash = error: err
         res.redirect "/user/edit" + req.param("id")
-      console.log req.session
-      # flash.msg req, "success", "user", "was successfully updated."
+      flash.msg req, "success", "user", "was successfully updated."
       res.redirect "/user/show/" + req.param("id")
   
   destroy: (req, res, next) ->

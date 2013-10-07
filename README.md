@@ -45,6 +45,12 @@ Default user credentials are:
 
 A note on tests:
 
+Unit tests
+ 
+Unit tests can be run from the root directory with:
+
+    npm test
+
 Integration tests use functions from the development version of CasperJS. To install with homebrew:
 
     brew install casperjs --devel

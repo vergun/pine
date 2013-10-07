@@ -33,7 +33,7 @@ module.exports =
 
   beforeValidation: (values, next) ->
     if typeof values.file isnt "undefined"
-      values.file = path.normalize(values.file)
+      values.file = appConfig.submodulePath + path.normalize(values.file)
       values.slug = path.dirname(values.file).split(path.sep).slice(-1)[0]
       re = /[^0-9_]/g
       values.slug = values.slug.match(re).join("")

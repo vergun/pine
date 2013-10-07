@@ -54,3 +54,10 @@ module.exports =
       return next(err)  if err
       values.encryptedPassword = encryptedPassword
       next()
+      
+  afterCreate: (values, next) ->
+    delete values.password
+    delete values.confirmation
+    delete values.encryptedPassword
+    delete values._csrf
+    next()
