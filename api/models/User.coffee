@@ -20,9 +20,6 @@ module.exports =
       email: true
       unique: true
 
-    password:
-      type: "string"
-
     encryptedPassword:
       type: "string"
 
