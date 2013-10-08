@@ -33,9 +33,9 @@ module.exports =
 
   beforeValidation: (values, next) ->
     if typeof values.file isnt "undefined"
-      values.file = appConfig.submodulePath + path.normalize(values.file)
-      values.slug = path.dirname(values.file).split(path.sep).slice(-1)[0]
-      re = /[^0-9_]/g
-      values.slug = values.slug.match(re).join("")
-      values.slug = slang.dasherize(values.slug)
+      values.slug = slang.dasherize path.dirname(values.file).split(path.sep).slice(-1)[0].match(/[^0-9_]/g).join("")
+      next()
+      
+  beforeCreate: (values, next) ->
+    values.file = (appConfig.submodulePath + path.normalize(values.file))
     next()

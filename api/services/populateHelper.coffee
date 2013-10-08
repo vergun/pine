@@ -36,6 +36,7 @@ module.exports = (->
               next(users)
         
     populateArticles: (next) ->
+      results = []
       Article.destroy({}).then ->
         Article.list appConfig.submodulePath, (articles) ->
           articlesLength = articles.length
@@ -44,9 +45,10 @@ module.exports = (->
             Article.create
               file: file
             , (err) ->
+              results.push appConfig.submodulePath + file
               currentNumber++
               if currentNumber is articlesLength
-                next(articles)
+                next(results)
 
   functions
   
