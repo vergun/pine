@@ -54,13 +54,21 @@ ArticleController =
         content: content
 
   update: (req, res) ->
-    Article.refresh req.param("file"), req.param("content"), (err, article) ->
+    Article._update req.param("file"), req.param("content"), (err, article) ->
       req.session.flash = error: err  if err
       unless article
         flash.msg req, "error", "article", "could not be found."
       else
         flash.msg req, "success", "article", "was successfully updated."
       res.redirect "/article"
+      
+    # Article.refresh req.param("file"), req.param("content"), (err, article) ->
+    #   req.session.flash = error: err  if err
+    #   unless article
+    #     flash.msg req, "error", "article", "could not be found."
+    #   else
+    #     flash.msg req, "success", "article", "was successfully updated."
+    #   res.redirect "/article"
 
   destroy: (req, res) ->
     flash.msg req, "success", "article", "was destroyed."
