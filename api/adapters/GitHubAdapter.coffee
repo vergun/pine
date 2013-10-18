@@ -31,9 +31,8 @@ module.exports = (->
             repo.add ".", (err) ->
             repo.commit "new message", {}, (err) -> 
               # repo.commit is throwing an err, investigate
+              # [Error: Command failed: fatal: Unable to create '/Users/Aphrodite/Github/pine/Pine_Needles/../.git/modules/Pine_Needles/index.lock': File exists.
               console.log err
-              # repo.remote_pull "--rebase origin " + appConfig.submodule.branch, (err) ->
-              #   console.log "pull"
               repo.remote_push "origin " + appConfig.submodule.branch, (err) ->
 
 

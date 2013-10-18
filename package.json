@@ -10,7 +10,6 @@
     "sails": "0.9.3",
     "optimist": "0.4.0",
     "grunt": "0.4.1",
-    "gift": "0.0.5",
     "ejs": "~0.8.4",
     "js-yaml": "~2.1.0",
     "underscore": "~1.5.1",
@@ -19,7 +18,8 @@
     "slang": "~0.2.0",
     "markdown-pdf": "~1.1.0",
     "wrench": "~1.5.1",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "gift": ">= 0.0.6"
   },
   "devDependencies": {
     "grunt-contrib-coffee": ">= 0.7.0",
