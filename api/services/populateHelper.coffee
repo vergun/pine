@@ -38,14 +38,14 @@ module.exports = (->
     populateArticles: (next) ->
       results = []
       Article.destroy({}).then ->
-        Article.list appConfig.submodulePath, (articles) ->
+        Article.list appConfig.submodule.path, (articles) ->
           articlesLength = articles.length
           currentNumber = 1
           articles.forEach (file) ->
             Article.create
               file: file
             , (err) ->
-              results.push appConfig.submodulePath + file
+              results.push appConfig.submodule.path + file
               currentNumber++
               if currentNumber is articlesLength
                 next(results)

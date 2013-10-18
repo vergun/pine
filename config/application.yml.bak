@@ -1,15 +1,21 @@
 development:
   application_title: 'Pine'
   application_port: 1337
-  submodulePath: 'Pine_Needles/contents/articles/'
+  submodule:
+    path: 'Pine_Needles/contents/articles/'
+    branch: 'development'
   
 test:
   application_title: 'Pine'
   application_port: ''
-  submodulePath: 'Pine_Needles/contents/articles/'
+  submodule:
+    path: 'Pine_Needles/contents/articles/'
+    branch: 'development'
   
   
 production:
   application_title: 'Pine'
   application_port: 80
-  submodulePath: 'Pine_Needles/contents/articles/'
+  submodule:
+    path: 'Pine_Needles/contents/articles/'
+    branch: 'master'

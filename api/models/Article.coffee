@@ -37,5 +37,5 @@ module.exports =
       next()
       
   beforeCreate: (values, next) ->
-    values.file = (appConfig.submodulePath + path.normalize(values.file))
+    values.file = (appConfig.submodule.path + path.normalize(values.file))
     next()
