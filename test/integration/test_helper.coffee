@@ -18,3 +18,22 @@ routine.login = (email, password) ->
 
 # Teardown #
 var teardownSteps = []
+
+walk = (path, callback) ->
+  results = []
+  (iterator = (path) ->
+    fs.changeWorkingDirectory path
+    casper.test.info fs.workingDirectory
+    directory = fs.list path
+    pending = directory.length
+    for file in directory
+      if fs.isDirectory file
+        if file != "." and file != ".."
+          results = results.concat walk fs.workingDirectory + "/" + file
+      if !fs.isDirectory file
+        if /\.[md]+$/i.test file
+          results.push fs.workingDirectory + "/" + file
+      results
+      )(path)
+
+        

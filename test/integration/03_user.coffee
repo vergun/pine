@@ -14,9 +14,7 @@ config =
   title: 'Pine'
   userId: ''
 
-casper = require('casper').create()
-
-casper.start "#{config.url}:#{config.port}", ->
+casper.thenOpen "#{config.url}:#{config.port}", ->
   casper.test.comment "Test user flow as administrator"
   @fill "form[action='/session/create']", 
     email: "admin@test.com"
@@ -98,7 +96,3 @@ casper.thenClick "a[href='/session/destroy']", ->
   @test.comment "Test user flow as authenticated non-administrator"
   url = @getCurrentUrl()
   @test.assertEquals "#{config.url}:#{config.port}/", url
-
-casper.run ->
-  @echo "Done!"
-  @exit()

@@ -4,8 +4,7 @@ require('./application.js')
 
 module.exports.adapters = {
 
-  'default': 'mongo',
-	
+  default: 'mongo',	
 	mongo: {
 		module   : 'sails-mongo',
     host: dbConfig.mongo.host || 'localhost',
@@ -13,10 +12,6 @@ module.exports.adapters = {
     user: dbConfig.mongo.user || '',
     password: dbConfig.mongo.password || '',
     database: dbConfig.mongo.database || 'pine'
-	},
-  
-  github: {
-    url: dbConfig.github.url || ''
-  }
+	}
     
 };

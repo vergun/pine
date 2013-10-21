@@ -9,9 +9,17 @@
  */
 
 module.exports.bootstrap = function (cb) {
-    
-  // It's very important to trigger this callack method when you are finished 
-  // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
-  cb();
   
+  var git         = require("gift");
+  var repo        = git("Pine_Needles");
+  cb();
+
+  if (appConfig && appConfig.submodule && appConfig.submodule.path) {
+    repo.checkout(appConfig.submodule.branch, function() {
+      cb();
+    })
+  } else {
+      log.warn("Application.yml error: please fix your application.yml then 'sails lift'")
+  }
+
 };

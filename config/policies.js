@@ -11,27 +11,26 @@
 
 module.exports.policies = {
   
-  '*': ["flashMessage", "nav", "currentUser"],
+  '*':          ["flash", "nav", "currentUser"],
 
   user: {
-    // 'new': ["flashMessage", "admin", "nav", "currentUser"],
-    'new': ["flashMessage", "nav"],
-    create: ["flashMessage", "nav", "currentUser"],
-    // show: ["userCanSeeProfile", "nav", "currentUser"],
-    show: ["nav"],
-    edit: ["userCanSeeProfile", "nav", "currentUser"],
-    update: ["userCanSeeProfile", "nav", "currentUser"],
-    '*': ["admin", "nav", "currentUser"]
+    'new':      ["flash", "admin", "nav", "currentUser"],
+    create:     ["flash", "nav", "currentUser"],
+    show:       ["flash", "userCanSeeProfile", "nav", "currentUser"],
+    edit:       ["flash", "userCanSeeProfile", "nav", "currentUser"],
+    update:     ["flash", "userCanSeeProfile", "nav", "currentUser"],
+    populate:   ["flash", "nav", "currentUser"],
+    '*':        ["flash", "admin", "nav", "currentUser"]
   },
   
   article: {
-    '*': ["flashMessage", "nav", "currentUser"],
-    create: ["admin", "nav", "currentUser"],
-    'new': ["admin", "nav", "currentUser"],
-    edit: ["admin", "nav", "currentUser"],
-    update: ["admin", "nav", "currentUser"],
-    save: ["admin", "nav", "currentUser"],
-    destroy: ["admin", "nav", "currentUser"]
+    '*':        ["flash", "nav", "currentUser"],
+    create:     ["flash", "authenticated", "nav", "currentUser"],
+    'new':      ["flash", "authenticated", "nav", "currentUser"],
+    edit:       ["flash", "authenticated", "nav", "currentUser"],
+    update:     ["flash", "authenticated", "nav", "currentUser"],
+    save:       ["flash", "authenticated", "nav", "currentUser"],
+    destroy:    ["flash", "authenticated", "nav", "currentUser"]
   }
   
 };
