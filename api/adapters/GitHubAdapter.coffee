@@ -10,6 +10,15 @@ wrench      = require "wrench"
 git         = require "gift"
 repo        = git 'Pine_Needles'
 
+# class GitHubHelper extends repo
+#   constructor: () ->
+#   lockfile: '.git/modules/Pine_Needles/index.lock'
+#   branch: appConfig.submodule.branch
+#   
+# GitHubHelper:: = repo
+# gitHubHelper = new GitHubHelper()
+ 
+    
 module.exports = (->
   
   adapter =
@@ -22,19 +31,28 @@ module.exports = (->
     teardown: (cb) ->
       cb()  if cb
 
-    _update: (collectionName, file, content, next) ->
-      fs.writeFile file, content, (err) ->
+    saveWithGit: (collectionName, file, content, next) ->
+      fs.writeFile file, content, (err) =>
         if err 
+          next(err, null)
         else
-          repo.sync "origin", appConfig.submodule.branch, (err) ->
-            repo.status (err, status) ->
+          repo.sync "origin", appConfig.submodule.branch, (err) =>
             repo.add ".", (err) ->
-            repo.commit "new message", {}, (err) -> 
-              # repo.commit is throwing an err, investigate
-              # [Error: Command failed: fatal: Unable to create '/Users/Aphrodite/Github/pine/Pine_Needles/../.git/modules/Pine_Needles/index.lock': File exists.
-              console.log err
-              repo.remote_push "origin " + appConfig.submodule.branch, (err) ->
-
+              fs.exists '.git/modules/Pine_Needles/index.lock', (exists) =>
+                fs.unlinkSync '.git/modules/Pine_Needles/index.lock' if exists
+                repo.status (err, status) =>
+                  if status.clean
+                    next(null, file)
+                  else
+                    repo.commit "Updated #{file}", {}, (err) => 
+                      if err
+                        next(err)
+                      else
+                        repo.remote_push "origin " + appConfig.submodule.branch, (err) =>
+                          if err
+                            next(err)
+                          else
+                            next(null, file)
 
     refresh: (collectionName, file, content, next) ->
       afterSave = ->
