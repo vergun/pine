@@ -34,8 +34,13 @@ ArticleController =
     res.view {}
 
   create: (req, res, next) ->
-    file = "Pine_Needles/contents/articles//01_Get_Started/01_End_Users/01_Free_Trial/03_Discover_Sugar/index.md"
-    req.body.file = file
+    Article.saveWithGit req.param("file"), req.param("content"), "Created", (err, article) ->
+      
+
+    
+    
+    # file = "Pine_Needles/contents/articles//01_Get_Started/01_End_Users/01_Free_Trial/03_Discover_Sugar/index.md"
+    # req.body.file = file
     Article.create req.body, articleCreated = (err, article) ->    
       if err
         req.session.flash = error: err

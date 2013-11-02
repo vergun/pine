@@ -8,6 +8,7 @@ markdownpdf = require "markdown-pdf"
 PdfHelper   = require "../services/pdfHelper"
 wrench      = require "wrench"
 git         = require "gift"
+path        = require "path"
 repo        = git 'Pine_Needles'
 
 global.GitHubHelper = (file, content, method, next) ->
@@ -19,11 +20,12 @@ global.GitHubHelper = (file, content, method, next) ->
   @
 
 GitHubHelper::writeFile = (callback) -> 
-  fs.writeFile @file, @content, (err) ->
-    if err
-      callback(err)
-    else
-      callback(null)
+  @create_missing_directories =>
+    fs.writeFile @file, @content, (err) =>
+      if err
+        callback(err)
+      else
+        callback(null)
       
 GitHubHelper::destroyFile = (callback) -> 
   fs.exists @file, (exists) =>
@@ -122,7 +124,26 @@ GitHubHelper::destroy = (file, content, next) ->
         # article saved without changes
         @failed_destroy(err, self.next)
       else
-        self.next(null)  
+        self.next(null) 
+        
+GitHubHelper::create_missing_directories = (callback) -> 
+  directory = ""
+  for dir, i in @file.split(path.sep)
+    if directory is ""
+      directory = dir
+    else
+      directory = directory + path.sep + dir
+    @makeDirectory(directory) unless @isAFile(directory)
+    
+  if typeof callback is "function" then callback.apply()
+  
+GitHubHelper::isAFile = (directory) ->
+  directory.match(/\.[md|xml|html|htm]+$/i)
+  
+GitHubHelper::makeDirectory = (directory) -> 
+  fs.exists directory, (exists) =>
+    fs.mkdirSync(directory) if exists is false 
+
     
 module.exports = (->
   
