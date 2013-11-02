@@ -50,18 +50,6 @@ ArticleController =
       else
         flash.msg req, "success", "article", "was successfully destroyed."
       res.redirect "/article"
-            
-  convert: (req, res) ->
-    Article.findOne req.param("id"), articleFound = (err, article) ->
-      req.session.flash = error: err  if err
-      unless article
-        flash.msg req, "error", "article", "with the given information could not be found."
-        return res.send 404, req.session.flash
-      file = article.file
-      pdfPath = "/tmp/article.pdf"
-      opts = cssPath: "/linker/styles/bootstrap.css"
-      Article.convert file, pdfPath, opts, ->
-        res.download pdfPath
    
       
 module.exports = ArticleController

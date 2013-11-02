@@ -4,7 +4,6 @@
     <div class="tabbable tabs-right">
       <ul class="nav nav-tabs">
         <li><a href="/article">Back to articles</a></li>  
-        <li><a href="/article/convert?id=<%= article %>">Download as a pdf</a></li>
         <% if (session.authenticated) { %>         
             <li class="show-edit-article" data-id="<%= article.file %>"><a href="/article/edit/<%= article.file %>">Edit article</a></li>
             <li class="show-destroy-article"><a href="/article/destroy/<%= article.file %>">Destroy article</a></li>

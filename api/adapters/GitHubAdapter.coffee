@@ -5,8 +5,6 @@
 
 fs          = require "fs"
 mkdirp      = require "mkdirp"
-markdownpdf = require "markdown-pdf" 
-PdfHelper   = require "../services/pdfHelper"
 wrench      = require "wrench"
 git         = require "gift"
 path        = require "path"
@@ -179,12 +177,6 @@ module.exports = (->
         breadcrumbs: breadcrumbs
  
       next null, article
-        
-    convert: (collectionName, file, pdfPath, opts, next) ->
-      file = file
-      pdfPath = pdfPath
-      opts = opts
-      PdfHelper.convert file, opts, pdfPath, next
 
     list: (collectionName, path, next) ->  
       results = new Array()  
