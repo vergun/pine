@@ -54,7 +54,7 @@ ArticleController =
         content: content
 
   update: (req, res) ->
-    Article.saveWithGit req.param("file"), req.param("content"), (err, article) ->
+    Article.saveWithGit req.param("file"), req.param("content"), "Updated", (err, article) ->
       req.session.flash = error: err  if err
       unless article
         flash.msg req, "error", "article", "could not be found."
@@ -63,8 +63,20 @@ ArticleController =
       res.redirect "/article"
 
   destroy: (req, res) ->
-    flash.msg req, "success", "article", "was destroyed."
-    res.redirect "/article"
+    Article.findOne req.param("id"), articleFound = (err, article) ->
+      Article.destroyWithGit article.file, null, "Deleted", (err, article) ->
+        req.session.flash = error: err  if err
+        if article
+          flash.msg req, "error", "article", "could not be destroyed."
+          res.redirect "/article"
+        else
+          flash.msg req, "success", "article", "was successfully destroyed."
+          Article.destroy req.param("id"), destroyedArticle = (err, article) ->
+            if err
+              res.redirect "/article"
+            else
+              res.redirect "/article"
+            
 
   convert: (req, res) ->
     Article.findOne req.param("id"), articleFound = (err, article) ->

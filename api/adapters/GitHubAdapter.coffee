@@ -10,9 +10,11 @@ wrench      = require "wrench"
 git         = require "gift"
 repo        = git 'Pine_Needles'
 
-global.GitHubHelper = (file, content, next) ->
+global.GitHubHelper = (file, content, method, next) ->
+  @lockfile = '.git/modules/Pine_Needles/index.lock'
   @file = file
   @content = content
+  @method = method
   @next = next
   @
 
@@ -23,6 +25,11 @@ GitHubHelper::writeFile = (callback) ->
     else
       callback(null)
       
+GitHubHelper::destroyFile = (callback) -> 
+  fs.exists @file, (exists) =>
+    fs.unlinkSync @file if exists
+    callback(null)
+      
 GitHubHelper::syncRepository = (callback) ->
   repo.sync "origin", appConfig.submodule.branch, (err) =>
     if err
@@ -31,15 +38,15 @@ GitHubHelper::syncRepository = (callback) ->
       callback(null)
 
 GitHubHelper::add_files_to_git = (callback) ->  
-  repo.add ".", (err) ->
+  repo.add "-A", (err) ->
     if err
       callback(err)
     else
       callback(null)
   
 GitHubHelper::remove_index_lock_file = (callback) ->  
-  fs.exists '.git/modules/Pine_Needles/index.lock', (exists) ->
-    fs.unlinkSync '.git/modules/Pine_Needles/index.lock' if exists
+  fs.exists @lockfile, (exists) =>
+    fs.unlinkSync @lockfile if exists
     callback(null)
     
 GitHubHelper::get_repository_status = (callback) ->  
@@ -53,12 +60,19 @@ GitHubHelper::get_repository_status = (callback) ->
       callback(null)
       
 GitHubHelper::commitFiles = (callback) ->  
-  repo.commit "Updated #{@file}", {}, (err) ->
-    if err
-      callback(err)
-    else
-      callback(null)
-      
+  if "Updated" is @method
+    repo.commit "Updated #{@file}", {}, (err) ->
+      if err
+        callback(err)
+      else
+        callback(null)
+  else if "Deleted" is @method
+    repo.commit "Deleted #{@file}", {}, (err) ->
+      if err
+        callback(err)
+      else
+        callback(null)
+
 GitHubHelper::pushFiles = (callback) ->  
   repo.remote_push "origin " + appConfig.submodule.branch, (err) ->
     if err
@@ -66,9 +80,11 @@ GitHubHelper::pushFiles = (callback) ->
     else
       callback(null)  
       
-      
 GitHubHelper::failed_save = (err, callback) ->   
   callback(err)
+  
+GitHubHelper::failed_destroy = (err, callback) ->   
+  callback(err, @file)
                   
 GitHubHelper::save = (file, content, next) ->
   self = this
@@ -88,6 +104,25 @@ GitHubHelper::save = (file, content, next) ->
         @failed_save(err, self.next)
       else
         self.next(null, @file)  
+        
+GitHubHelper::destroy = (file, content, next) ->
+  self = this
+  async.waterfall [
+      @destroyFile.bind(@)
+      @syncRepository.bind(@)
+      @add_files_to_git.bind(@)
+      @remove_index_lock_file.bind(@)
+      @get_repository_status.bind(@)
+      @commitFiles.bind(@)
+      @pushFiles.bind(@)
+    ],
+    (err) =>
+      if err
+        # todo
+        # article saved without changes
+        @failed_destroy(err, self.next)
+      else
+        self.next(null)  
     
 module.exports = (->
   
@@ -95,35 +130,21 @@ module.exports = (->
     syncable: false
     defaults: {}
 
-    saveWithGit: (collectionName, file, content, next) ->
+    saveWithGit: (collectionName, file, content, method, next) ->
       try
-        gitHubHelper = new GitHubHelper(file, content, next)
+        gitHubHelper = new GitHubHelper(file, content, method, next)
         gitHubHelper.save()
       catch err
-        # todo
-        # InternalErrorResponseHelper err, params, req, res, next
-
-    refresh: (collectionName, file, content, next) ->
-      afterSave = ->
-        spawn = require("child_process").spawn
-        postReceive = spawn("sh", ["post-receive.sh"],
-          cwd: process.cwd()
-          env: _.extend(process.env,
-            PATH: process.env.PATH + ":/usr/local/bin"
-          )
-        )
-      file = file
-      content = content
-      fs.writeFile file, content, (err, data) ->
-        if err
-          return res.send(error: [
-            name: "fileWriteError"
-            message: "Couldn't write file."
-          ])
-        afterSave()
-        next err,
-          file: file
-          content: content
+        info.log err
+        #todo
+        
+    destroyWithGit: (collectionName, file, content, method, next) ->
+      try
+        gitHubHelper = new GitHubHelper(file, content, method, next)
+        gitHubHelper.destroy()
+      catch err
+        info.log err
+        #todo
 
     convert: (collectionName, file, pdfPath, opts, next) ->
       file = file
