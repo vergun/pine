@@ -19,7 +19,9 @@
     "markdown-pdf": "~1.1.0",
     "wrench": "~1.5.1",
     "coffee-script": "~1.6.3",
-    "gift": ">= 0.1.1"
+    "gift": ">= 0.1.1",
+    "async": "~0.2.9",
+    "winston": "~0.7.2"
   },
   "devDependencies": {
     "grunt-contrib-coffee": ">= 0.7.0",
