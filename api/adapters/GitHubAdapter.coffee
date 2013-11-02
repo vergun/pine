@@ -169,14 +169,24 @@ module.exports = (->
       catch err
         info.log err
         #todo
-
+        
+    read: (collectionName, file, next) ->
+      breadcrumbs = path.normalize(file).split(path.sep)
+      content = fs.readFileSync file, encoding: 'utf-8'
+      article =
+        file: file
+        content: content
+        breadcrumbs: breadcrumbs
+ 
+      next null, article
+        
     convert: (collectionName, file, pdfPath, opts, next) ->
       file = file
       pdfPath = pdfPath
       opts = opts
       PdfHelper.convert file, opts, pdfPath, next
 
-    list: (collectionName, path, next) ->   
+    list: (collectionName, path, next) ->  
       results = new Array()  
       _.each wrench.readdirSyncRecursive(path), (file) ->
         results.push(file) if file.match(/\.[md]+$/i)
