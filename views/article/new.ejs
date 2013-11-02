@@ -14,9 +14,9 @@
     <div class="span6">
       <h1>Source output</h1>
       <textarea form="new-article-form" name="content" id="source"></textarea>
-			<form action="/article/update" method="POST" id="article-update-form">
+			<form action="/article/create" method="POST" id="new-article-form">
         <p class="text-info">
-          The file will be saved as "index.md" in the path that you specify. Directories that don't exist will be automatically created. Defaults to /contents/articles/ then whatever you type below.
+          Specify the full path and the article name, for example Pine_Needles/contents/articles/01/02/03/index.md. This is the path and filename that will be used. Ommitting the full path and/or filename can cause errors and should be avoided.
         </p>
 			  <input type="text" name="file" class="input-xxlarge" placeholder="Path and file name (01_Get_Started/01_End_users/07_Hello/05_Plug-Ins/)"/>      
         <br>  

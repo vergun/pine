@@ -4,6 +4,8 @@ development:
   submodule:
     path: 'Pine_Needles/contents/articles/'
     branch: 'development'
+    remote: 'origin'
+    
   
 test:
   application_title: 'Pine'
@@ -11,6 +13,8 @@ test:
   submodule:
     path: 'Pine_Needles/contents/articles/'
     branch: 'development'
+    remote: 'origin'
+    
   
   
 production:
@@ -19,3 +23,5 @@ production:
   submodule:
     path: 'Pine_Needles/contents/articles/'
     branch: 'master'
+    remote: 'origin'
+    

@@ -35,17 +35,8 @@ ArticleController =
 
   create: (req, res, next) ->
     Article.saveWithGit req.param("file"), req.param("content"), "Created", (err, article) ->
-      
-
-    
-    
-    # file = "Pine_Needles/contents/articles//01_Get_Started/01_End_Users/01_Free_Trial/03_Discover_Sugar/index.md"
-    # req.body.file = file
-    Article.create req.body, articleCreated = (err, article) ->    
-      if err
-        req.session.flash = error: err
-        return res.redirect("/article/new")
-      res.redirect "/article/" + article.slug
+      flash.msg req, "success", "article", "was successfully created."
+      res.redirect "/article"
 
   edit: (req, res) ->
     Article.findOne req.param("id"), articleFound = (err, article) ->
