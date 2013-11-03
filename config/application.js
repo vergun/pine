@@ -7,7 +7,7 @@ NODE_ENV = process.env.ENV || 'development'
 // Global configuration
 global._ = require('underscore')
 global.async = require('async')
-global.log = require('winston')
+global.log = require('sails').log
 global.appConfig = require('./application.yml')[NODE_ENV]
 global.dbConfig = require('./database.yml')[NODE_ENV]
 

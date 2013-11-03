@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "app.js",
   "dependencies": {
-    "sails": "~0.9.7",
+    "sails": "0.9.7",
     "optimist": "0.4.0",
     "grunt": "0.4.1",
     "ejs": "~0.8.4",
@@ -19,7 +19,6 @@
     "coffee-script": "~1.6.3",
     "gift": ">= 0.1.1",
     "async": "~0.2.9",
-    "winston": "~0.7.2",
     "mkdirp": "~0.3.5"
   },
   "devDependencies": {

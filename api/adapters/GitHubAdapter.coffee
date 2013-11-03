@@ -147,6 +147,7 @@ GitHubHelper::destroy = (file, content, next) ->
 module.exports = (->
   
   adapter =
+    identity: "sails-github"
     syncable: false
     defaults: {}
 

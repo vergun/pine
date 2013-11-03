@@ -7,7 +7,7 @@ Article
 
 path = require("path")
 module.exports =  
-  adapter: "gitHub"
+  adapter: "sails-github"
   attributes:
     toJSON: ->
       obj = @toObject()
