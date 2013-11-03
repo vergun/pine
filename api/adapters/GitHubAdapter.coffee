@@ -10,14 +10,21 @@ git         = require "gift"
 path        = require "path"
 repo        = git 'Pine_Needles'
 
-global.GitHubHelper = (submodule, file, content, method, next) ->
+
+global.GitHubHelper = (collectionName, req, submodule, file, content, method, next) ->
   @lockfile = '.git/modules/Pine_Needles/index.lock'
+  @collectionName = collectionName
+  @req = req
   @submodule = submodule
   @file = file
   @content = content
   @method = method
   @next = next
   @
+
+GitHubHelper::progressEmitter = (message, amount) ->
+  Article.publish @req, type: "progress-bar", message: message, amount: amount, method: @method
+  log.info "Update published."
 
 GitHubHelper::writeFile = (callback) -> 
   @create_missing_directories =>
@@ -34,6 +41,7 @@ GitHubHelper::destroyFile = (callback) ->
       
 GitHubHelper::syncRepository = (callback) ->
   log.info "Syncing repository"
+  @progressEmitter "Syncing repository", 20
   repo.sync @submodule.remote, @submodule.branch, (err) =>
     if err
       callback(err)
@@ -42,6 +50,7 @@ GitHubHelper::syncRepository = (callback) ->
 
 GitHubHelper::add_files_to_git = (callback) -> 
   log.info "Adding files"
+  @progressEmitter "Adding files", 20
   repo.add "-A", (err) ->
     if err
       callback(err)
@@ -55,6 +64,7 @@ GitHubHelper::remove_index_lock_file = (callback) ->
     
 GitHubHelper::get_repository_status = (callback) ->  
   log.info "Getting repo status"
+  @progressEmitter "Getting repo status", 20
   repo.status (err, status) ->
     if status.clean
       err = 
@@ -66,6 +76,7 @@ GitHubHelper::get_repository_status = (callback) ->
       
 GitHubHelper::commitFiles = (callback) ->  
   log.info "Committing files"
+  @progressEmitter "Committing files", 20
   if "Updated" is @method
     repo.commit "Updated #{@file}", {}, (err) ->
       if err
@@ -87,6 +98,7 @@ GitHubHelper::commitFiles = (callback) ->
 
 GitHubHelper::pushFiles = (callback) ->  
   log.info "Pushing files"
+  @progressEmitter "Pushing files", 20
   repo.remote_push @submodule.remote + " " + @submodule.branch, (err) ->
     if err
       callback(err)
@@ -151,19 +163,19 @@ module.exports = (->
     syncable: false
     defaults: {}
 
-    saveWithGit: (collectionName, file, content, method, next) ->
+    saveWithGit: (collectionName, req, file, content, method, next) ->
       try
         submodule = appConfig.submodule
-        gitHubHelper = new GitHubHelper(submodule, file, content, method, next)
+        gitHubHelper = new GitHubHelper(collectionName, req, submodule, file, content, method, next)
         gitHubHelper.save()
       catch err
         info.log err
         #todo
         
-    destroyWithGit: (collectionName, file, content, method, next) ->
+    destroyWithGit: (collectionName, req, file, content, method, next) ->
       try
         submodule = appConfig.submodule
-        gitHubHelper = new GitHubHelper(submodule, file, content, method, next)
+        gitHubHelper = new GitHubHelper(collectionName, req, submodule, file, content, method, next)
         gitHubHelper.destroy()
       catch err
         info.log err

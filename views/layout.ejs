@@ -68,17 +68,6 @@
       <% } %>
     <% }) %>
   <% } %>
-  
-  <!-- scripts -->
-  <% if (process.env.NODE_ENV === 'development') { %>
-  	<script src="/js/jquery.js"></script>
-  	<script src="/js/bootstrap.js"></script>
-  <% } else { %>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-  <% } %>
-  
-		<%- body %>
 
 <!--TEMPLATES-->
 
@@ -86,7 +75,20 @@
 
     
 <!--SCRIPTS-->
-
+<script src="/linker/js/socket.io.js"></script>
+<script src="/linker/js/sails.io.js"></script>
+<script src="/linker/js/app.js"></script>
+<script src="/linker/js/jquery.js"></script>
+<script src="/linker/js/jquery-ui.js"></script>
+<script src="/linker/js/rangy.js"></script>
+<script src="/linker/js/hallo.js"></script>
+<script src="/linker/js/markdown/showdown.js"></script>
+<script src="/linker/js/markdown/to-markdown.js"></script>
+<script src="/linker/js/bootstrap.js"></script>
+<script src="/linker/js/events/progressbar.js"></script>
 <!--SCRIPTS END-->
+
+	<%- body %>
+  
 	</body>
 </html>
