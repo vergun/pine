@@ -1,7 +1,7 @@
 {
   "name": "Pine",
   "description": "SugarCRM Support Site",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "author": "Brannen Sorem",
   "license": "MIT",

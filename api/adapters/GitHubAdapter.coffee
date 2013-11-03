@@ -183,7 +183,8 @@ module.exports = (->
         
     read: (collectionName, file, next) ->
       breadcrumbs = path.normalize(file).split(path.sep)
-      content = fs.readFileSync file, encoding: 'utf-8'
+      content = fs.readFileSync file, encoding: "utf-8"
+      file = file.replace(appConfig.submodule.path, "")
       article =
         file: file
         content: content
