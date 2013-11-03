@@ -24,7 +24,6 @@ ArticleController =
     res.view {}
 
   create: (req, res, next) ->
-    Article.subscribe req.socket
     Article.saveWithGit req,req.param("file"), req.param("content"), "Created", (err, article) ->
       flash.msg req, "success", "article", "was successfully created."
       res.redirect "/article"
@@ -35,7 +34,6 @@ ArticleController =
         article: article
 
   update: (req, res) ->
-    Article.subscribe req.socket
     Article.saveWithGit req, req.param("file"), req.param("content"), "Updated", (err, article) ->
       req.session.flash = error: err  if err
       unless article
@@ -45,7 +43,6 @@ ArticleController =
       res.redirect "/article"
 
   destroy: (req, res) ->
-    Article.subscribe req.socket
     Article.destroyWithGit req, appConfig.submodule.path + req.param("file"), null, "Deleted", (err, article) ->
       if article
         flash.msg req, "error", "article", "could not be destroyed."

@@ -11,11 +11,11 @@ path        = require "path"
 repo        = git 'Pine_Needles'
 
 
-global.GitHubHelper = (collectionName, req, submodule, file, content, method, next) ->
+global.GitHubHelper = (collectionName, req, file, content, method, next) ->
   @lockfile = '.git/modules/Pine_Needles/index.lock'
-  @collectionName = collectionName
+  @submodule = appConfig.submodule
+  @collectionName = collectionName.charAt(0).toUpperCase() + collectionName.slice(1)
   @req = req
-  @submodule = submodule
   @file = file
   @content = content
   @method = method
@@ -23,7 +23,7 @@ global.GitHubHelper = (collectionName, req, submodule, file, content, method, ne
   @
 
 GitHubHelper::progressEmitter = (message, amount) ->
-  Article.publish @req, type: "progress-bar", message: message, amount: amount, method: @method
+  global[@collectionName]["publish"] @req, type: "progress-bar", message: message, amount: amount, method: @method
   log.info "Update published."
 
 GitHubHelper::writeFile = (callback) -> 
@@ -165,20 +165,18 @@ module.exports = (->
 
     saveWithGit: (collectionName, req, file, content, method, next) ->
       try
-        submodule = appConfig.submodule
-        gitHubHelper = new GitHubHelper(collectionName, req, submodule, file, content, method, next)
+        gitHubHelper = new GitHubHelper(collectionName, req, file, content, method, next)
         gitHubHelper.save()
       catch err
-        info.log err
+        log.info err
         #todo
         
     destroyWithGit: (collectionName, req, file, content, method, next) ->
       try
-        submodule = appConfig.submodule
-        gitHubHelper = new GitHubHelper(collectionName, req, submodule, file, content, method, next)
+        gitHubHelper = new GitHubHelper(collectionName, req, file, content, method, next)
         gitHubHelper.destroy()
       catch err
-        info.log err
+        log.info err
         #todo
         
     read: (collectionName, file, next) ->
