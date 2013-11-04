@@ -60,9 +60,13 @@ module.exports = function (grunt) {
     'linker/js/jquery.js',
 
     // All of the rest of your app scripts imported here
+    'linker/js/jquery-ui.js',
+    'linker/js/rangy.js',
+    'linker/js/hallo.js',
+    'linker/js/markdown/showdown.js',
+    'linker/js/markdown/to-markdown.js',
     'linker/**/*.js'
   ];
-
 
   /**
    * Client-side HTML templates are injected using the sources below

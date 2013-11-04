@@ -26,11 +26,7 @@ Make sure your Mongodb instance is running (in console):
 
     mongod
 
-Lift your server and populate your database by navigating your url path to: 
-
-    http://localhost:1337/article/populate    
-
-Populate your first user by navigating to:
+Lift your server and populate your user database by navigating your url path to: 
 
     http://localhost:1337/user/populate
 

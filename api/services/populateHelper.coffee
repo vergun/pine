@@ -34,21 +34,6 @@ module.exports = (->
           if users.length is 2
             if next?
               next(users)
-        
-    populateArticles: (next) ->
-      results = []
-      Article.destroy({}).then ->
-        Article.list appConfig.submodule.path, (articles) ->
-          articlesLength = articles.length
-          currentNumber = 1
-          articles.forEach (file) ->
-            Article.create
-              file: file
-            , (err) ->
-              results.push appConfig.submodule.path + file
-              currentNumber++
-              if currentNumber is articlesLength
-                next(results)
 
   functions
   
