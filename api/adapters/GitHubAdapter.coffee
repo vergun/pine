@@ -131,8 +131,7 @@ GitHubHelper::save = (file, content, next) ->
     ],
     (err) =>
       if err
-        # todo
-        # article saved without changes
+        ErrorLogHelper err, "GITHUB:"
         @transactionFailed(err, self.next)
       else
         self.next(null, @file)  
@@ -150,8 +149,7 @@ GitHubHelper::destroy = (file, content, next) ->
     ],
     (err) =>
       if err
-        # todo
-        # article saved without changes
+        ErrorLogHelper err, "GITHUB:"
         @transactionFailed(err, self.next)
       else
         self.next(null) 
@@ -168,16 +166,16 @@ module.exports = (->
         gitHubHelper = new GitHubHelper(collectionName, req, file, content, method, next)
         gitHubHelper.save()
       catch err
-        log.info err
-        #todo
+        ErrorLogHelper err, "GITHUB:"
+        self.next(err, null)
         
     destroyWithGit: (collectionName, req, file, content, method, next) ->
       try
         gitHubHelper = new GitHubHelper(collectionName, req, file, content, method, next)
         gitHubHelper.destroy()
       catch err
-        log.info err
-        #todo
+        ErrorLogHelper err, "GITHUB:"
+        self.next(err, null)
         
     read: (collectionName, file, next) ->
       breadcrumbs = path.normalize(file).split(path.sep)
