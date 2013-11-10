@@ -1,0 +1,12 @@
+<ul class="article-list">
+
+  <li>
+    <%= include ../includes/_icon %>
+    <%= article.name %>
+  </li>
+  
+  <% if (article.children) { %> 
+    <%- partial('_list_inner.ejs', {articles: article.children}) %>
+  <% } %>
+  
+</ul>

@@ -12,6 +12,8 @@ flash           = require '../services/flashHelper'
 ArticleController =
   
   index: (req, res) ->
+    # Article.list appConfig.submodule.path, foundArticles = (articles) ->
+    #   res.view articles: articles
     Article.list appConfig.submodule.path, foundArticles = (articles) ->
       res.view articles: articles
 
