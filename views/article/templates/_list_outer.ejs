@@ -1,8 +1,11 @@
 <ul class="article-list">
 
-  <li>
+  <li class="<%= article.type %>">
     <%= include ../includes/_icon %>
     <%= article.name %>
+    <% if (article.type == "file") { %>
+      <%= include ../includes/_buttons %>
+    <% } %>
   </li>
   
   <% if (article.children) { %> 
