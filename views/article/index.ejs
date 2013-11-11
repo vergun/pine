@@ -2,6 +2,17 @@
 
 <div class="container" ng-controller="ArticleCtrl">
   <div class="row">
+  
+  <% if (session.authenticated) { %>         
+      <a href="/article/new" class="btn btn-sm btn-primary">+ New article</a>
+  <% } %>
+  
+  <ul class="article-list">
+  <li class="list-home">
+    <i class="icon-home"></i>
+    <b>Sugar CRM Support</b>
+  </li>
   <%- partial('templates/_list_outer.ejs', {article: articles}) %>
+  </ul>
   </div>
 </div>
