@@ -23,7 +23,7 @@
       <tbody class="table-hover">
         <% _.each(articles, function(article) { %>
         <tr>
-          <td ng-click="click()"><%= article %></td> 
+          <td><%= article %></td> 
     			<td>
             <form action="/article/show">
               <input type="hidden" value=<%= article %> name="file">
