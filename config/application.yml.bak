@@ -1,4 +1,5 @@
 development:
+  logger_level: 'info'
   application_title: 'Pine'
   application_port: 1337
   submodule:
@@ -8,6 +9,7 @@ development:
     
   
 test:
+  logger_level: 'info'
   application_title: 'Pine'
   application_port: ''
   submodule:
@@ -18,6 +20,7 @@ test:
   
   
 production:
+  logger_level: 'info'
   application_title: 'Pine'
   application_port: 80
   submodule:

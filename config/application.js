@@ -13,22 +13,8 @@ global.dbConfig = require('./database.yml')[NODE_ENV]
 
 // Export configuration
 module.exports = {
-	
 	appName: appConfig.application_title || "Pine",
 	port: appConfig.application_port || 1337,
 	environment: NODE_ENV,
-
-	// Logger
-	// Valid `level` configs:
-	// 
-	// - error
-	// - warn
-	// - debug
-	// - info
-	// - verbose
-	//
-	log: {
-		level: 'info'
-	}
-
+	log: { level: appConfig.logger_level }
 };

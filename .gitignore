@@ -44,4 +44,5 @@ nbproject
 ########################
 config/application.yml
 config/database.yml
+log
 Pine_Needles
