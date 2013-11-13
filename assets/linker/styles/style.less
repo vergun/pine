@@ -30,11 +30,29 @@ textarea {
 
 .article-list li {
   list-style-type: none;
+
+  &:hover:not(.list-home) {
+    color: blue;
+    cursor: pointer;
+  }
 }
-.article-list li:hover:not(.list-home) {
-  color:blue;
-  cursor:pointer;
+
+
+.article-buttons {
+  display: none;
+  margin-left: 20px;
 }
-.article-list li span button:hover {
-  color:green;
+
+.file:hover {
+  .article-buttons {
+    display: inline-block;
+  }
+}
+
+.list-home ~ .article-list {
+  display: block;
+
+  .article-list {
+    display: none;
+  }
 }
