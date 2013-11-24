@@ -61,7 +61,9 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4><strong><%= kind.charAt(0).toUpperCase() + kind.slice(1) %></strong></h4> 
           	<% Object.keys(flash[kind]).forEach(function(obj) { %>
+              <% if (flash[kind][obj] && typeof(flash[kind][obj]) != "undefined") { %>
           		<p><%- flash[kind][obj].message %></p>
+              <% } %>
           	<% }) %>          
           </div>
         </div>
