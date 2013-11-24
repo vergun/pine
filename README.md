@@ -56,6 +56,7 @@ TODOs:
 * improve CRUD operations with git hooks
 * move population tasks to boostrap.js
 * improve WYSIWIG editor to accomodate html AND md
+* if git hooks fail display a message to the user
 
 Server Setup Instructions
 ==========================

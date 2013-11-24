@@ -1,8 +1,22 @@
 
   <span class="article-buttons">
-    <button class="btn btn-mini btn-primary">Show</button>
-    <button class="btn btn-mini btn-warning">Edit</button>
-    <button class="btn btn-mini btn-danger">Delete</button>
+    <form action="/article/show">
+      <input type="hidden" value=<%= article.path %> name="path">
+      <input type="submit" class="btn btn-mini btn-primary index-article-show" data-id="<%= article.path %>" value="Show">
+  		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+    </form>
+    <% if (session.authenticated) { %>  
+      <form action="/article/edit">
+        <input type="hidden" value=<%= article.path %> name="path">
+        <input type="submit" class="btn btn-mini btn-warning index-article-edit" data-id="<%= article.path %>" value="Edit">
+    		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      </form>
+      <form action="/article/destroy">
+        <input type="hidden" value=<%= article.path %> name="path">
+        <input type="submit" class="btn btn-mini btn-danger index-article-destroy" data-id="<%= article.path %>" value="Destroy">
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      </form>
+    <% } %>
+    </table>
+    
   </span>
-
-

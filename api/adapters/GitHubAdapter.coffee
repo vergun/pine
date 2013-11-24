@@ -177,23 +177,18 @@ module.exports = (->
         ErrorLogHelper err, "GITHUB:"
         self.next(err, null)
         
-    read: (collectionName, file, next) ->
-      breadcrumbs = path.normalize(file).split(path.sep)
-      content = fs.readFileSync file, encoding: "utf-8"
-      file = file.replace(appConfig.submodule.path, "")
+    read: (collectionName, filename, next) ->
+      name = filename.replace(appConfig.submodule.path, "")
+      content = fs.readFileSync filename, encoding: "utf-8"
+      breadcrumbs = path.normalize(filename).split(path.sep)
+      _path = filename
       article =
-        file: file
+        name: name
         content: content
         breadcrumbs: breadcrumbs
+        path: _path
  
       next null, article
-
-    # list: (collectionName, path, next) ->  
-    #   results = new Array()  
-    #   _.each wrench.readdirSyncRecursive(path), (file) ->
-    #     results.push(file) if file.match(/\.[md]+$/i)
-    #   
-    #   next results
       
     list: (collectionName, filename, next) ->
       results = adapter.dirTree filename

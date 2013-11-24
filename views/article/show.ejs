@@ -9,14 +9,14 @@
         <% if (session.authenticated) { %>    
   			  <li class="show-edit-article">
             <form action="/article/edit">
-              <input type="hidden" value=<%= article.file %> name="file">
+              <input type="hidden" value=<%= article.path %> name="path">
               <input type="submit" value="Edit">
       				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
           </li>            
           <li class="show-destroy-article">
             <form action="/article/destroy">
-              <input type="hidden" value=<%= article.file %> name="file">
+              <input type="hidden" value=<%= article.path %> name="path">
               <input type="submit" value="Destroy">
       				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>

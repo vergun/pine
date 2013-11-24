@@ -18,7 +18,7 @@
       <h1>Source output</h1>
       <textarea form="article-update-form" name="content" id="source"></textarea>
 			<form action="/article/update" method="POST" id="article-update-form">
-				<input type="hidden" name="file" value="<%= article.file %>"/>
+				<input type="hidden" name="path" value="<%= article.path %>"/>
         <a href="/article">Cancel</a>
 				<input type="submit" class="btn btn-sm btn-primary" value="Update"/>        
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
