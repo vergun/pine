@@ -61,171 +61,96 @@ TODOs:
 Server Setup Instructions
 ==========================
 
-Development server: maia.ottomanhipster.com
-Production server: pine.ottomanhipster.com
+1 Made project folders
+mkdir ebs_volume
+cd ebs_volume
+mkdir shared (stores all shared content across builds)
+mkdir releases (stores previous builds)
 
-    App server
-    1 Root EBS Volume
-    1 attached EBS Volume for applications
+2 Generated an ssh key for the user, and add it to deploy keys on github
+ssh-keygen
+copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pine_needles repos
 
-    sudo apt-get install build-essential libssl-dev curl git-core
-    cd ~
-    git clone git://github.com/creationix/nvm.git ~/.nvm
-    echo "\n. ~/.nvm/nvm.sh" >> .bashrc
-    source ~/.nvm/nvm.sh
-    nvm install v0.10.22
-    nvm alias default 0.10.22
-    cd /root/.ssh/authorized_keys
-    add your /.ssh/id_rsa.pub ssh-key to authorized_keys (vi authorized_keys)
-    apt-get install node
-    apt-get update --fix-missing
-    apt-get install npm
-    adduser pine
-    adduser maia
-    su pine
-    mkdir /home/pine/.ssh && cd /home/pine/.ssh
-    ssh-keygen
-    vi authorized_keys
-    add your /.ssh/id_rsa.pub ssh-key to authorized_keys (vi authorized_keys)
-    su maia
-    mkdir /home/maia/.ssh && cd /home/maia/.ssh
-    ssh-keygen
-    vi authorized_keys
-    add your /.ssh/id_rsa.pub ssh-key to authorized_keys (vi authorized_keys)
-    •• Upload key from /home/username/.ssh/id_rsa.pub to github user •• 
-    mkdir /ebs_volume
-    cd /dev
-    mount xvdf /ebs_volume (or whatever is returned by lsblk or df)
-    cd /ebs_volume
-    sudo su - (or ctrl-c to get back to root user)
-    mkdir pine
-    mkdir maia
-    chgrp pine pine
-    chown pine pine
-    chown maia maia
-    chown maia maia
-    visudo(and add the next two lines:)
-    pine    ALL=(ALL:ALL) ALL
-    maia    ALL=(ALL:ALL) ALL
-    su pine
-    cd /ebs_volume/pine
-    mkdir shared
-    mkdir shared/node_modules
-    mkdir shared/log
-    cd .. && git clone git@github.com:vergun/pine.git
-    su maia
-    cd /ebs_volume/maia
-    mkdir shared
-    mkdir shared/node_modules
-    mkdir shared/log
-    cd .. && git clone git@github.com:vergun/pine.git
-    su pine
-    cd /ebs_volume
-    npm install -g coffee-script
-    ln -s /ebs_volume/pine/current/package.json /ebs_volume/pine/shared
-    npm install
-    ln -s /ebs_volume/pine/shared/node_modules /ebs_volume/pine/current/node_modules
-    ln -s /ebs_volume/pine/shared/log /ebs_volume/pine/current/log
-    mkdir config && cd config
-    cp /ebs_volume/pine/current/config/application.yml.bak /ebs_volume/pine/shared/config/application.yml
-    cp /ebs_volume/pine/current/config/database.yml.bak /ebs_volume/pine/shared/config/database.yml
-    ln -s /ebs_volume/pine/shared/config/application.yml /ebs_volume/pine/current/config/application.yml
-    ln -s /ebs_volume/pine/shared/config/database.yml /ebs_volume/pine/current/config/database.yml
-    cd /ebs_volume/pine/current
-    git submodule add git@github.com:vergun/Pine_Needles.git
-    git submodule init
-    git submodule update
-    cd /ebs_volume/pine/shared
-    mkdir /ebs_volume/pine/shared/pids
-    vi /ebs_volume/pine/shared/pids/pine.pid
-    enter 777 then save the file
-    cd /ebs_volume/pine/shared/node_modules
-    npm install forever
-    cd /ebs_volume/pine 
-    vi restart_server
-    Then enter this into the file and save it:
+3 cloned the project into releases/20132411114612
+git clone git@github.com:vergun/pine.git ~/ebs_volume/releases/20132411114612
 
-    #!/bin/bash
+4 Symlinked node_modules and log folders
+ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
+ln -s ~/ebs_volume/shared/node_modules ~/ebs_volume/releases/20132411114612/node_modules
+ln -s ~/ebs_volume/shared/log ~/ebs_volume/releases/20132411114612/log
 
-    echo 'cd /ebs_volume/pine/current; node node_modules/forever/bin/forever stop --pidFile /ebs_volume/pine/shared/pids/pine.pid /ebs_volume/pine/current/app.js; sleep 3; node_modules/forever/bin/forever start /ebs_volume/pine/current/app.js -l /ebs_volume/pine/shared/log/forever.log -o /ebs_volume/pine/shared/log/forever.out.log -e /ebs_volume/pine/shared/log/forever.err.log --pidFile /ebs_volume/pine/shared/pids/pine.pid' | bash -l
+5 Set up yml files
+mkdir shared/config
+cp releases/20132411114612/config/application.yml.bak shared/config/application.yml
+cp releases/20132411114612/config/database.yml.bak shared/config/database.yml
+ln -s ~/ebs_volume/shared/config/application.yml ~/ebs_volume/releases/20132411114612/config/application.yml
+ln -s ~/ebs_volume/shared/config/database.yml ~/ebs_volume/releases/20132411114612/config/database.yml
 
-    sudo su -
-    chmod 700 restart_server
-    then chmod 700 the file
+6 Enter the correct info into the yml files
+vi shared/config/application.yml
+vi shared/config/database.yml
 
-    Edit application.yml
-    : set production port to 6000
-    : set submodule path to 
-    Edit database.yml
-    : set production db from db server
-    General guidance: https://github.com/balderdashy/sails/wiki/deployment
+7 removed development and test credentials from yml files
+vi shared/config/application.yml
+vi shared/config/database.yml
 
-    Db server
-    1 Root EBS Volume
-    4 attached EBS Volumes for DB in RAID10 Configuration
+8 npm installed
+cd current
+npm install --production
 
-    sudo su -
-    cd /root/.ssh
-    vi authorized_keys
-    add your key to the file
-    apt-get install mdadm
-    Select "no configuration"
-    mdadm --create -l10 -n4 /dev/md0 /dev/xvdb /dev/xvdc /dev/xvdd /dev/xvde
+9 Added the git submodule
+git clone git@github.com:vergun/Pine_Needles.git ~/ebs_volume/shared/submodules/Pine_Needles
+ln -s ~/ebs_volume/shared/submodules/Pine_Needles ~/ebs_volume/releases/20132411114612/Pine_Needles
+git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
+git submodule init
+git submodule update
 
-    explained (mirroring without paring, block level striping, 2 sets of raid 1):
-    n is the number of drives
-    /dev/md0 is the created drive
-    /dev/xvd* are the names of the drives to form into RAID10
-    sudo apt-get install xfsprogs
+10 Build the wintersmith project
+cd ~/current/Pine_Needles
+wintersmith build
 
-    mkdir /ebs_volume
-    mkfs -t xfs /dev/md0
-    mount md0 /ebs_volume
+10 Set up the pids
+mkdir shared/pids
+vi ~/ebs_volume/shared/pids/pine.pid
+enter 9170 then save the file
 
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-    echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
-    sudo apt-get update
-    sudo apt-get install mongodb-10gen
+11 Installed pm2 and grunt
+cd ~/ebs_volume/shared/node_modules
+npm install -g pm2 --python python2
+npm install -g grunt
 
-    adduser mongo
-    mkdir /ebs_volume/mongo
-    chgrp mongo /ebs_volume/mongo
-    chown mongo /ebs_volume/mongo
-    mkdir /ebs_volume/shared
-    mkdir /ebs_volume/shared/log
-    vi /ebs_volume/start_mongo
-    Enter this and save the file:
+12 Wrote the server scripts
+vi ~/ebs_volume/restart_server.sh
 
-    #!/bin/bash
-    mongod --fork --dbpath /ebs_volume/mongo --logpath /ebs_volume/shared/log/mongodb.log
+13 Setup the Database
+vi ~/ebs_volume/shared/config/database.yml
 
-    chown mongo /ebs_volume/start_mongo
-    chgrp mongo /ebs_volume/start_mongo
-    chmod 755 start_mongo
-    ./start_mongo
-    mongo
-    db.addUser({user: "mongo", pwd: "passwrod", roles: [ "readWrite" ]})
-    exit
+14 Add the environment variable to bashrc
+vi ~/.bashrc
+export ENV=production
 
-    netstat -lnptu
-    note the port that mongo is running on (should be 27107)
-    open up port 27017 and 28107 in security group
+15 Run the server
+./~ebs_volume/restart_server.sh
 
-    Note the url:
-    'mongodb://<yourelasticip>:<port>'
-    i.e.:
-    'mongodb://107.21.230.121:27017'
+A other improvements
+• put app server behind load balancer, use cloudwatch to ping port 6000 
+• instead of having db and app on the same instance, split the db and app to separate ec2 instances for fault tolerance
+• set up the db drive on a 4 volume raid10 configuration for fault tolerance
+• set the mongod log path to shared/log/mongodb.log
+• if using nginx or apache set access and error logs to shared/log/access.log and shared/log/error.log for port 6000 traffic
+• Move the application off port 80
 
-    production
-    mongodb://mongo:passwrod@54.204.42.127:27017/pine
+B Sequence After each deploy
+ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
+ln -s ~/ebs_volume/shared/node_modules ~/ebs_volume/releases/20132411114612/node_modules
+ln -s ~/ebs_volume/shared/log ~/ebs_volume/releases/20132411114612/log
+cp releases/20132411114612/config/application.yml.bak shared/config/application.yml
+cp releases/20132411114612/config/database.yml.bak shared/config/database.yml
+ln -s ~/ebs_volume/shared/config/application.yml ~/ebs_volume/releases/20132411114612/config/application.yml
+ln -s ~/ebs_volume/shared/config/database.yml ~/ebs_volume/releases/20132411114612/config/database.yml
+git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
+git submodule init
+git submodule update
 
-    stage
-    mongodb://mongo:passwrod@54.204.42.127:27017/pine_stage
-
-    On the app server
-    cd /home/pine/.ssh
-    ssh-keygen
-    copy the id_rsa.pub to clipboard, and paste it into authorized_keys on user mongo on the db server
-    ... on the db server ...
-    cd /home/mongo/.ssh
-    vi authorized_keys
+C Todo
+Improve restart_server script to accept command line arguments

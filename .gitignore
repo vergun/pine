@@ -45,4 +45,5 @@ nbproject
 config/application.yml
 config/database.yml
 log
+.gitmodules
 Pine_Needles
