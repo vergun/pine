@@ -8,8 +8,10 @@ jQuery(document)
         plugins: {
             'halloformat': {},
             'halloheadings': {},
+            'hallojustify': {},
             'hallolists': {},
             'halloreundo': {}
+            'halloimage': {},
         },
         toolbar: 'halloToolbarFixed'
     });
