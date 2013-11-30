@@ -10,8 +10,8 @@ jQuery(document)
             'halloheadings': {},
             'hallojustify': {},
             'hallolists': {},
-            'halloreundo': {}
-            'halloimage': {},
+            'halloreundo': {},
+            'halloimage': {}
         },
         toolbar: 'halloToolbarFixed'
     });
