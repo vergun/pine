@@ -24,15 +24,7 @@
         <% } %>
       </ul>
       <div class="tab-content">
-        <ul class="breadcrumb">
-          <% _.each(article.breadcrumbs, function(breadcrumb) { %>
-            <% if (breadcrumb === "index.md") { %>
-              <li class="active"><%= breadcrumb %></li>
-            <% } else { %>
-              <li><%= breadcrumb %><span class="divider">/</span></li>
-            <% } %>
-          <% }) %>
-        </ul>
+        <%= include includes/_breadcrumbs %>
         <%- article.content %>
       </div>
     </div>
