@@ -18,11 +18,6 @@ jQuery(document)
 
     // Method that converts the HTML contents to Markdown
     var showSource = function(content) {
-        if (jQuery('#source')
-            .get(0)
-            .value == content) {
-            return;
-        }
         jQuery('#source')
             .get(0)
             .value = content;
@@ -33,6 +28,11 @@ jQuery(document)
         .bind('hallomodified', function(event, data) {
         showSource(data.content);
     });
-    showSource(jQuery('.editable')
-        .html());
+    
+    var html = 
+      jQuery('.editable').length > 0 ? 
+      jQuery('.editable').html() : 
+      jQuery('.not-editable').html();
+      
+    showSource(html);
 });

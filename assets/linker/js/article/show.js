@@ -27,7 +27,7 @@ jQuery(function() {
     return content.length;
   }
 
-  // // Update word and character count every time content is modified
+  // Update word and character count every time content is modified
   jQuery('.editable')
       .keydown(function(event, data) {
         updateStatsPanel(jQuery('.editable').text());

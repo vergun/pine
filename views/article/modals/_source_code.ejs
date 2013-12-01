@@ -1,1 +1,5 @@
-<textarea form="article-update-form" name="content" id="source"></textarea>
+<% if (typeof(edit) != "undefined" && edit) { %>
+  <textarea form="article-update-form" name="content" id="source"></textarea>
+<% } else { %>
+  <textarea form="article-update-form" name="content" id="source" readonly></textarea>
+<% } %>
