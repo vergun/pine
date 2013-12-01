@@ -29,13 +29,15 @@ jQuery(function() {
 
   // // Update word and character count every time content is modified
   jQuery('.editable')
-      .bind('hallomodified', function(event, data) {
-        // updateStatsPanel(data.content);
+      .keydown(function(event, data) {
         updateStatsPanel(jQuery('.editable').text());
   });  
   
-  updateStatsPanel(
-    jQuery('.editable').text()
-  );
+  var content = 
+    jQuery('.editable').length > 0 ? 
+    jQuery('.editable').text() : 
+    jQuery('.not-editable').text();
+    
+  updateStatsPanel(content);
   
 });
