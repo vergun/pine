@@ -65,7 +65,6 @@ module.exports = function (grunt) {
     'linker/js/hallo.js',
     'linker/js/markdown/showdown.js',
     'linker/js/markdown/to-markdown.js',
-    'linker/js/angular.js',
     'linker/**/*.js'
   ];
 
