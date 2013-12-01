@@ -17,8 +17,9 @@ ArticleController =
       
   show: (req, res, next) ->
     Article.read req.param("path"), foundArticle = (err, article) ->  
-      res.view
-        article: article
+      ArticleHelper article, (err, article) ->
+        res.view
+          article: article
 
   'new': (req, res) ->
     res.view {}
