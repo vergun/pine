@@ -1,22 +1,7 @@
-
-  <span class="article-buttons">
-    <form action="/article/show">
-      <input type="hidden" value=<%= article.path %> name="path">
-      <input type="submit" class="btn btn-mini btn-primary index-article-show" data-id="<%= article.path %>" value="Show">
-  		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-    </form>
-    <% if (session.authenticated) { %>  
-      <form action="/article/edit">
-        <input type="hidden" value=<%= article.path %> name="path">
-        <input type="submit" class="btn btn-mini btn-warning index-article-edit" data-id="<%= article.path %>" value="Edit">
-    		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-      </form>
-      <form action="/article/destroy">
-        <input type="hidden" value=<%= article.path %> name="path">
-        <input type="submit" class="btn btn-mini btn-danger index-article-destroy" data-id="<%= article.path %>" value="Destroy">
-				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-      </form>
-    <% } %>
-    </table>
-    
-  </span>
+<span class="article-buttons">
+  <a href="/article/show?path=<%= article.path %>" class="btn btn-mini btn-primary">Show</a>
+  <% if (session.authenticated) { %>  
+    <a href="/article/edit?path=<%= article.path %>" class="btn btn-mini btn-warning">Edit</a>
+    <a href="/article/destroy?path=<%= article.path %>" class="btn btn-mini btn-danger">Destroy</a>
+  <% } %>    
+</span>
