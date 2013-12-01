@@ -1,9 +1,8 @@
-<ul class="breadcrumb">
-  <% _.each(article.breadcrumbs, function(breadcrumb) { %>
-    <% if (breadcrumb === "index.md") { %>
-      <li class="active"><%= breadcrumb %></li>
-    <% } else { %>
-      <li><%= breadcrumb %><span class="divider">/</span></li>
-    <% } %>
-  <% }) %>
-</ul>
+<div class="light placeholder">  
+  <div class="breadcrumb">
+    <% _.each(article.breadcrumbs, function(breadcrumb) { %>
+      <a href="#"><%= breadcrumb %></a>
+    <% }) %>  
+  </div>
+  
+</div>
