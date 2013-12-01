@@ -31,9 +31,10 @@ ArticleController =
 
   edit: (req, res) ->
     Article.read req.param("path"), foundArticle = (err, article) ->
-      res.view
-        article: article
-        edit: true
+      ArticleHelper article, (err, article) ->
+        res.view
+          article: article
+          edit: true
 
   update: (req, res) ->
     Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
