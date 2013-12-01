@@ -1,12 +1,15 @@
 <ul class="article-list">
 
-  <li class="<%= article.type %>">
-    <%= include ../includes/_icon %>
-    <%= article.name %>
-    <% if (article.type == "file") { %>
-      <%= include ../includes/_buttons %>
-    <% } %>
-  </li>
+  <% if (article.type == "folder" || article.name.indexOf(".md") != -1) { %>
+  <!-- todo move to github adapter -->
+    <li class="<%= article.type %>">
+      <%= include ../includes/_icon %>
+      <%= article.name %>
+      <% if (article.type == "file") { %>
+        <%= include ../includes/_buttons %>
+      <% } %>
+    </li>
+  <% } %>
   
   <% if (article.children) { %> 
     <%- partial('_list_inner.ejs', {articles: article.children}) %>
