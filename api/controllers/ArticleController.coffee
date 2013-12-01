@@ -53,6 +53,11 @@ ArticleController =
         flash.msg req, "success", "article", "was successfully destroyed."
       res.redirect "/article"
       
+  sendFile: (req, res) ->
+    res.download req.param("file"), (err) ->
+      if err
+        log.info err #todo over sockets send response
+      
   subscribe: (req, res) ->
     Article.subscribe req.socket
     res.send 200

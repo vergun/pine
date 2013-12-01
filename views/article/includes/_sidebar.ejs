@@ -3,8 +3,8 @@
   <div class="panel-body">
     <ul>
       <li><i class="icon-reply"></i> <a href="/article"> Back to articles</a></li>  
-      <li><i class="icon-download-alt"></i> <a href="/article"> Download as PDF</a></li>  
-      <li><i class="icon-cloud-download"></i> <a href="/article"> Download as HTML</a></li>  
+      <li><i class="icon-download-alt"></i> <a href=<%= "/article/sendFile?file=" + article.path.replace(/\.[^/.]+$/, ".pdf") %> download> Download as PDF</a></li>  
+      <li><i class="icon-cloud-download"></i> <a href=<%= "/article/sendFile?file=" + article.path %>> Download as HTML</a></li>  
       <% if (session.authenticated) { %>    
         <li><i class="icon-code"></i> <a href="#" data-toggle="modal" data-target="#myModal"> Show source code</a></li>  
         <li class="show-destroy-article">
