@@ -1,22 +1,4 @@
 <%= include includes/_markdownLayout %>
 <%= include includes/_progressBar %>
 <%= include modals/layout %>
-
-
-<div class="container">
-  <div class="row">
-    <div class="span6">
-    <%= include includes/_breadcrumbs %>
-      <article>
-      <div class="editable" contenteditable="true">
-        <p>
-          <%- article.content %>
-        </p>
-       </div>
-      </article>
-    </div>
-  </div>
-  
-  <%= include includes/_sidebar %>
-      
-</div>
+<%= include includes/_article %>

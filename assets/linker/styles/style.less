@@ -25,7 +25,7 @@ textarea {
   top:35%;
   z-index:9998!important;
 }
-.article-list li {
+.article-list li, .panel li {
   list-style-type: none;
 
   &:hover:not(.list-home) {
@@ -55,4 +55,30 @@ textarea {
 }
 .z-index-fix {
   z-index:-1;
+}
+.panel li a, .panel li:not(.not-a-link) input[type=submit] {
+  background:none;
+  border:none;
+  outline:none;
+  border-style:none;
+  font:inherit;
+  padding:0px;
+  margin:0px;
+  text-decoration:none;
+  font-weight:bold;
+  color:#005580;
+}
+.panel form {
+  margin:0px;
+  padding:0px;
+}
+.panel a:hover, .panel li:not(.not-a-link) input[type=submit]:hover {
+  text-decoration:underline;
+}
+.panel li:not(.not-a-link) i {
+  color:#005580;
+}
+.panel li:hover {
+  color:black!important;
+  cursor:default!important;
 }

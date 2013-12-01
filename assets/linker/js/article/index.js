@@ -20,8 +20,3 @@ var swapExpandCollapseIcon = function(el) {
     element.attr('class', 'icon-collapse-alt switch')
   }
 }
-
-/// Fix for Bootstrap Modals not affecting dom layout but rendering underneath elemetns unclickable
-$(document).on('click', 'button[data-target="#myModal"]', function() {
-  $('#myModal').toggleClass('z-index-fix');
-});

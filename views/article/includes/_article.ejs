@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+
+    <div class="span9">
+        <div class="tab-content">
+          <%= include _breadcrumbs %>
+          
+          <% if (typeof(edit) != "undefined" && edit) { %>
+            <div class="editable" contenteditable="true">
+              <%- article.content %>
+             </div>
+          <% } else { %>
+            <%- article.content %>
+          <% } %>
+          
+        </div>
+    </div>
+    
+    <div class="span3">
+      <%= include _sidebar %>
+    </div>
+
+  </div>
+</div>

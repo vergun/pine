@@ -1,9 +1,60 @@
-<div class="span6">
-	<form action="/article/update" method="POST" id="article-update-form">
-		<input type="hidden" name="path" value="<%= article.path %>"/>
-    <a href="/article">Cancel</a>
-		<input type="submit" class="btn btn-sm btn-primary" value="Update"/>
-		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Show source code</button>
-	</form>
+<div class="panel panel-default">
+  <div class="panel-heading">Action menu</div>
+  <div class="panel-body">
+    <ul>
+      <li><i class="icon-reply"></i> <a href="/article"> Back to articles</a></li>  
+      <li><i class="icon-download-alt"></i> <a href="/article"> Download as PDF</a></li>  
+      <li><i class="icon-cloud-download"></i> <a href="/article"> Download as HTML</a></li>  
+      <% if (session.authenticated) { %>    
+        <li><i class="icon-code"></i> <a href="/article" data-toggle="modal" data-target="#myModal"> Show source code</a></li>  
+        <li class="show-destroy-article">
+          <form action="/article/destroy">
+            <input type="hidden" value=<%= article.path %> name="path">
+            <i class="icon-trash"></i> <input type="submit" value="Destroy article">
+    				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          </form>
+        </li>
+         
+         
+        <% if (typeof(edit) != "undefined" && edit) { %>
+          
+          <li><i class="icon-remove"></i> <a href="/article"> Cancel</a></li>
+          <li>
+            <form action="/article/update">
+              <input type="hidden" value=<%= article.path %> name="path">
+              <i class="icon-edit"></i> <input type="submit" value="Save">
+      				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            </form>
+          </li>
+
+        <% } else { %>
+          <li>
+            <form action="/article/edit">
+              <input type="hidden" value=<%= article.path %> name="path">
+              <i class="icon-edit"></i> <input type="submit" value="Edit article">
+      				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            </form>
+          </li>
+        <% } %>
+        
+      <% } %>
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Stats</div>
+  <div class="panel-body">
+    <ul>
+      <li class="not-a-link"><i class="icon-book"></i> Word count 288</li>  
+      <li class="not-a-link"><i class="icon-sort-by-alphabet"></i> Character count 1,024</li>  
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Recent activity</div>
+  <div class="panel-body">
+    Not yet implemented
+  </div>
 </div>
