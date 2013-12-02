@@ -37,6 +37,10 @@ ArticleController =
           edit: true
 
   update: (req, res) ->
+    log.info req.param
+    log.info req.params.all
+    log.info req.param("title")
+    log.info req.param("template")
     Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
       req.session.flash = error: err if err
       

@@ -2,16 +2,12 @@
 
   <h3>Attributes</h3>
   <% Object.keys(article.headers).forEach(function(header) { %>
-    <dl class="dl-horizontal">
-      <dt><h4><%= header.charAt(0).toUpperCase() + header.slice(1) %></h4></dt>
-    
-      <% if (typeof(edit) != "undefined" && edit) { %>
-        <dd contenteditable=true><%= article.headers[header] %></dd>
-      <% } else { %>
-        <dd><%= article.headers[header] %></dd>
-      <% } %>
-      
-    </dl>
+    <label class="control-label" for="<%= header %>"><%= header.charAt(0).toUpperCase() + header.slice(1) %></label>        
+    <% if (typeof(edit) != "undefined" && edit) { %>
+      <input type="text" form="save-article-form" name="<%= header %>" value="<%= article.headers[header] %>" contenteditable=true>        
+    <% } else { %>
+      <input type="text" form="save-article-form" name="<%= header %>" value="<%= article.headers[header] %>" readonly=true>
+    <% } %>
   <% }) %>
   
 <% } else { %>
