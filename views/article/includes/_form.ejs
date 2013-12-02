@@ -1,0 +1,5 @@
+<form action="/article/update" id="save-article-form">
+  <input type="hidden" value=<%= article.path %> name="path">
+  <i class="icon-edit"></i> <input type="submit" value="Save">
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" >
+</form>

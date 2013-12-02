@@ -10,7 +10,9 @@
         <li><a href="/article/destroy?path=<%= article.path %>"><i class="icon-remove"></i>  Destroy article</a></li>
         <% if (typeof(edit) != "undefined" && edit) { %>
           <li><a href="javascript:history.back()"><i class="icon-remove"></i>  Cancel</a></li>
-          <li><a href="/article/update?path=<%= article.path %>"><i class="icon-edit"></i> Save</a></li>
+          <li><%= include _form %></li>
+          <li><a href="#" id="edit-article-save"><i class="icon-edit"></i> Save</a></li>
+          
         <% } else { %>
           <li><a href="/article/edit?path=<%= article.path %>"><i class="icon-edit"></i> Edit article</a></li>
         <% } %>
