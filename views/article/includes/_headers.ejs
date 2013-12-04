@@ -1,6 +1,5 @@
-<% if(typeof article.headers == "object") { %>
-
-  <h3>Attributes</h3>
+<h3>Attributes</h3>
+<% if (article.headers && typeof(article.headers) == "object") { %>  
   <% Object.keys(article.headers).forEach(function(header) { %>
     <label class="control-label" for="<%= header %>"><%= header.charAt(0).toUpperCase() + header.slice(1) %></label>        
     <% if (typeof(edit) != "undefined" && edit) { %>
@@ -11,5 +10,5 @@
   <% }) %>
   
 <% } else { %>
-<-- todo error state -->
+  <p>This article has no headers.</p>
 <% } %>

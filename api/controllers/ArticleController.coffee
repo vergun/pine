@@ -17,7 +17,7 @@ ArticleController =
       
   show: (req, res, next) ->
     Article.read req.param("path"), foundArticle = (err, article) ->  
-      ArticleHelper article, (err, article) ->
+      ArticleHelper.readHeaders article, (err, article) ->
         res.view
           article: article
 
@@ -25,30 +25,27 @@ ArticleController =
     res.view {}
 
   create: (req, res, next) ->
-    Article.saveWithGit req,req.param("path"), req.param("content"), "Created", (err, article) ->
+    Article.saveWithGit req, req.param("path"), req.param("content"), "Created", (err, article) ->
       flash.msg req, "success", "article", "was successfully created."
       res.redirect "/article"
 
   edit: (req, res) ->
     Article.read req.param("path"), foundArticle = (err, article) ->
-      ArticleHelper article, (err, article) ->
+      ArticleHelper.readHeaders article, (err, article) ->
         res.view
           article: article
           edit: true
 
   update: (req, res) ->
-    log.info req.param
-    log.info req.params.all
-    log.info req.param("title")
-    log.info req.param("template")
-    Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
-      req.session.flash = error: err if err
+    ArticleHelper.setHeaders req, (err, req) ->
+      Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
+        req.session.flash = error: err if err
       
-      unless article
-        flash.msg req, "error", "article", "could not be found."
-      else
-        flash.msg req, "success", "article", "was successfully updated."
-      res.redirect "/article"
+        unless article
+          flash.msg req, "error", "article", "could not be found."
+        else
+          flash.msg req, "success", "article", "was successfully updated."
+        res.redirect "/article"
 
   destroy: (req, res) ->
     Article.destroyWithGit req, appConfig.submodule.path + req.param("file"), null, "Deleted", (err, article) ->
