@@ -10,17 +10,20 @@ _error = (article, callback) ->
   callback(error, article)
   
   
+_parse_headers = (article) ->
+  article.content.split("---\n\n")
+  
 _read_headers = (article, next) ->
-  try yaml.safeLoadAll article.content, (section) ->
-    if typeof section is "object" 
-    then article.headers = section 
-    else article.content = section
-  
-    article.counter = ++article.counter || 1
-  
-    next(null, article) if article.counter is 2
+  [headers, content] = _parse_headers(article)
+
+  try yaml.safeLoadAll headers, (section) ->
+    if typeof section is "object"
+    then article.headers = section
     
-  catch error then next(error, article) 
+    article.content = content
+    next(null, article)
+    
+  catch error then next(error, article)
     
 _set_headers = (req, next) ->
   headers = _.clone req.params.all()
@@ -39,7 +42,7 @@ _set_headers = (req, next) ->
   
   content = str + req.param("content") 
   req.query.content = content
-  
+    
   fs.writeFile req.param("path"), req.param("content"), (err) ->
     if err
       next(err)
