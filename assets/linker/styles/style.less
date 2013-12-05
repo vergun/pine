@@ -16,6 +16,7 @@ textarea {
   margin:0;
   background-size:100%;
   opacity:.95;
+  z-index:500!important;
 }
 .github-progress {
   display:none;
@@ -85,6 +86,9 @@ textarea {
 .editable:hover, input[contenteditable=true]:hover {
   cursor:pointer;
 }
+/* repeated in html 
+because css isn't loaded
+in the head */
 #save-article-form {
   display:none;
 }
