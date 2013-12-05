@@ -24,7 +24,6 @@ global.GitHubHelper = (collectionName, req, file, content, method, next) ->
 
 GitHubHelper::progressEmitter = (message, amount) ->
   global[@collectionName]["publish"] @req, type: "progress-bar", message: message, amount: amount, method: @method
-  log.info "Update published."
 
 GitHubHelper::writeFile = (callback) -> 
   @create_missing_directories =>
