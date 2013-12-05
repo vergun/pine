@@ -63,8 +63,6 @@ module.exports = function (grunt) {
     'linker/js/jquery-ui.js',
     'linker/js/rangy.js',
     'linker/js/hallo.js',
-    'linker/js/markdown/showdown.js',
-    'linker/js/markdown/to-markdown.js',
     'linker/**/*.js'
   ];
 
