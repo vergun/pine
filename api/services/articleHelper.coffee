@@ -39,16 +39,11 @@ _set_headers = (req, next) ->
     str += '' + key + ': ' + val + '\n'
     
   str += "---\n\n"
-  
-  content = str + req.param("content") 
-  req.query.content = content
-    
-  fs.writeFile req.param("path"), req.param("content"), (err) ->
-    if err
-      next(err)
-    else
-      next(null, req)
 
+  content = str + req.body.content
+  req.body.content = content
+  
+  next(null, req)
   
 ### Utility methods to act on the
   article model

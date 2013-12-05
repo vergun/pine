@@ -2,12 +2,10 @@
 
 <div class="container">
   <div class="row">
-  
-  <% if (session.authenticated) { %>         
-      <a href="/article/new" class="btn btn-sm btn-primary">+ New article</a>
-  <% } %>
-  
   <ul class="article-list">
+  <% if (session.authenticated) { %>         
+    <li><a href="/article/new" class="btn btn-mini btn-primary"><i class="icon-plus"></i> Add article</a></li>
+  <% } %>
     <li class="list-home">
       <i class="icon-home"></i>
       <b>Sugar CRM Support</b>

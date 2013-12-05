@@ -55,8 +55,10 @@ TODOs:
 
 * improve CRUD operations with git hooks
 * move population tasks to boostrap.js
-* improve WYSIWIG editor to accomodate html AND md
 * if git hooks fail display a message to the user
+* add socket support to flash messages because of ajax requests
+* sockets are broadcasting to all clients, only broadcast to actor
+* <CR> tags removal
 
 Server Setup Instructions
 ==========================
