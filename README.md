@@ -73,7 +73,7 @@ Server Setup Instructions
 2 Generated an ssh key for the user, and add it to deploy keys on github
 
     ssh-keygen
-    copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pine_needles repos
+    *copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pine_needles repos
 
 3 cloned the project into releases/20132411114612
 
@@ -107,11 +107,11 @@ Server Setup Instructions
 
     echo "export PYTHON=/usr/bin/python2.7" > ~/.bashrc
     echo "export ENV=production" > ~/.bashrc
-    source ~.bashrc
+    source ~/.bashrc
 
 9 npm installed
 
-    cd current
+    cd ~/ebs_volume/current
     npm install --production
 
 10 Added the git submodule
@@ -124,19 +124,19 @@ Server Setup Instructions
 
 11 Build the wintersmith project
 
-    cd ~/current/Pine_Needles
+    cd ~/ebs_volume/current/Pine_Needles
     wintersmith build
 
 12 Set up the pids
 
-    mkdir shared/pids
+    mkdir ~/ebs_volume/shared/pids
     vi ~/ebs_volume/shared/pids/pine.pid
     echo "9170" > ~/ebs_volume/shared/pids/pine.pid
 
 13 Installed pm2 and grunt
 
     cd ~/ebs_volume/shared/node_modules
-    npm install -g pm2 --python python2
+    npm install -g pm2
     npm install -g grunt
 
 14 Wrote the server scripts
@@ -147,8 +147,13 @@ Server Setup Instructions
 
     vi ~/ebs_volume/shared/config/database.yml
 
+15 Configure the Application port
+
+    vi ~/ebs_volume/shared/config/application.yml
+
+
 16 Run the server
-    
+
     ./~ebs_volume/restart_server.sh
 
 A other improvements
