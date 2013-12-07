@@ -64,75 +64,92 @@ Server Setup Instructions
 ==========================
 
 1 Made project folders
-mkdir ebs_volume
-cd ebs_volume
-mkdir shared (stores all shared content across builds)
-mkdir releases (stores previous builds)
+
+    mkdir ebs_volume
+    cd ebs_volume
+    mkdir shared
+    mkdir releases
 
 2 Generated an ssh key for the user, and add it to deploy keys on github
-ssh-keygen
-copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pine_needles repos
+
+    ssh-keygen
+    copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pine_needles repos
 
 3 cloned the project into releases/20132411114612
-git clone git@github.com:vergun/pine.git ~/ebs_volume/releases/20132411114612
+
+    git clone git@github.com:vergun/pine.git ~/ebs_volume/releases/20132411114612
 
 4 Symlinked node_modules and log folders
-ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
-ln -s ~/ebs_volume/shared/node_modules ~/ebs_volume/releases/20132411114612/node_modules
-ln -s ~/ebs_volume/shared/log ~/ebs_volume/releases/20132411114612/log
+
+    ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
+    ln -s ~/ebs_volume/shared/node_modules ~/ebs_volume/releases/20132411114612/node_modules
+    ln -s ~/ebs_volume/shared/log ~/ebs_volume/releases/20132411114612/log
 
 5 Set up yml files
-mkdir shared/config
-cp releases/20132411114612/config/application.yml.bak shared/config/application.yml
-cp releases/20132411114612/config/database.yml.bak shared/config/database.yml
-ln -s ~/ebs_volume/shared/config/application.yml ~/ebs_volume/releases/20132411114612/config/application.yml
-ln -s ~/ebs_volume/shared/config/database.yml ~/ebs_volume/releases/20132411114612/config/database.yml
+
+    mkdir shared/config
+    cp releases/20132411114612/config/application.yml.bak shared/config/application.yml
+    cp releases/20132411114612/config/database.yml.bak shared/config/database.yml
+    ln -s ~/ebs_volume/shared/config/application.yml ~/ebs_volume/releases/20132411114612/config/application.yml
+    ln -s ~/ebs_volume/shared/config/database.yml ~/ebs_volume/releases/20132411114612/config/database.yml
 
 6 Enter the correct info into the yml files
-vi shared/config/application.yml
-vi shared/config/database.yml
+
+    vi shared/config/application.yml
+    vi shared/config/database.yml
 
 7 removed development and test credentials from yml files
-vi shared/config/application.yml
-vi shared/config/database.yml
 
-8 npm installed
-cd current
-npm install --production
+    vi shared/config/application.yml
+    vi shared/config/database.yml
+    
+8 exported environment variables production and python as python2.7 in ~/.bashrc for node-gyp
 
-9 Added the git submodule
-git clone git@github.com:vergun/Pine_Needles.git ~/ebs_volume/shared/submodules/Pine_Needles
-ln -s ~/ebs_volume/shared/submodules/Pine_Needles ~/ebs_volume/releases/20132411114612/Pine_Needles
-git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
-git submodule init
-git submodule update
+    echo "export PYTHON=/usr/bin/python2.7" > ~/.bashrc
+    echo "export ENV=production" > ~/.bashrc
+    source ~.bashrc
 
-10 Build the wintersmith project
-cd ~/current/Pine_Needles
-wintersmith build
+9 npm installed
 
-10 Set up the pids
-mkdir shared/pids
-vi ~/ebs_volume/shared/pids/pine.pid
-enter 9170 then save the file
+    cd current
+    npm install --production
 
-11 Installed pm2 and grunt
-cd ~/ebs_volume/shared/node_modules
-npm install -g pm2 --python python2
-npm install -g grunt
+10 Added the git submodule
 
-12 Wrote the server scripts
-vi ~/ebs_volume/restart_server.sh
+    git clone git@github.com:vergun/Pine_Needles.git ~/ebs_volume/shared/submodules/Pine_Needles
+    ln -s ~/ebs_volume/shared/submodules/Pine_Needles ~/ebs_volume/releases/20132411114612/Pine_Needles
+    git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
+    git submodule init
+    git submodule update
 
-13 Setup the Database
-vi ~/ebs_volume/shared/config/database.yml
+11 Build the wintersmith project
 
-14 Add the environment variable to bashrc
-vi ~/.bashrc
-export ENV=production
+    cd ~/current/Pine_Needles
+    wintersmith build
 
-15 Run the server
-./~ebs_volume/restart_server.sh
+12 Set up the pids
+
+    mkdir shared/pids
+    vi ~/ebs_volume/shared/pids/pine.pid
+    echo "9170" > ~/ebs_volume/shared/pids/pine.pid
+
+13 Installed pm2 and grunt
+
+    cd ~/ebs_volume/shared/node_modules
+    npm install -g pm2 --python python2
+    npm install -g grunt
+
+14 Wrote the server scripts
+
+    vi ~/ebs_volume/restart_server.sh
+
+15 Setup the Database
+
+    vi ~/ebs_volume/shared/config/database.yml
+
+16 Run the server
+    
+    ./~ebs_volume/restart_server.sh
 
 A other improvements
 • put app server behind load balancer, use cloudwatch to ping port 6000 
@@ -140,7 +157,8 @@ A other improvements
 • set up the db drive on a 4 volume raid10 configuration for fault tolerance
 • set the mongod log path to shared/log/mongodb.log
 • if using nginx or apache set access and error logs to shared/log/access.log and shared/log/error.log for port 6000 traffic
-• Move the application off port 80
+• use puppet for deployment
+• automate mongodb dumps and article dumps to s3 with s3cmd
 
 B Sequence After each deploy
 ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
