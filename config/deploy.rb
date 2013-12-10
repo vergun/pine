@@ -16,38 +16,43 @@ set :scm, :git
 set :use_sudo, false
 set :ssh_options, { forward_agent: true }
 set :keep_releases, 5
+set :normalize_asset_timestamps, false
+
 
 server "pine.sugarcrm.com", :web, :app, :primary => true
 
-before "deploy:setup", "rvm:install_rvm"
-before "deploy:setup", "rvm:install_ruby"
-after "deploy:update_code", "deploy:symlink"
-after "deploy:symlink", "deploy:init_submodule"
-after "deploy:submodule", "deploy:install_node_modules"
-after "deploy:node_modules", "deploy:restart_pm2"
+before "deploy:setup",                  "rvm:install_rvm"
+before "deploy:setup",                  "rvm:install_ruby"
+
+after "deploy:update_code",             "deploy:symlink_configs"
+after "deploy:symlink_configs",         "deploy:init_submodule"
+after "deploy:init_submodule",          "deploy:install_node_modules"
+after "deploy:install_node_modules",    "deploy:restart_pm2"
 
 namespace :deploy do 
   
   desc "Symlink files and directories"
-  task :symlink do
-    run <<-EOS
-      ln -s #{release_path} ~/ebs_volume/current &&
-      ln -s ~/ebs_volume/shared/node_modules #{release_path}/node_modules &&
-      ln -s ~/ebs_volume/shared/log ~/ebs_volume/releases/#{release_path}/log &&
-      ln -s ~/ebs_volume/shared/config/application.yml ~/ebs_volume/releases/#{release_path}/config/application.yml &&
-      ln -s ~/ebs_volume/shared/config/database.yml ~/ebs_volume/releases/#{release_path}/config/database.yml
-    EOS
+  task :symlink_configs do
+    %w(application.yml database.yml).each do |f|
+      shared = "#{shared_path}/config/#{f}"
+      release = "#{release_path}/config/#{f}"
+      run <<-EOS
+        if [ -f #{shared} ] ; then
+          if [ -f #{release} ] ; then
+            rm #{release};
+          fi;
+          ln -s #{shared} #{release};
+        fi
+      EOS
+    end   
+    run "ln -s #{shared_path}/node_modules #{release_path}/node_modules"
   end
 
   desc "Initialize submodule"
   task :init_submodule do
-    run <<-EOS
-      git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
-      git submodule init
-      git submodule update
-    EOS
+    run "ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles"
   end
-  
+
   desc "Install node dependencies"
   task :install_node_modules do
     run "cd #{release_path}; npm install --production"
