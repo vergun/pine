@@ -164,6 +164,8 @@ A other improvements
 • if using nginx or apache set access and error logs to shared/log/access.log and shared/log/error.log for port 6000 traffic
 • use puppet for deployment
 • automate mongodb dumps and article dumps to s3 with s3cmd
+• Improve restart_server script to accept command line arguments
+
 
 B Sequence After each deploy
 ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
@@ -177,6 +179,30 @@ git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
 git submodule init
 git submodule update
 
+Deployment setup instructions
+=============================
 
-C Todo
-Improve restart_server script to accept command line arguments
+1 Install rvm
+
+    cd ~
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby
+    rvm autolibs disable
+    rvm requirements # manually install these
+    rvm install 1.9.3
+    rvm --default use 1.9.3
+    gem install bundler
+
+1A To deploy from client
+
+    bundle exec cap deploy
+
+2 Install Facter, Hiera, and Puppet
+    
+    http://downloads.puppetlabs.com/mac/
+    sudo gem install puppet
+    sudo puppet resource group puppet ensure=present
+    sudo puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin'
+    sudo touch /etc/puppet/puppet.conf
+
+
+3 http://spin.atomicobject.com/2012/07/26/standalone-puppet-with-capistrano/
