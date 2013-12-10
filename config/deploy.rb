@@ -4,20 +4,21 @@ require 'bundler/capistrano'
 
 set :application, "pine"
 set :repository, "git@github.com:vergun/pine.git"
-set :rvm_ruby_string, "system"
-set :rvm_type, :user
 set :branch, "master"
 set :timestamp, Time.now.strftime("%Y-%m-%d_%H-%M")
-set :node_env, "production"
 set :deploy_to, "~/ebs_volume/"
 set :user, 'vergun'
+
+set :rvm_type, :user
+set :rvm_ruby_string, "ruby-1.9.3-p484@pine"
+set :node_env, "production"
+
 set :scm_verbose, true
 set :scm, :git
 set :use_sudo, false
 set :ssh_options, { forward_agent: true }
 set :keep_releases, 5
 set :normalize_asset_timestamps, false
-
 
 server "pine.sugarcrm.com", :web, :app, :primary => true
 
@@ -26,8 +27,9 @@ before "deploy:setup",                  "rvm:install_ruby"
 
 after "deploy:update_code",             "deploy:symlink_configs"
 after "deploy:symlink_configs",         "deploy:init_submodule"
-after "deploy:init_submodule",          "deploy:install_node_modules"
-after "deploy:install_node_modules",    "deploy:restart_pm2"
+
+after "deploy:init_submodule",          "npm:install"
+after "npm:install",                    "pm2:restart"
 
 namespace :deploy do 
   
@@ -50,37 +52,46 @@ namespace :deploy do
 
   desc "Initialize submodule"
   task :init_submodule do
-    run "ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles"
+    submodule = "#{release_path}/Pine_Needles"
+    run <<-EOS
+      if [ -f #{submodule} ] ; then
+        rm -rf #{submodule};
+      fi;
+      ln -s #{shared_path}/submodules/Pine_Needles #{submodule}
+    EOS
   end
+  
+end
 
-  desc "Install node dependencies"
-  task :install_node_modules do
+namespace :npm do
+  
+  desc "Install node modules"
+  task :install do
     run "cd #{release_path}; npm install --production"
   end
   
-  desc "Restart pm2"
-  task :restart_pm2 do
-  end
-  
-end
-
-namespace :maintenacne do
-  
-  desc "Reset submodule"
-  task :reset_submodules do
-  end
 end
 
 namespace :pm2 do
+  
   desc "Start"
   task :start do
+    name = "#{application}"
+    run "pm2 start --name #{name} -o ~/ebs_volume/shared/logs/production.log -e ~/ebs_volume/shared/logs/error.log"
   end
   
   desc "Stop"
   task :stop do
+    name = "#{application}"
+    run "pm2 stop #{name}"
+    run "pm2 delete all"
   end
   
   desc "Restart"
   task :restart do
+    name    = "#{application}"
+    script  = "app.js"
+    run "cd #{release_path} && pm2 stop #{name} && pm2 delete all && pm2 start #{script} --name #{name} -o ~/ebs_volume/shared/log/production.log -e ~/ebs_volume/shared/log/error.log"
   end
+  
 end
