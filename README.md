@@ -59,6 +59,7 @@ TODOs:
 * add socket support to flash messages because of ajax requests
 * sockets are broadcasting to all clients, only broadcast to actor
 * <CR> tags removal
+* Register and kill pm2 process
 
 Server Setup Instructions
 ==========================

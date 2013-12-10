@@ -89,9 +89,7 @@ namespace :pm2 do
   
   desc "Restart"
   task :restart do
-    name    = "#{application}"
-    script  = "app.js"
-    run "cd #{release_path} && pm2 stop #{name} && pm2 delete all && pm2 start #{script} --name #{name} -o ~/ebs_volume/shared/log/production.log -e ~/ebs_volume/shared/log/error.log"
+    run "cd ~/ebs_volume && ./restart_server"
   end
   
 end
