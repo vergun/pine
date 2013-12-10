@@ -163,21 +163,9 @@ A other improvements
 • set the mongod log path to shared/log/mongodb.log
 • if using nginx or apache set access and error logs to shared/log/access.log and shared/log/error.log for port 6000 traffic
 • use puppet for deployment
-• automate mongodb dumps and article dumps to s3 with s3cmd
+• automate mongodb dumps, log dumps, and article dumps to s3 with s3cmd
+• Use the server restart server script for deployments
 • Improve restart_server script to accept command line arguments
-
-
-B Sequence After each deploy
-ln -s ~/ebs_volume/releases/20132411114612 ~/ebs_volume/current
-ln -s ~/ebs_volume/shared/node_modules ~/ebs_volume/releases/20132411114612/node_modules
-ln -s ~/ebs_volume/shared/log ~/ebs_volume/releases/20132411114612/log
-cp releases/20132411114612/config/application.yml.bak shared/config/application.yml
-cp releases/20132411114612/config/database.yml.bak shared/config/database.yml
-ln -s ~/ebs_volume/shared/config/application.yml ~/ebs_volume/releases/20132411114612/config/application.yml
-ln -s ~/ebs_volume/shared/config/database.yml ~/ebs_volume/releases/20132411114612/config/database.yml
-git submodule add ~/ebs_volume/shared/submodules/Pine_Needles
-git submodule init
-git submodule update
 
 Deployment setup instructions
 =============================
@@ -185,11 +173,10 @@ Deployment setup instructions
 1 Install rvm
 
     cd ~
-    \curl -sSL https://get.rvm.io | bash -s stable --ruby
-    rvm autolibs disable
-    rvm requirements # manually install these
-    rvm install 1.9.3
+    \curl -L https://get.rvm.io | bash -s -- --autolibs=read-fail
+    rvm install 1.9.3 --with-libyaml
     rvm --default use 1.9.3
+    rvm gemset create pine
     gem install bundler
 
 1A To deploy from client
