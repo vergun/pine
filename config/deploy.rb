@@ -20,7 +20,7 @@ set :ssh_options, { forward_agent: true }
 set :keep_releases, 5
 set :normalize_asset_timestamps, false
 
-server "pine.sugarcrm.com", :web, :app, :primary => true
+server "pine-bash.sugarcrm.com", :web, :app, :primary => true
 
 before "deploy:setup",                  "rvm:install_rvm"
 before "deploy:setup",                  "rvm:install_ruby"
