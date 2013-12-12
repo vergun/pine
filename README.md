@@ -156,6 +156,11 @@ Server Setup Instructions
 16 Run the server
 
     ./~ebs_volume/restart_server.sh
+    
+    
+17 Set up s3 config
+    
+    http://kb.site5.com/shell-access-ssh/how-to-setup-and-configure-the-s3cmd-tool-for-amazon-s3/
 
 A other improvements
 • put app server behind load balancer, use cloudwatch to ping port 6000 
