@@ -126,7 +126,7 @@ GitHubHelper::save = (file, content, next) ->
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
       @commitFiles.bind(@)
-      @pushFiles.bind(@)
+      # @pushFiles.bind(@)
     ],
     (err) =>
       if err
@@ -144,7 +144,7 @@ GitHubHelper::destroy = (file, content, next) ->
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
       @commitFiles.bind(@)
-      @pushFiles.bind(@)
+      # @pushFiles.bind(@)
     ],
     (err) =>
       if err
