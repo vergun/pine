@@ -23,7 +23,8 @@
     "async": "~0.2.9",
     "mkdirp": "~0.3.5",
     "winston": "~0.7.2",
-    "moment": "~2.4.0"
+    "moment": "~2.4.0",
+    "aws-sdk": "~2.0.0-rc4"
   },
   "devDependencies": {
     "grunt-contrib-coffee": ">= 0.7.0",

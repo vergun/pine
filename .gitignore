@@ -44,6 +44,7 @@ nbproject
 ########################
 config/application.yml
 config/database.yml
+config/s3.yml
 log
 .gitmodules
 Pine_Needles

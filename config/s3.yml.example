@@ -1,0 +1,20 @@
+development:
+  accessKeyId: 'akid'
+  secretAccessKey: 'secret'
+  region: 'us-west-2'
+  sslEnabled: false
+  maxRetries: 5
+  
+test:
+  accessKeyId: 'akid'
+  secretAccessKey: 'secret'
+  region: 'us-west-2'
+  sslEnabled: false
+  maxRetries: 5
+  
+production:
+  accessKeyId: 'akid'
+  secretAccessKey: 'secret'
+  region: 'us-west-2'
+  sslEnabled: false
+  maxRetries: 5
