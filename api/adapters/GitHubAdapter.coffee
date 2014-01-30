@@ -73,6 +73,14 @@ GitHubHelper::get_repository_status = (callback) ->
     else
       callback(null)
       
+GitHubHelper::setAuthorship = (callback) ->
+  log.info "Setting authorship", 20
+  repo.identify @req.session.User, (err) ->
+    if err
+      callback(err)
+    else
+      callback(null)
+    
 GitHubHelper::commitFiles = (callback) ->  
   log.info "Committing files"
   @progressEmitter "Committing files", 20
@@ -125,6 +133,7 @@ GitHubHelper::save = (file, content, next) ->
       @add_files_to_git.bind(@)
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
+      @setAuthorship.bind(@)
       @commitFiles.bind(@)
       # @pushFiles.bind(@)
     ],
@@ -143,6 +152,7 @@ GitHubHelper::destroy = (file, content, next) ->
       @add_files_to_git.bind(@)
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
+      @setAuthorship.bind(@)
       @commitFiles.bind(@)
       # @pushFiles.bind(@)
     ],
