@@ -57,8 +57,11 @@ ArticleController =
       res.redirect "/article"
       
   fetch: (req, res) ->
-    Article.list req.path, foundArticles = (articles) ->
-      Article.publish req, type: "articles", articles: articles      
+    console.log(req.param("path"));
+    Article.list req.param("path"), foundArticles = (articles) ->
+      res.json
+        success: true,
+        articles: articles
       
   sendFile: (req, res) ->
     res.download req.param("file"), (err) ->

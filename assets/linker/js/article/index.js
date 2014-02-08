@@ -3,7 +3,11 @@ function RequestManager(el) {
   this.path = $(el).data('path');
   
   this.dispatch = function() {
-    //Send socket request
+    socket.get('/article/fetch', {
+      path: this.path
+    }, function(response) {
+      alert(response.success);
+    })
   } 
 }
 
