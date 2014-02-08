@@ -2,7 +2,7 @@
 
   <% if (article.type == "folder" || article.name.indexOf(".md") != -1) { %>
   <!-- todo move to github adapter -->
-    <li class="<%= article.type %>">
+    <li class="<%= article.type %>" data-path="<%= article.path %>" data-has-been-opened="false">
       <%= include ../includes/_icon %>
       <%= article.name %>
       <% if (article.type == "file") { %>

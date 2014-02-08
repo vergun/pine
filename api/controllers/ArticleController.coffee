@@ -56,6 +56,10 @@ ArticleController =
         flash.msg req, "success", "article", "was successfully destroyed."
       res.redirect "/article"
       
+  fetch: (req, res) ->
+    Article.list req.path, foundArticles = (articles) ->
+      Article.publish req, type: "articles", articles: articles      
+      
   sendFile: (req, res) ->
     res.download req.param("file"), (err) ->
       if err

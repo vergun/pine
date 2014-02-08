@@ -80,6 +80,17 @@ GitHubHelper::setAuthorship = (callback) ->
       callback(err)
     else
       callback(null)
+      
+# GitHubHelper::getDiff = (callback) ->
+#   log.info "Getting diff", 20
+#   log.info @file
+#   _repo = git @file
+#   _repo.commits null, 10, null, (err, commits) ->
+#     log.info err
+#     log.info commits
+    
+  # repo.diff(commitA, commitB, [paths, ]callback)
+  
     
 GitHubHelper::commitFiles = (callback) ->  
   log.info "Committing files"
@@ -134,6 +145,7 @@ GitHubHelper::save = (file, content, next) ->
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
       @setAuthorship.bind(@)
+      # @getDiff.bind(@)
       @commitFiles.bind(@)
       # @pushFiles.bind(@)
     ],
@@ -211,7 +223,7 @@ module.exports = (->
       
       if stats.isDirectory()
         info.type = "folder"
-        info.children = fs.readdirSync(filename).map (child) -> adapter.dirTree(filename + "/" + child)
+        #info.children = fs.readdirSync(filename).map (child) -> adapter.dirTree(filename + "/" + child)
       else
         info.type = "file"
       
