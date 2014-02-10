@@ -42,11 +42,14 @@ function DirectoryManager(el) {
   }
   
   this.showNewFolders = function(_el, response) {
-    response.articles.children.forEach(function(child) {
-      $(_el).append('<li class="' + child.type + '" data-path="' + child.path + '">' + child.name + '</li>' )
+    response.articles.children.forEach(function(child, index) {
+      if (child.type == "folder" || child.name.indexOf(".md") != -1) {
+        $(_el).after('<ul class="article-list" style="display: block;"><li class="' + child.type + '" data-path="' + child.path + '" data-has-been-opened="' + 'false' + '">' + 
+        '<i class="icon-expand-alt switch"></i><i class="icon-folder-close"></i> ' + child.name +
+        ' </li></ul' )
+      }
     })
   }
-  
 }
 
 
