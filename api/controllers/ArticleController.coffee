@@ -57,7 +57,6 @@ ArticleController =
       res.redirect "/article"
       
   fetch: (req, res) ->
-    console.log(req.param("path"));
     Article.list req.param("path"), foundArticles = (articles) ->
       res.json
         success: true,

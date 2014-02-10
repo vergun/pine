@@ -2,11 +2,14 @@
 function RequestManager(el) {
   this.path = $(el).data('path');
   
-  this.dispatch = function() {
+  this.dispatch = function(callback) {
     socket.get('/article/fetch', {
       path: this.path
     }, function(response) {
-      alert(response.success);
+      if (callback && typeof callback == "function") {
+        var _el = el;
+        callback(_el, response);
+      }   
     })
   } 
 }
@@ -38,7 +41,14 @@ function DirectoryManager(el) {
     return this.el.data('has-been-opened')
   }
   
+  this.showNewFolders = function(_el, response) {
+    response.articles.children.forEach(function(child) {
+      $(_el).append('<li class="' + child.type + '" data-path="' + child.path + '">' + child.name + '</li>' )
+    })
+  }
+  
 }
+
 
 /// ImplementationDetails
 $(document).on('click', 'ul.article-list li.folder', function() {
@@ -51,7 +61,9 @@ var runClickedFolder = function(el) {
   
   if (!directoryManager.opened()) {
     var request = new RequestManager(el);
-    request.dispatch();
+    request.dispatch(function(_el, response) {
+      directoryManager.showNewFolders(_el, response);
+    });
   }
   
   directoryManager.slideToggle();
