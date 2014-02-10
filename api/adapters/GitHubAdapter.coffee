@@ -215,7 +215,7 @@ module.exports = (->
       results = adapter.dirTree filename
       next results
  
-    dirTree: (filename) ->
+    dirTree: (filename, tracker) ->
       stats = fs.lstatSync filename
       info = 
         path: path.normalize filename
@@ -223,10 +223,13 @@ module.exports = (->
       
       if stats.isDirectory()
         info.type = "folder"
-        #info.children = fs.readdirSync(filename).map (child) -> adapter.dirTree(filename + "/" + child)
+        if !tracker?
+          info.children = fs.readdirSync(filename).map (child) -> adapter.dirTree(filename + "/" + child, 1)        
+        else
+          info.children = []
       else
         info.type = "file"
-      
+                    
       info
       
   adapter
