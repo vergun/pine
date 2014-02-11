@@ -26,13 +26,13 @@ module.exports = (->
     syncable: false
     defaults: {}
     
-  putS3: (collectionName, req, file, next) ->
-    try 
-      s3Helper = new S3Helper(req, file, next)
-      s3Helper.put()
-    catch err
-      ErrorLogHelper err, "S3:"
-      self.next(err, null)
+    putS3: (collectionName, req, file, next) ->
+      try 
+        s3Helper = new S3Helper(req, file, next)
+        s3Helper.put()
+      catch err
+        ErrorLogHelper err, "S3:"
+        self.next(err, null)
     
   adapter
 )()
