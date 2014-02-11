@@ -37,15 +37,16 @@ ArticleController =
           edit: true
 
   update: (req, res) ->
-    ArticleHelper.setHeaders req, (err, req) ->
-      Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
-        req.session.flash = error: err if err
+    Article.buildForWintersmith req, req.param("path"), -> 
+      ArticleHelper.setHeaders req, (err, req) ->
+        Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
+          req.session.flash = error: err if err
       
-        unless article
-          flash.msg req, "error", "article", "could not be found."
-        else
-          flash.msg req, "success", "article", "was successfully updated."
-        res.redirect "/article"
+          unless article
+            flash.msg req, "error", "article", "could not be found."
+          else
+            flash.msg req, "success", "article", "was successfully updated."
+          res.redirect "/article"
 
   destroy: (req, res) ->
     Article.destroyWithGit req, appConfig.submodule.path + req.param("file"), null, "Deleted", (err, article) ->
