@@ -60,6 +60,7 @@ ArticleController =
     Article.list req.param("path"), foundArticles = (articles) ->
       res.json
         success: true,
+        user: req.session.User,
         articles: articles
       
   sendFile: (req, res) ->

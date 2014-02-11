@@ -40,16 +40,32 @@ function DirectoryManager(el) {
   this.opened = function() {
     return this.el.data('has-been-opened')
   }
-  
+
+  /* todo remove data-has-been-opened from files to avoid network requests */
   this.showNewFolders = function(_el, response) {
     response.articles.children.forEach(function(child, index) {
+      
       if (child.type == "folder" || child.name.indexOf(".md") != -1) {
-        $(_el).after('<ul class="article-list" style="display: block;"><li class="' + child.type + '" data-path="' + child.path + '" data-has-been-opened="' + 'false' + '">' + 
-        '<i class="icon-expand-alt switch"></i><i class="icon-folder-close"></i> ' + child.name +
-        ' </li></ul' )
+        
+        var string = '<ul class="article-list" style="display: block;"><li class="' + child.type + '" data-path="' + child.path + '" data-has-been-opened="' + 'false' + '">';
+        
+        if (child.type == "folder") { string+='<i class="icon-expand-alt switch"></i><i class="icon-folder-close"></i>' }
+        if (child.type == "file")   { string+= '<i class="icon-file"></i>' }
+        
+        string+= child.name + '<span class="article-buttons"><a href="/article/show?path=' + child.path + '" class="btn btn-mini btn-primary">Show</a>'
+      
+        if (response.user && typeof response.user != "undefined") {
+          string+= '<a href="/article/edit?path=' + child.path + '" class="btn btn-mini btn-warning">Edit</a>';
+          string+= '<a href="/article/destroy?path=' + child.path + '" class="btn btn-mini btn-danger">Destroy</a>';
+        }
+
+        string += '</li></ul'
+        
+        $(_el).after(string);
       }
     })
   }
+
 }
 
 
