@@ -56,13 +56,13 @@ namespace :deploy do
     run <<-EOS
       if [ -d #{submodule} ]; then
         if [ -L #{submodule} ]; then
-          rm #{submodule}
+          rm #{submodule};
         else
-          rmdir #{submodule}
+          rmdir #{submodule};
         fi
       fi
-      ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles 
     EOS
+    run "ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles"
   end
   
 end
