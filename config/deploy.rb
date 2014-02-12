@@ -57,7 +57,7 @@ namespace :deploy do
       if [ -f #{submodule} ] ; then
         rm -rf #{submodule};
       fi;
-      ln -s #{shared_path}/submodules/Pine_Needles #{release_path} 
+      ln -s #{shared_path}/submodules/Pine_Needles #{submodule} 
     EOS
   end
   
