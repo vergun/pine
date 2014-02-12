@@ -26,8 +26,9 @@ ArticleController =
 
   create: (req, res, next) ->
     Article.saveWithGit req, req.param("path"), req.param("content"), "Created", (err, article) ->
-      flash.msg req, "success", "article", "was successfully created."
-      res.redirect "/article"
+      Article.buildForWintersmith req, req.param("path"), (err, success) -> 
+        flash.msg req, "success", "article", "was successfully created."
+        res.redirect "/article"
 
   edit: (req, res) ->
     Article.read req.param("path"), foundArticle = (err, article) ->
@@ -37,11 +38,11 @@ ArticleController =
           edit: true
 
   update: (req, res) ->
-    Article.buildForWintersmith req, req.param("path"), (err, obj) -> 
-      ArticleHelper.setHeaders req, (err, req) ->
-        Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
+    ArticleHelper.setHeaders req, (err, req) ->
+      Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
+        Article.buildForWintersmith req, req.param("path"), (err, success) -> 
           req.session.flash = error: err if err
-      
+    
           unless article
             flash.msg req, "error", "article", "could not be found."
           else
