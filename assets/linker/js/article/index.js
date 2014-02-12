@@ -1,3 +1,36 @@
+/// Provide notification to the user
+function NotificationManager() {
+  
+  this.getFlash = function() {
+    var flash = $(document).find('.alert-error, .alert-info, .alert-success');
+    console.log(flash);
+  }
+  
+
+  
+  // this.el = $(el);
+  // 
+  // <% if (typeof flash!= 'undefined') { %>
+  //   <% ['error', 'info', 'success'].forEach(function(kind) { %>
+  //     <% if (flash[kind]) { %>
+  //       <div class="container">
+  //         <div class="alert alert-block alert-<%= kind %>">
+  //           <button type="button" class="close" data-dismiss="alert">&times;</button>
+  //           <h4><strong><%= kind.charAt(0).toUpperCase() + kind.slice(1) %></strong></h4> 
+  //           <% Object.keys(flash[kind]).forEach(function(obj) { %>
+  //             <% if (flash[kind][obj] && typeof(flash[kind][obj]) != "undefined") { %>
+  //             <p><%- flash[kind][obj].message %></p>
+  //             <% } %>
+  //           <% }) %>          
+  //         </div>
+  //       </div>
+  //     <% } %>
+  //   <% }) %>
+  // <% } %>
+  
+  
+}
+
 /// Submit Socket Request
 function RequestManager(el) {
   this.path = $(el).data('path');
@@ -42,7 +75,7 @@ function DirectoryManager(el) {
   }
 
   /* todo remove data-has-been-opened from files to avoid network requests */
-  this.showNewFolders = function(_el, response) {
+  this.showNewFilesAndFolders = function(_el, response) {
     response.articles.children.forEach(function(child, index) {
       
       if (child.type == "folder" || child.name.indexOf(".md") != -1) {
@@ -79,9 +112,12 @@ var runClickedFolder = function(el) {
   var directoryManager = new DirectoryManager(el);
   
   if (!directoryManager.opened()) {
+    var notificationManager = new NotificationManager();
+    notificationManager.getFlash();
+    
     var request = new RequestManager(el);
     request.dispatch(function(_el, response) {
-      directoryManager.showNewFolders(_el, response);
+      directoryManager.showNewFilesAndFolders(_el, response);
     });
   }
   
