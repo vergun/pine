@@ -35,7 +35,7 @@ namespace :deploy do
   
   desc "Symlink files and directories"
   task :symlink_configs do
-    %w(application.yml database.yml).each do |f|
+    %w(application.yml database.yml s3.yml).each do |f|
       shared = "#{shared_path}/config/#{f}"
       release = "#{release_path}/config/#{f}"
       run <<-EOS
@@ -57,7 +57,7 @@ namespace :deploy do
       if [ -f #{submodule} ] ; then
         rm -rf #{submodule};
       fi;
-      cd #{release_path} && ln -s #{shared_path}/submodules/Pine_Needles Pine_Needles 
+      ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles 
     EOS
   end
   
