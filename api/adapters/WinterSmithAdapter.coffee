@@ -10,6 +10,7 @@ global.WinterSmithHelper = (req, file, next) ->
   @req = req
   @file = file
   @next = next
+  @configPath = "Pine_Needles/config.json"
   @
   
   
@@ -41,7 +42,7 @@ WinterSmithHelper::build = () ->
         buildPath[1] = "build" if buildPath[1] == "contents"
         buildPath = buildPath.join("/")
         
-        build = childProcess.exec "wintersmith build --ignore #{folders} --contents #{filePath} --output #{buildPath} --verbose", (err, stdout, stderr) =>
+        build = childProcess.exec "wintersmith build --ignore #{folders} --config #{@configPath} --contents #{filePath} --output #{buildPath} --verbose", (err, stdout, stderr) =>
           if err
             ErrorLogHelper err.stack, "WINTERSMITH:"
             @next(err, null)
