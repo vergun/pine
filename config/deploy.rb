@@ -54,9 +54,13 @@ namespace :deploy do
   task :init_submodule do
     submodule = "#{release_path}/Pine_Needles"
     run <<-EOS
-      if [ -f #{submodule} ] ; then
-        rm -rf #{submodule};
-      fi;
+      if [ -d #{submodule} ]; then
+        if [ -L #{submodule} ]; then
+          rm #{submodule}
+        else
+          rmdir #{submodule}
+        fi
+      fi
       ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles 
     EOS
   end
