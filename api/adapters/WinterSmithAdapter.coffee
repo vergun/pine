@@ -12,41 +12,44 @@ global.WinterSmithHelper = (req, file, next) ->
   @next = next
   @
   
+  
+### Works:
+
+Build a single folder:
+  
+(1) Get all folders into a comma delimited list
+(2) Pass current tree and build tree as arguments
+(3) Pass ignore as folder list
+(4) call on build with options
+
+wintersmith build --ignore 01_Documentation,03_Community --contents contents/articles/01_Get_Started/03_Developers --output build/articles/01_Get_Started/03_Developers --verbose 
+
+###
 WinterSmithHelper::build = () ->
-  Article.list @file, (results) ->
+  Article.list @file, (results) =>
     if results
       if results.type == "file"
         filePath = results.path.split("/").slice(0,-1).join("/")
       if results.type == "directory"
         filePath = results.path
         
-      Article.list filePath, (results) ->
-        ### Works:
-
-        (1) Get all folders into a comma delimited list
-        (2) Pass current tree and build tree as arguments
-        (3) Pass ignore as folder list
-        (4) call on build with options
-
-        wintersmith build --ignore 01_Documentation,03_Community --contents contents/articles/01_Get_Started/03_Developers --output build/articles/01_Get_Started/03_Developers --verbose 
-
-        ###
-
-    if @next && typeof @next is "function"
-      @next()
-    
-    
-  # build = childProcess.exec "wintersmith build #{@file}", (err, stdout, stderr) ->
-  #   if error
-  #     ErrorLogHelper err.stack, "WINTERSMITH:"
-  #     @next(err, null)
-  #   else
-      # SuccessLogHelper stdout, "WINTERSMITH:"
-      # @next(null, null)
-
-  # build.on "exit", (code) ->
-  #   SuccessLogHelper code, "WINTERSMITH exited with code:"
-  #   @next(null, null)
+      Article.list filePath, (results) =>
+        folders = (x.name for x in results.children when x.type is "folder")
+        folders = folders.join(",")
+        
+        buildPath = filePath.split("/")
+        buildPath[1] = "build" if buildPath[1] == "contents"
+        buildPath = buildPath.join("/")
+        
+        build = childProcess.exec "wintersmith build --ignore #{folders} --contents #{filePath} --output #{buildPath} --verbose", (err, stdout, stderr) =>
+          if err
+            ErrorLogHelper err.stack, "WINTERSMITH:"
+            @next(err, null)
+          else
+            log.info stdout
+            SuccessLogHelper stdout, "WINTERSMITH:"
+            @next(null, {success:true})
+            
       
 module.exports = (->
   

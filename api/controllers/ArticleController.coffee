@@ -37,7 +37,7 @@ ArticleController =
           edit: true
 
   update: (req, res) ->
-    Article.buildForWintersmith req, req.param("path"), -> 
+    Article.buildForWintersmith req, req.param("path"), (err, obj) -> 
       ArticleHelper.setHeaders req, (err, req) ->
         Article.saveWithGit req, req.param("path"), req.param("content"), "Updated", (err, article) ->
           req.session.flash = error: err if err
