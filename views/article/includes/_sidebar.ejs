@@ -11,11 +11,12 @@
         <% if (typeof(edit) != "undefined" && edit) { %>
           <li><a href="javascript:history.back()"><i class="icon-remove"></i>  Cancel</a></li>
           <li><%= include _save_article_form %></li>
-          <li><a href="#" id="edit-article-save"><i class="icon-edit"></i> Save</a></li>  
+          <li><a href="#" id="edit-article-save"><i class="icon-edit"></i> Save</a></li> 
+          <li><a href="/article/publish?path=<%= article.path %>"><i class="icon-thumbs-up"></i> Publish</a></li>   
         <% } else { %>
           <li><a href="/article/edit?path=<%= article.path %>"><i class="icon-edit"></i> Edit article</a></li>
+          <li><a href="/article/publish?path=<%= article.path %>"><i class="icon-thumbs-up"></i> Publish</a></li>  
         <% } %>
-        
       <% } %>
     </ul>
   </div>
