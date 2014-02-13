@@ -1,3 +1,6 @@
+/// Template settings mustache {{ }}
+
+
 /// Provide notification to the user
 function NotificationManager() {
   this.flash = $('.attention');
@@ -31,7 +34,8 @@ function RequestManager(el) {
 /// Manage Directory Tree Structure
 function DirectoryManager(el) {
   
-  this.el = $(el);
+  this.el = $(el)
+  this.rowsTemplate = $('#rows-template').html()
     
   this.setHasBeenOpenedDataAttribute = function() {
     this.el.data('has-been-opened', 'true');
@@ -54,36 +58,30 @@ function DirectoryManager(el) {
     return this.el.data('has-been-opened')
   }
 
-  /* todo remove data-has-been-opened from files to avoid network requests */
   this.showNewFilesAndFolders = function(_el, response) {
+    var _this = this;
     response.articles.children.forEach(function(child, index) {
       
-      if (child.type == "folder" || child.name.indexOf(".md") != -1) {
-        
-        var string = '<ul class="article-list" style="display: block;"><li class="' + child.type + '" data-path="' + child.path + '" data-has-been-opened="' + 'false' + '">';
-        
-        if (child.type == "folder") { string+='<i class="icon-expand-alt switch"></i><i class="icon-folder-close"></i>' }
-        if (child.type == "file")   { string+= '<i class="icon-file"></i>' }
-        
-        string+= child.name + '<span class="article-buttons"><a href="/article/show?path=' + child.path + '" class="btn btn-mini btn-primary">Show</a>'
+      var template = _.template(
+        _this.rowsTemplate, { child: child, response: response }
+      );
       
-        if (response.user && typeof response.user != "undefined") {
-          string+= '<a href="/article/edit?path=' + child.path + '" class="btn btn-mini btn-warning">Edit</a>';
-          string+= '<a href="/article/destroy?path=' + child.path + '" class="btn btn-mini btn-danger">Destroy</a>';
-        }
-
-        string += '</li></ul'
-        
-        $(_el).after(string);
-      }
+      $(_el).after(template);
+      
     })
   }
 
 }
 
-
 /// ImplementationDetails
 $(document).on('click', 'ul.article-list li.folder', function() {
+  
+  _.templateSettings = {
+    evaluate    : /\{\{([\s\S]+?)\}\}/g,
+    interpolate : /\{\{=([\s\S]+?)\}\}/g,
+    escape      : /\{\{-([\s\S]+?)\}\}/g
+  };
+    
   runClickedFolder(this);
 })
 
