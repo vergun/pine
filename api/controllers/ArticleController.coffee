@@ -65,6 +65,11 @@ ArticleController =
         user: req.session.User,
         articles: articles
         
+  publish: (req, res) ->
+    Article.buildForWintersmith req, req.param("path"), (err, success) -> 
+      flash.msg req, "success", "article", "was successfully published."
+      res.redirect "/article"
+    
   copy: (req, res) ->
     ArticleHelper.copy req.params("path"), req.params("destination"), () ->
       res.json
