@@ -64,6 +64,16 @@ ArticleController =
         success: true,
         user: req.session.User,
         articles: articles
+        
+  copy: (req, res) ->
+    ArticleHelper.copy req.params("path"), req.params("destination"), () ->
+      res.json
+        success:true
+    
+  move: (req, res) ->
+    ArticleHelper.move req.params("path"), req.params("destination"), () ->
+      res.json
+        success:true
       
   sendFile: (req, res) ->
     res.download req.param("file"), (err) ->

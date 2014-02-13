@@ -1,5 +1,5 @@
-yaml = require('js-yaml')
-fs = require('fs')
+yaml  = require 'js-yaml'
+fs    = require 'fs-extra'
 
 _error = (article, callback) ->
   article.headers = null
@@ -8,7 +8,6 @@ _error = (article, callback) ->
     code: "article_missing_header_or_formatted_improperly"
     
   callback(error, article)
-  
   
 _parse_headers = (article) ->
   article.content.split("---\n\n")
@@ -50,6 +49,17 @@ _set_headers = (req, next) ->
                           ###  
 
 global.ArticleHelper =
+  
+  copy: (target, destination, next) ->
+    fs.copyRecursive target, destination, (err) ->
+      if !err
+        next()
+    
+  move: (target, destination, next) ->
+    fs.move target, destination, (err) ->
+      if !err
+        next()
+    
   readHeaders: (article, callback) ->
     if article?.content
       _read_headers article, (error, article) ->
