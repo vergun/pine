@@ -1,3 +1,19 @@
+i:not(.initial-load) {
+    margin:2px;
+}
+.attention {
+    display:none;
+    position:absolute;
+    top:0;
+    left:42%;
+    margin:0 auto;
+    padding-left:4%;
+    padding-right:4%;
+    background-color:yellow;
+    color:black;
+    z-index:99999!important;
+    text-align:center;
+}
 textarea {
     width: 100%;
     min-height: 300px;
@@ -5,39 +21,39 @@ textarea {
     padding: 5px;
 }
 .github-cover {
-  display:none;
-  background:grey;
-  position:fixed;
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
-  padding:0;
-  margin:0;
-  background-size:100%;
-  opacity:.95;
-  z-index:500!important;
+    display:none;
+    background:grey;
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    padding:0;
+    margin:0;
+    background-size:100%;
+    opacity:.95;
+    z-index:500!important;
 }
 .github-progress {
-  display:none;
-  position:fixed;
-  left:20%;
-  right:20%;
-  top:35%;
-  z-index:9998!important;
+    display:none;
+    position:fixed;
+    left:20%;
+    right:20%;
+    top:35%;
+    z-index:9998!important;
 }
 .progress-bar-message {
-  width:100%;
-  text-align:center;
-  position:relative;
-  margin: 0 auto;
-  left:0;
-  right:0;
-  top:50px;
-  color: #fff;
-  font-size:2em;
-  display:none;
-  z-index:9998!important;
+    width:100%;
+    text-align:center;
+    position:relative;
+    margin: 0 auto;
+    left:0;
+    right:0;
+    top:50px;
+    color: #fff;
+    font-size:2em;
+    display:none;
+    z-index:9998!important;
 }
 .article-list li, .panel li {
   list-style-type: none;
@@ -104,4 +120,30 @@ because css isn't loaded
 in the head */
 #save-article-form {
   display:none;
+}
+
+
+//sortable jquery
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+.placeholder{
+    background-color:red;
+    color:red;
+    width:100px;
+    height:100px;
+}
+
+ul.example li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ul.example li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
 }
