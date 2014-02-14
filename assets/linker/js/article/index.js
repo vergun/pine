@@ -1,6 +1,3 @@
-/// Template settings mustache {{ }}
-
-
 /// Provide notification to the user
 function NotificationManager() {
   this.flash = $('.attention');
@@ -74,8 +71,10 @@ function DirectoryManager(el) {
 }
 
 /// ImplementationDetails
-$(document).on('click', 'ul.article-list li.folder', function() {
+jQuery(document)
+  .on('click', 'ul.article-list li.folder', function() {
   
+  /// Template settings mustache {{ }}
   _.templateSettings = {
     evaluate    : /\{\{([\s\S]+?)\}\}/g,
     interpolate : /\{\{=([\s\S]+?)\}\}/g,
@@ -83,6 +82,17 @@ $(document).on('click', 'ul.article-list li.folder', function() {
   };
     
   runClickedFolder(this);
+})
+
+/// Fix for Bootstrap Modals not affecting dom layout but rendering underneath elemetns unclickable
+jQuery(document)
+  .on('click', 'a[data-target="#copyArticle"], #copyArticle button.close, #copyArticle button[data-dismiss="modal"]', function() {
+    $('#copyArticle').toggleClass('z-index-fix');
+})
+
+jQuery(document)
+  .on('click', 'a[data-target="#moveArticle"], #moveArticle button.close, #moveArticle button[data-dismiss="modal"]', function() {
+    $('#moveArticle').toggleClass('z-index-fix');
 })
 
 var runClickedFolder = function(el) {
