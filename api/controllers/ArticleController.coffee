@@ -16,10 +16,11 @@ ArticleController =
       res.view articles: articles
       
   show: (req, res, next) ->
-    Article.read req.param("path"), foundArticle = (err, article) ->  
-      ArticleHelper.readHeaders article, (err, article) ->
-        res.view
-          article: article
+    Article.read req.param("path"), foundArticle = (err, article) ->   
+      ArticleHelper.readCommits article, (err, article) -> 
+        ArticleHelper.readHeaders article, (err, article) ->
+          res.view
+            article: article
 
   'new': (req, res) ->
     res.view {}

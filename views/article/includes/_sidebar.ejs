@@ -34,7 +34,15 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">Recent activity</div>
-  <div class="panel-body">
-    Not yet implemented
-  </div>
+  <ul class="list-group">
+    <% if (article.history) { %>  
+      <% if (article.history.length > 0) { %>
+        <% article.history.forEach(function(history) { %> 
+          <li class="list-group-item"><%= history %></li>
+        <% }) %>
+      <% } else { %>
+        <li>No edit history yet for this article.</li>
+      <% } %> 
+    <% } %>  
+    </ul>
 </div>

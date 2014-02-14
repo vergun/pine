@@ -87,11 +87,7 @@ global.ErrorLogHelper = (err, prefix) ->
   log.warn prefix + "Arguments: " + err.arguments
   log.warn prefix + "Stack: " + err.stack
   
-global.SuccessLogHelper = (err, prefix) ->
+global.SuccessLogHelper = (data, prefix) ->
   prefix = "LOG: " unless prefix
   log.info prefix + "Success:"
-  log.info prefix + "Message: " + err.message
-  log.info prefix + JSON.stringify(err, ' ', null)
-  log.info prefix + "Type: " + err.type
-  log.info prefix + "Arguments: " + err.arguments
-  log.info prefix + "Stack: " + err.stack
+  log.info prefix + JSON.stringify(data, ' ', null)
