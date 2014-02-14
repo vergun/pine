@@ -73,14 +73,14 @@ ArticleController =
       res.redirect "/article"
     
   copy: (req, res) ->
-    ArticleHelper.copy req.params("path"), req.params("destination"), () ->
-      res.json
-        success:true
+    ArticleHelper.copy req.param("path"), req.param("destination"), () ->
+      flash.msg req, "success", "article", "was successfully created."
+      res.redirect "/article"
     
   move: (req, res) ->
-    ArticleHelper.move req.params("path"), req.params("destination"), () ->
-      res.json
-        success:true
+    ArticleHelper.move req.param("path"), req.param("destination"), () ->
+      flash.msg req, "success", "article", "was successfully created."
+      res.redirect "/article"
       
   sendFile: (req, res) ->
     res.download req.param("file"), (err) ->

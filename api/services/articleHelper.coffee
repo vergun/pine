@@ -1,5 +1,5 @@
 yaml  = require 'js-yaml'
-fs    = require 'fs-extra'
+fse   = require 'fs-extra'
 childProcess = require 'child_process'
 
 _error = (article, callback) ->
@@ -66,15 +66,29 @@ _read_commits = (article, path, next) ->
 
 global.ArticleHelper =
   
-  copy: (target, destination, next) ->
-    fs.copyRecursive target, destination, (err) ->
-      if !err
-        next()
-    
-  move: (target, destination, next) ->
-    fs.move target, destination, (err) ->
-      if !err
-        next()
+  copy: (source, destination, next) ->
+    stats = fse.lstatSync source
+    if stats.isDirectory()
+      fse.copyRecursive source, destination, (err) ->
+        if !err
+          next()
+    else
+      fse.copy source, destination, (err) ->
+        if !err
+          next()
+     
+  move: (source, destination, next) ->
+    stats = fse.lstatSync source
+    if stats.isDirectory()
+      fse.copyRecursive source, destination, (err) ->
+        fse.unlink source, (err) ->
+          if !err
+            next()
+    else
+      fse.copy source, destination, (err) ->
+        fse.unlink source, (err) ->
+          if !err
+            next()
 
   readHeaders: (article, callback) ->
     if article?.content
