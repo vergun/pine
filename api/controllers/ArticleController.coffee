@@ -33,10 +33,11 @@ ArticleController =
 
   edit: (req, res) ->
     Article.read req.param("path"), foundArticle = (err, article) ->
-      ArticleHelper.readHeaders article, (err, article) ->
-        res.view
-          article: article
-          edit: true
+      ArticleHelper.readCommits article, (err, article) -> 
+        ArticleHelper.readHeaders article, (err, article) ->
+          res.view
+            article: article
+            edit: true
 
   update: (req, res) ->
     ArticleHelper.setHeaders req, (err, req) ->
