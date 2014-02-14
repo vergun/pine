@@ -85,14 +85,30 @@ jQuery(document)
 })
 
 /// Fix for Bootstrap Modals not affecting dom layout but rendering underneath elemetns unclickable
+// copy
 jQuery(document)
   .on('click', 'a[data-target="#copyArticle"], #copyArticle button.close, #copyArticle button[data-dismiss="modal"]', function() {
     $('#copyArticle').toggleClass('z-index-fix');
 })
 
+// move
 jQuery(document)
   .on('click', 'a[data-target="#moveArticle"], #moveArticle button.close, #moveArticle button[data-dismiss="modal"]', function() {
     $('#moveArticle').toggleClass('z-index-fix');
+})
+
+jQuery(document)
+.on('click', 'a[data-target="#copyArticle"]', function() {
+  var path = $(this).parents('li').data('path')
+  $('input#copyArticleSource').attr("placeholder", path);  
+  $('input#copyArticleSource').val(path);
+})
+
+jQuery(document)
+.on('click', 'a[data-target="#moveArticle"]', function() {
+  var path = $(this).parents('li').data('path')
+  $('input#moveArticleSource').attr("placeholder", path); 
+  $('input#moveArticleSource').val(path);  
 })
 
 var runClickedFolder = function(el) {

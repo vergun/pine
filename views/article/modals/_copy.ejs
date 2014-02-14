@@ -7,13 +7,20 @@
       </div>
 
       <div class="modal-body" aria-hidden="true">
-      <a href="/article/copy?path={{= child.path }}" class="btn btn-mini btn-warning copy-article">Copy</a>
-      <a href="/article/move?path={{= child.path }}" class="btn btn-mini btn-warning move-article">Move</a>
-      </div>
-      
+        <form action="/article/copy">
+          Source
+          <input id="copyArticleSource" name="path" type="text" placeholder="filename" class="input-xxlarge uneditable-input" />
+          <br>
+          Destination
+          <input id="copyArticleDestination" name="destination" type="text" placeholder="filename" class="input-xxlarge" />
+          <br>
+        </div>
       <div class="modal-footer">
+        <input type="submit" class="btn btn-primary">
+        </form>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
+      
     </div>
   </div>
 </div>
