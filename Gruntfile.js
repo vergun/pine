@@ -61,6 +61,7 @@ module.exports = function (grunt) {
 
     // All of the rest of your app scripts imported here
     'linker/js/jquery-ui.js',
+    'linker/js/tinymce.min.js',    
     'linker/js/rangy.js',
     'linker/js/hallo.js',
     'linker/js/underscore.min.js',
