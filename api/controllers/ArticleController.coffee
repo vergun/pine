@@ -60,6 +60,12 @@ ArticleController =
         flash.msg req, "success", "article", "was successfully destroyed."
       res.redirect "/article"
       
+  getDiff: (req, res) ->
+    ArticleHelper.getDiff req.param("commit"), req.param("path"), (err, article) -> 
+      res.json
+        success: true,
+        diff: article.diff
+      
   fetch: (req, res) ->
     Article.list req.param("path"), foundArticles = (articles) ->
       res.json

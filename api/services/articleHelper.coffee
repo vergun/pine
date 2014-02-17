@@ -73,6 +73,18 @@ _read_commits = (article, path, next) ->
         
       article.history = history
       next(null, article)
+      
+_get_diff = (commit, path, next) ->
+  
+  build = childProcess.exec "cd Pine_Needles && git diff #{commit} -- #{path}", (err, stdout, stderr) =>
+    if err
+      ErrorLogHelper err.stack, "DIFF:"
+      next(err, null)
+    else
+      article =
+        diff: stdout
+        
+      next(null, article)
 
 global.ArticleHelper =
   
@@ -114,6 +126,12 @@ global.ArticleHelper =
     else
       @error article, callback
       
+  getDiff: (commit, path, callback) ->
+    path = _get_submodule_path path
+    
+    _get_diff commit, path, (error, article) ->
+      callback(error, article)
+    
   readCommits: (article, callback) ->
     path = _get_submodule_path(article.path)
     

@@ -25,10 +25,21 @@ jQuery(function() {
     label.next('input').attr( 'name', label.val() )
   })
   
-  // move
+  // Git diff
   jQuery(document)
     .on('click', 'a[data-target="#commit"], #commit button.close, #commit button[data-dismiss="modal"]', function() {
       $('#commit').toggleClass('z-index-fix');
   })
+  
+  // Send socket request
+  jQuery(document).on('click', 'a[data-target="#commit"]', function() {
+    var commitHash = $(this).data('commit');
+    socket.get('/article/getCommits', {
+      hash: commitHash
+    }, function(response) {
+      
+      alert(response);
+    })  
+  });
   
 });
