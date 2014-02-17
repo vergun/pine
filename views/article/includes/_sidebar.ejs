@@ -38,7 +38,7 @@
     <% if (article.history) { %>  
       <% if (article.history.length) { %>
         <% article.history.forEach(function(history) { %> 
-          <li class="list-group-item"><%= history %></li>
+          <li class="list-group-item" data-commit="<%= history.long_hash %>"><%= history.author_name %> (<%= history.author_email %>) (<a href="#"><%= history.commit_date %></a>)</li>
         <% }) %>
       <% } else { %>
         <li class="list-group-item">No edit history yet for this article.</li>

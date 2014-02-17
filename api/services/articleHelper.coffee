@@ -52,16 +52,26 @@ _get_submodule_path = (path) ->
   filePath = filePath.join("/")
   filePath
   
+  
 _read_commits = (article, path, next) ->
-  log.info path
-  build = childProcess.exec "cd Pine_Needles && git log -5 --graph --pretty=format:'%h -%d %f (%cr) <%an>' -- #{path}", (err, stdout, stderr) =>
+  
+  build = childProcess.exec "cd Pine_Needles && git log -5 --graph --pretty=format:'%h\,%H\,%f\,%cr\,%an\,%ae' -- #{path}", (err, stdout, stderr) =>
     if err
       ErrorLogHelper err.stack, "DIFF:"
       next(err, null)
     else
-      article.history =   stdout.split("\n")
-            
-      SuccessLogHelper stdout, "DIFF:"
+      [lines, history] = [stdout.split("\n"), []]      
+      for line, i in lines
+        line = line.split("\,")
+        history[i] = 
+          short_hash: line[0]
+          long_hash: line[1]
+          subject: line[2]
+          commit_date: line[3]
+          author_name: line[4]
+          author_email: line[5]
+        
+      article.history = history
       next(null, article)
 
 global.ArticleHelper =
