@@ -12,7 +12,6 @@ module.exports.bootstrap = function (cb) {
   
   var git         = require("gift");
   var repo        = git("Pine_Needles");
-  cb();
 
   if (appConfig && appConfig.submodule && appConfig.submodule.path) {
     repo.checkout(appConfig.submodule.branch, function() {
