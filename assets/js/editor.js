@@ -17,22 +17,31 @@ tinymce.init({
 // Update HTML every time content is modified
 jQuery(document)
     .ready(function() {
-
+      
 var showSource = function(content) {
     jQuery('#source')
         .get(0)
         .value = content;
 };
 
-jQuery('.editable')
-    .bind('hallomodified', function(event, data) {
-    showSource(data.content);
+// update source code when typing
+jQuery('div.editable')
+    .bind('keypress', function() {
+    var html = $(this).html();
+    showSource(html);
+});
+
+// update source code when clicking editor
+jQuery(document)
+    .on('click', '.mce-btn', function() {
+    var html = $(this).html();
+    showSource(html);
 });
 
 var html = 
-  jQuery('.editable').length > 0 ? 
-  jQuery('.editable').html() : 
-  jQuery('.not-editable').html();
+  jQuery('div.editable').length > 0 ? 
+  jQuery('div.editable').html() : 
+  jQuery('div.not-editable').html();
   
 showSource(html);
 
