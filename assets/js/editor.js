@@ -27,14 +27,14 @@ var showSource = function(content) {
 // update source code when typing
 jQuery('div.editable')
     .bind('keypress', function() {
-    var html = $(this).html();
+    var html = $('.editable').html();
     showSource(html);
 });
 
 // update source code when clicking editor
 jQuery(document)
-    .on('click', '.mce-btn', function() {
-    var html = $(this).html();
+    .on('click', '.mce-btn, a[data-target="#myModal"]', function() {
+    var html = $('.editable').html();
     showSource(html);
 });
 
