@@ -97,6 +97,7 @@ jQuery(document)
     $('#moveArticle').toggleClass('z-index-fix');
 })
 
+// copy
 jQuery(document)
 .on('click', 'a[data-target="#copyArticle"]', function() {
   var path = $(this).parents('li').data('path')
@@ -104,6 +105,7 @@ jQuery(document)
   $('input#copyArticleSource').val(path);
 })
 
+// move
 jQuery(document)
 .on('click', 'a[data-target="#moveArticle"]', function() {
   var path = $(this).parents('li').data('path')
