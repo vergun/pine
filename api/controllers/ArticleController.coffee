@@ -80,13 +80,16 @@ ArticleController =
     
   copy: (req, res) ->
     ArticleHelper.copy req.param("path"), req.param("destination"), () ->
-      flash.msg req, "success", "article", "was successfully created."
-      res.redirect "/article"
+      Article.saveWithGit req, req.param("destination"), req.param("content"), "Copied", () ->   
+        flash.msg req, "success", "article", "was successfully created."
+        res.redirect "/article"
     
   move: (req, res) ->
     ArticleHelper.move req.param("path"), req.param("destination"), () ->
-      flash.msg req, "success", "article", "was successfully created."
-      res.redirect "/article"
+      Article.destroyWithGit req, req.param("path"), null, "Deleted", () ->
+        Article.saveWithGit req, req.param("destination"), req.param("content"), "Moved", () ->
+          flash.msg req, "success", "article", "was successfully created."
+          res.redirect "/article"
       
   sendFile: (req, res) ->
     res.download req.param("file"), (err) ->
