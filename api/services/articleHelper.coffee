@@ -60,7 +60,7 @@ _read_commits = (article, path, next) ->
       ErrorLogHelper err.stack, "DIFF:"
       next(err, null)
     else
-      [lines, history] = [stdout.split("\n"), []]      
+      [lines, history] = [stdout.split("\n"), []]    
       for line, i in lines
         line = line.split("\,")
         history[i] = 
@@ -70,8 +70,10 @@ _read_commits = (article, path, next) ->
           commit_date: line[3]
           author_name: line[4]
           author_email: line[5]
-        
-      article.history = history
+    
+      if _.first(history)["long_hash"] and _.first(history)["short_hash"]
+        article.history = history
+
       next(null, article)
       
 _get_diff = (commit, path, next) ->

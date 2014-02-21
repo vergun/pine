@@ -23,26 +23,35 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">Stats</div>
+  <div class="panel-heading">Article</div> 
+  <ul class="list-group">
+    <% if (article.history && article.history.length) { %>  
+        <% article.history.forEach(function(history) { %> 
+           <li class="list-group-item"><%= history.author_name %> (<%= history.author_email %>) (<a data-target="#commit" data-commit="<%= history.long_hash %>" data-toggle="modal" href="#"><%= history.commit_date %></a> )</li>
+        <% }) %>
+    <% } else { %>
+      <li class="list-group-item">No edit history for this article.</li>
+    <% } %>  
+  </ul>
   <div class="panel-body">
     <ul>
-      <li class="not-a-link" id="word-count"><i class="icon-book"></i></li>  
-      <li class="not-a-link" id="character-count"><i class="icon-sort-by-alphabet"></i></li>  
+      <li>Stats</li>
+      <li class="not-a-link"><i class="icon-book"></i><span id="word-count"></span></li>  
+      <li class="not-a-link"><i class="icon-sort-by-alphabet"></i><span id="character-count"></span></li>
+      <li class="not-a-link"></li>
     </ul>
   </div>
 </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">Recent activity</div>
-  <ul class="list-group">
-    <% if (article.history) { %>  
-      <% if (article.history.length) { %>
-        <% article.history.forEach(function(history) { %> 
-          <li class="list-group-item"><%= history.author_name %> (<%= history.author_email %>) (<a data-target="#commit" data-commit="<%= history.long_hash %>" data-toggle="modal" href="#"><%= history.commit_date %></a> )</li>
-        <% }) %>
-      <% } else { %>
-        <li class="list-group-item">No edit history yet for this article.</li>
-      <% } %> 
-    <% } %>  
+
+<div class="panel panel-default" style="display:none">
+  <div class="panel-heading">Stats</div>
+  <div class="panel-body">
+    <ul>
+      <li class="not-a-link"><i class="icon-book"></i></li>  
+      <li class="not-a-link"><i class="icon-sort-by-alphabet"></i></li>
+      <li class="not-a-link"></li>
     </ul>
+  </div>
 </div>
+
