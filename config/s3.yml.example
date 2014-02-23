@@ -4,6 +4,7 @@ development:
   region: 'us-west-2'
   sslEnabled: false
   maxRetries: 5
+  bucket: 'pineneedles.sugarcrm.com'
   
 test:
   accessKeyId: 'akid'
@@ -11,6 +12,7 @@ test:
   region: 'us-west-2'
   sslEnabled: false
   maxRetries: 5
+  bucket: 'pineneedles.sugarcrm.com'
   
 production:
   accessKeyId: 'akid'
@@ -18,3 +20,4 @@ production:
   region: 'us-west-2'
   sslEnabled: false
   maxRetries: 5
+  bucket: 'pineneedles.sugarcrm.com'

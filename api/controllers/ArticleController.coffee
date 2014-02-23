@@ -11,6 +11,14 @@ flash           = require '../services/flashHelper'
 
 ArticleController =
   
+  putS3: (req, res) ->
+    Article.putS3 req, req.param("path"), () ->
+      log.info "Put file to S3."
+      
+  listBuckets: (req, res) ->
+    Article.listBuckets req, () ->
+      log.info "Finished listing buckets."
+  
   index: (req, res) ->
     Article.list appConfig.submodule.path, foundArticles = (articles) ->
       res.view articles: articles

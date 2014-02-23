@@ -8,7 +8,7 @@ aws           = require('aws-sdk')
 s3            = new aws.S3()
 
 
-aws.config.update(config)
+s3.config.update(config)
 
 global.S3Helper = (req, file, next) ->
   @req = req
@@ -16,8 +16,20 @@ global.S3Helper = (req, file, next) ->
   @next = next
   @
   
-S3Helper::put = () ->
-  @next()
+S3Helper::put = (object) ->
+  s3.putObject object, (err, data) ->
+    log.info data
+    @next()
+  
+S3Helper::remove = () ->
+  s3.deleteObject object, (err, data) ->
+    log.info data
+    @next()
+  
+S3Helper::listBuckets = () ->
+  s3.listBuckets (err, data) -> 
+    log.info data 
+    @next()
       
 module.exports = (->
   
@@ -33,6 +45,22 @@ module.exports = (->
       catch err
         ErrorLogHelper err, "S3:"
         self.next(err, null)
-    
+        
+    removeS3: (collectionName, req, file, next) ->
+      try 
+        s3Helper = new S3Helper(req, file, next)
+        s3Helper.remove()
+      catch err
+        ErrorLogHelper err, "S3:"
+        self.next(err, null)
+        
+    listBuckets: (collectionName, req, next) ->
+      try 
+        s3Helper = new S3Helper(req, next)
+        s3Helper.listBuckets()
+      catch err
+        ErrorLogHelper err, "S3:"
+        self.next(err, null)
+        
   adapter
 )()
