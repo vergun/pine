@@ -11,13 +11,13 @@ flash           = require '../services/flashHelper'
 
 ArticleController =
   
-  putS3: (req, res) ->
-    Article.putS3 req, req.param("path"), () ->
-      log.info "Put file to S3."
-      
-  listBuckets: (req, res) ->
-    Article.listBuckets req, () ->
-      log.info "Finished listing buckets."
+  # putS3: (req, res) ->
+  #   Article.putS3 req, req.param("path"), () ->
+  #     log.info "Put file to S3."
+  #     
+  # listBuckets: (req, res) ->
+  #   Article.listBuckets req, () ->
+  #     log.info "Finished listing buckets."
   
   index: (req, res) ->
     Article.list appConfig.submodule.path, foundArticles = (articles) ->
@@ -83,8 +83,11 @@ ArticleController =
         
   publish: (req, res) ->
     Article.buildForWintersmith req, req.param("path"), (err, success) -> 
-      flash.msg req, "success", "article", "was successfully published."
-      res.redirect "/article"
+      log.info req.param("path")
+      Article.putS3 req, req.param("path"), () ->
+        log.info "Put file to S3."
+        flash.msg req, "success", "article", "was successfully published."
+        res.redirect "/article"
     
   copy: (req, res) ->
     ArticleHelper.copy req.param("path"), req.param("destination"), () ->

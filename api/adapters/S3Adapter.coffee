@@ -5,6 +5,7 @@
 
 config        = _.extend s3Config, logger: log
 aws           = require('aws-sdk')
+fs            = require('fs')
 s3            = new aws.S3()
 
 
@@ -16,20 +17,31 @@ global.S3Helper = (req, file, next) ->
   @next = next
   @
   
-S3Helper::put = (object) ->
-  s3.putObject object, (err, data) ->
-    log.info data
-    @next()
+S3Helper::put = (path) ->
+  log.info "PATH"
+  log.info path
+  config = 
+    ACL: "public-read-write"
+    Key: s3Config.secretAccessKey
+    Bucket: s3Config.bucket
+        
+  fs.readFile path, "utf-8", (err, data) ->
+    _.extend config, Body: data
+    log.info config
+    s3.putObject config, (err, data) ->
+        log.info err
+        log.info data
+        @next()
   
 S3Helper::remove = () ->
   s3.deleteObject object, (err, data) ->
     log.info data
     @next()
   
-S3Helper::listBuckets = () ->
-  s3.listBuckets (err, data) -> 
-    log.info data 
-    @next()
+# S3Helper::listBuckets = () ->
+#   s3.listBuckets (err, data) -> 
+#     log.info data 
+#     @next()
       
 module.exports = (->
   
@@ -41,7 +53,7 @@ module.exports = (->
     putS3: (collectionName, req, file, next) ->
       try 
         s3Helper = new S3Helper(req, file, next)
-        s3Helper.put()
+        s3Helper.put file
       catch err
         ErrorLogHelper err, "S3:"
         self.next(err, null)
@@ -54,13 +66,13 @@ module.exports = (->
         ErrorLogHelper err, "S3:"
         self.next(err, null)
         
-    listBuckets: (collectionName, req, next) ->
-      try 
-        s3Helper = new S3Helper(req, next)
-        s3Helper.listBuckets()
-      catch err
-        ErrorLogHelper err, "S3:"
-        self.next(err, null)
+    # listBuckets: (collectionName, req, next) ->
+    #   try 
+    #     s3Helper = new S3Helper(req, next)
+    #     s3Helper.listBuckets()
+    #   catch err
+    #     ErrorLogHelper err, "S3:"
+    #     self.next(err, null)
         
   adapter
 )()
