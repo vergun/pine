@@ -83,24 +83,27 @@ ArticleController =
         
   publish: (req, res) ->
     Article.buildForWintersmith req, req.param("path"), (err, success) -> 
-      log.info req.param("path")
       Article.putS3 req, req.param("path"), () ->
         log.info "Put file to S3."
         flash.msg req, "success", "article", "was successfully published."
         res.redirect "/article"
     
   copy: (req, res) ->
+    #todo use github helper saveWithGit method only
     ArticleHelper.copy req.param("path"), req.param("destination"), () ->
-      Article.saveWithGit req, req.param("destination"), req.param("content"), "Copied", () ->   
-        flash.msg req, "success", "article", "was successfully created."
-        res.redirect "/article"
-    
-  move: (req, res) ->
-    ArticleHelper.move req.param("path"), req.param("destination"), () ->
-      Article.destroyWithGit req, req.param("path"), null, "Deleted", () ->
-        Article.saveWithGit req, req.param("destination"), req.param("content"), "Moved", () ->
+      fs.readFile req.param("path"), (err, fileContent) ->
+        Article.saveWithGit req, req.param("destination"), fileContent, "Copied", () ->   
           flash.msg req, "success", "article", "was successfully created."
           res.redirect "/article"
+    
+  move: (req, res) ->
+    #todo use github helper saveWithGit method only
+    ArticleHelper.move req.param("path"), req.param("destination"), () ->
+      Article.destroyWithGit req, req.param("path"), null, "Deleted", () ->
+        fs.readFileSync req.param("path"), (err, fileContent) ->     
+          Article.saveWithGit req, req.param("destination"), fileContent, "Moved", () ->
+            flash.msg req, "success", "article", "was successfully created."
+            res.redirect "/article"
       
   sendFile: (req, res) ->
     res.download req.param("file"), (err) ->
