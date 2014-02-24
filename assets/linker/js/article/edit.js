@@ -34,11 +34,14 @@ jQuery(function() {
   // Send socket request
   jQuery(document).on('click', 'a[data-target="#commit"]', function() {
     var commitHash = $(this).data('commit');
-    socket.get('/article/getCommits', {
-      hash: commitHash
+    var path       = $(this).data('path');
+    socket.get('/article/getDiff', {
+      commit: commitHash,
+      path:   path
     }, function(response) {
       
-      alert(response);
+      $('#commit .modal-body').text(response.diff);
+      
     })  
   });
   

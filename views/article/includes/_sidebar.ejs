@@ -27,7 +27,7 @@
   <ul class="list-group">
     <% if (article.history && article.history.length) { %>  
         <% article.history.forEach(function(history) { %> 
-           <li class="list-group-item"><%= history.author_name %> (<%= history.author_email %>) (<a data-target="#commit" data-commit="<%= history.long_hash %>" data-toggle="modal" href="#"><%= history.commit_date %></a> )</li>
+           <li class="list-group-item"><%= history.author_name %> (<%= history.author_email %>) (<a data-target="#commit" data-path="<%= article.path %>" data-commit="<%= history.long_hash %>" data-toggle="modal" href="#"><%= history.commit_date %></a> )</li>
         <% }) %>
     <% } else { %>
       <li class="list-group-item">No edit history for this article.</li>
