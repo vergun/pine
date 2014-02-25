@@ -1,0 +1,58 @@
+textarea {
+    width: 100%;
+    min-height: 300px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+.github-cover {
+  display:none;
+  background:grey;
+  position:fixed;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  padding:0;
+  margin:0;
+  background-size:100%;
+  opacity:.95;
+}
+.github-progress {
+  display:none;
+  position:fixed;
+  left:20%;
+  right:20%;
+  top:35%;
+  z-index:9998!important;
+}
+.progress span {
+}
+
+.article-list li {
+  list-style-type: none;
+
+  &:hover:not(.list-home) {
+    color: blue;
+    cursor: pointer;
+  }
+}
+
+
+.article-buttons {
+  display: none;
+  margin-left: 20px;
+}
+
+.file:hover {
+  .article-buttons {
+    display: inline-block;
+  }
+}
+
+.list-home ~ .article-list {
+  display: block;
+
+  .article-list {
+    display: none;
+  }
+}

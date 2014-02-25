@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="span 6">
+    
+  	  <h3 id=user-show-name><%= founduser.name %></h3>
+      
+      <% if (founduser.admin) { %>
+      <p> Admin </p>
+      <% } %>
+      
+      <p><%= founduser.email %></p>
+      <hr>
+    	<a href="/user">Cancel</a>
+      <% if (typeof user != 'undefined') { %>
+    	<a class="btn btn-medium btn-primary" id="edit-user" href="/user/edit/<%= founduser.id %>">Edit</a>
+      <% } %>
+    </div>
+  </div>
+</div>

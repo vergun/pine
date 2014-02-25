@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%- title %></title>
+
+		<!-- Viewport mobile tag for sensible mobile support -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+		<!--STYLES-->
+<link rel="stylesheet" href="/linker/styles/bootstrap.css">
+<link rel="stylesheet" href="/linker/styles/font-awesome.css">
+<link rel="stylesheet" href="/linker/styles/hallo.css">
+<link rel="stylesheet" href="/linker/styles/jquery-ui.css">
+<link rel="stylesheet" href="/linker/styles/style.css">
+<!--STYLES END-->
+	</head>
+
+	<body>
+  
+  <% var nav = {}; nav[selected] = 'active' %>
+  
+  <div class="navbar">
+      <div class="navbar-inner">
+          <div class="container">
+              <a class="brand" href="#">SugarCRM</a>
+              <ul class="nav navbar-nav">
+                <% if (session.authenticated) { %>
+                <li class="<%= nav.editProfile %>"><a href="/user/show/<%= user.id %>"><%= user.name %></a></li>            
+                <% } %>
+                <li class="<%= nav.article %>"><a href="/">Articles</a></li>
+                
+                <% if (session.authenticated) { %>         
+                  <% if (user.admin) { %>
+                    <li class="<%= nav.user %>"><a href="/user">Users</a></li>
+                  <% } %>         
+                <% } %>
+              </ul>
+              <div class=".pull-right">
+                <% if (session.authenticated) { %>
+                  <a class="btn btn-default navbar-btn pull-right" href="/session/destroy">Sign-out</a>
+                <% } %>
+              </div>
+              
+              <% if (!session.authenticated) { %>
+                <form class="navbar-form pull-right form-inline" action="/session/create">
+                  <input type="text" placeholder="Email" name="email" class="form-control">
+                  <input type="password" placeholder="Password" name="password" class="form-control">
+                  <button type="submit" class="btn btn-success">Sign in</button>
+                  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                </form>
+              <% } %>
+          </div>
+      </div>
+  </div>
+  
+  <% if (typeof flash!= 'undefined') { %>
+    <% ['error', 'info', 'success'].forEach(function(kind) { %>
+      <% if (flash[kind]) { %>
+        <div class="container">
+          <div class="alert alert-block alert-<%= kind %>">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4><strong><%= kind.charAt(0).toUpperCase() + kind.slice(1) %></strong></h4> 
+          	<% Object.keys(flash[kind]).forEach(function(obj) { %>
+          		<p><%- flash[kind][obj].message %></p>
+          	<% }) %>          
+          </div>
+        </div>
+      <% } %>
+    <% }) %>
+  <% } %>
+
+<!--TEMPLATES-->
+
+<!--TEMPLATES END-->
+
+    
+<!--SCRIPTS-->
+<script src="/linker/js/socket.io.js"></script>
+<script src="/linker/js/sails.io.js"></script>
+<script src="/linker/js/app.js"></script>
+<script src="/linker/js/jquery.js"></script>
+<script src="/linker/js/jquery-ui.js"></script>
+<script src="/linker/js/rangy.js"></script>
+<script src="/linker/js/hallo.js"></script>
+<script src="/linker/js/markdown/showdown.js"></script>
+<script src="/linker/js/markdown/to-markdown.js"></script>
+<script src="/linker/js/angular.js"></script>
+<script src="/linker/js/bootstrap.js"></script>
+<script src="/linker/js/events/progressbar.js"></script>
+<script src="/linker/js/index.js"></script>
+<!--SCRIPTS END-->
+  
+	<%- body %>
+  
+	</body>
+</html>

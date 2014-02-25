@@ -1,0 +1,9 @@
+--require coffee-script
+--compilers coffee:coffee-script
+--require test/test_helper.coffee
+--colors
+--recursive */unit/*.coffee
+--reporter nyan
+--timeout 60000
+--bail
+--ui bdd
