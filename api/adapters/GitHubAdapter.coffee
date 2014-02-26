@@ -9,11 +9,11 @@ wrench      = require "wrench"
 git         = require "gift"
 path        = require "path"
 child       = require "child_process"
-repo        = git 'Pine_Needles'
+repo        = git 'pineneedles'
 
 
 global.GitHubHelper = (collectionName, req, file, content, method, next) ->
-  @lockfile = '.git/modules/Pine_Needles/index.lock'
+  @lockfile = '.git/modules/pineneedles/index.lock'
   @submodule = appConfig.submodule
   @collectionName = collectionName.charAt(0).toUpperCase() + collectionName.slice(1)
   @req = req
@@ -43,7 +43,7 @@ GitHubHelper::destroyFile = (callback) ->
 GitHubHelper::removeChanges = (callback) ->
   log.info "Resetting Changes"
   @progressEmitter "Removing changes", 20
-  child.exec "cd Pine_Needles && git reset --mixed", (err, stdout, stderr) =>
+  child.exec "cd pineneedles && git reset --mixed", (err, stdout, stderr) =>
     if typeof callback is "function" then callback.apply()
       
 GitHubHelper::syncRepository = (callback) ->

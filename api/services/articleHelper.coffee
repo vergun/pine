@@ -55,7 +55,7 @@ _get_submodule_path = (path) ->
   
 _read_commits = (article, path, next) ->
   
-  childProcess.exec "cd Pine_Needles && git log -5 --graph --pretty=format:'%h\,%H\,%f\,%cr\,%an\,%ae' -- #{path}", (err, stdout, stderr) =>
+  childProcess.exec "cd pineneedles && git log -5 --graph --pretty=format:'%h\,%H\,%f\,%cr\,%an\,%ae' -- #{path}", (err, stdout, stderr) =>
     if err
       ErrorLogHelper err.stack, "DIFF:"
       next(err, null)
@@ -78,7 +78,7 @@ _read_commits = (article, path, next) ->
       
 _get_diff = (commit, path, next) ->
   
-  childProcess.exec "cd Pine_Needles && git diff #{commit} -- #{path}", (err, stdout, stderr) =>
+  childProcess.exec "cd pineneedles && git diff #{commit} -- #{path}", (err, stdout, stderr) =>
     if err
       ErrorLogHelper err.stack, "DIFF:"
       next(err, null)

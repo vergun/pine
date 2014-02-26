@@ -10,7 +10,7 @@ global.WinterSmithHelper = (req, file, next) ->
   @req = req
   @file = file
   @next = next
-  @configPath = "Pine_Needles/config.json"
+  @configPath = "pineneedles/config.json"
   @
   
   

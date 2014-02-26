@@ -38,7 +38,7 @@
     "should": ">= 1.2.2",
     "supertest": "~0.8.0"
   },
-  "repository": "https://github.com/vergun/pine",
+  "repository": "https://github.com/sugarcrm/pine",
   "scripts": {
     "start": "sails lift",
     "test": "mocha",

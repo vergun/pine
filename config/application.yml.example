@@ -3,7 +3,7 @@ development:
   application_title: 'Pine'
   application_port: 1337
   submodule:
-    path: 'Pine_Needles/contents/articles/'
+    path: 'pineneedles/contents/'
     branch: 'development'
     remote: 'origin'
     
@@ -13,7 +13,7 @@ test:
   application_title: 'Pine'
   application_port: ''
   submodule:
-    path: 'Pine_Needles/contents/articles/'
+    path: 'pineneedles/contents/'
     branch: 'development'
     remote: 'origin'
     
@@ -24,7 +24,7 @@ production:
   application_title: 'Pine'
   application_port: 80
   submodule:
-    path: 'Pine_Needles/contents/articles/'
+    path: 'pineneedles/contents/'
     branch: 'master'
     remote: 'origin'
     

@@ -1,3 +1,6 @@
 [submodule "Pine_Needles"]
 	path = Pine_Needles
 	url = https://github.com/vergun/Pine_Needles
+[submodule "pineneedles"]
+	path = pineneedles
+	url = git@github.com:sugarcrm/pineneedles.git
