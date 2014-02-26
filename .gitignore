@@ -48,3 +48,4 @@ config/s3.yml
 log
 .gitmodules
 Pine_Needles
+pineneedles
