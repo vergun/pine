@@ -8,11 +8,11 @@ mkdirp      = require "mkdirp"
 wrench      = require "wrench"
 git         = require "gift"
 path        = require "path"
-repo        = git 'Pine_Needles'
+repo        = git 'pineneedles'
 
 
 global.GitHubHelper = (collectionName, req, file, content, method, next) ->
-  @lockfile = '.git/modules/Pine_Needles/index.lock'
+  @lockfile = '.git/modules/pineneedles/index.lock'
   @submodule = appConfig.submodule
   @collectionName = collectionName.charAt(0).toUpperCase() + collectionName.slice(1)
   @req = req
