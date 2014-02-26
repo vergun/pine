@@ -8,6 +8,7 @@ mkdirp      = require "mkdirp"
 wrench      = require "wrench"
 git         = require "gift"
 path        = require "path"
+child       = require "child_process"
 repo        = git 'Pine_Needles'
 
 
@@ -37,6 +38,13 @@ GitHubHelper::destroyFile = (callback) ->
   fs.exists @file, (exists) =>
     fs.unlinkSync @file if exists
     callback(null)
+    
+    
+GitHubHelper::removeChanges = (callback) ->
+  log.info "Resetting Changes"
+  @progressEmitter "Removing changes", 20
+  child.exec "cd Pine_Needles && git reset --mixed", (err, stdout, stderr) =>
+    if typeof callback is "function" then callback.apply()
       
 GitHubHelper::syncRepository = (callback) ->
   log.info "Syncing repository"
@@ -129,6 +137,7 @@ GitHubHelper::save = (file, content, next) ->
   self = this
   async.waterfall [
       @writeFile.bind(@)
+      @removeChanges.bind(@)
       @syncRepository.bind(@)
       @add_files_to_git.bind(@)
       @remove_index_lock_file.bind(@)
@@ -148,6 +157,7 @@ GitHubHelper::destroy = (file, content, next) ->
   self = this
   async.waterfall [
       @destroyFile.bind(@)
+      @removeChanges.bind(@)
       @syncRepository.bind(@)
       @add_files_to_git.bind(@)
       @remove_index_lock_file.bind(@)
