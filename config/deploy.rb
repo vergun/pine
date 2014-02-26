@@ -3,7 +3,7 @@ require 'rvm/capistrano'
 require 'bundler/capistrano'
 
 set :application, "pine"
-set :repository, "git@github.com:vergun/pine.git"
+set :repository, "git@github.com:sugarcrm/pine.git"
 set :branch, "master"
 set :timestamp, Time.now.strftime("%Y-%m-%d_%H-%M")
 set :deploy_to, "~/ebs_volume/"
