@@ -1,41 +1,4 @@
+<%= include includes/_markdownLayout %>
 <%= include includes/_progressBar %>
-
-<div class="container">
-  <div class="row">
-  
-    <div class="tabbable tabs-right">
-      <ul class="nav nav-tabs">
-        <li><a href="/article">Back to articles</a></li>  
-        <% if (session.authenticated) { %>    
-  			  <li class="show-edit-article">
-            <form action="/article/edit">
-              <input type="hidden" value=<%= article.file %> name="file">
-              <input type="submit" value="Edit">
-      				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-            </form>
-          </li>            
-          <li class="show-destroy-article">
-            <form action="/article/destroy">
-              <input type="hidden" value=<%= article.file %> name="file">
-              <input type="submit" value="Destroy">
-      				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-            </form>
-          </li>  
-        <% } %>
-      </ul>
-      <div class="tab-content">
-        <ul class="breadcrumb">
-          <% _.each(article.breadcrumbs, function(breadcrumb) { %>
-            <% if (breadcrumb === "index.md") { %>
-              <li class="active"><%= breadcrumb %></li>
-            <% } else { %>
-              <li><%= breadcrumb %><span class="divider">/</span></li>
-            <% } %>
-          <% }) %>
-        </ul>
-        <%- article.content %>
-      </div>
-    </div>
-
-  </div>
-</div>
+<%= include modals/layout %>
+<%= include includes/_article %>

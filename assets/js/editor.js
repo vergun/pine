@@ -1,67 +1,48 @@
-// Modified from http://hallojs.org/demo/markdown/
+tinymce.init({
+    selector: "div.editable",
+    theme: "modern",
+    plugins: [
+        ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker"],
+        ["searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking"],
+        ["save table contextmenu directionality emoticons template paste"]
+    ],
+    add_unload_trigger: false,
+    schema: "html5",
+    inline: true,
+    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image     | print preview media",
+    statusbar: false
+});
 
+// Todo implemenet:
+// Update HTML every time content is modified
 jQuery(document)
     .ready(function() {
-    // Enable Hallo editor
-    jQuery('.editable')
-        .hallo({
-        plugins: {
-            'halloformat': {},
-            'halloheadings': {},
-            'hallolists': {},
-            'halloreundo': {}
-        },
-        toolbar: 'halloToolbarFixed'
-    });
-
-    var markdownize = function(content) {
-        var html = content.split("\n")
-            .map($.trim)
-            .filter(function(line) {
-            return line != "";
-        })
-            .join("\n");
-        return toMarkdown(html);
-    };
-
-    var converter = new Showdown.converter();
-    var htmlize = function(content) {
-        return converter.makeHtml(content);
-    };
-
-    // Method that converts the HTML contents to Markdown
-    var showSource = function(content) {
-        var markdown = markdownize(content);
-        if (jQuery('#source')
-            .get(0)
-            .value == markdown) {
-            return;
-        }
-        jQuery('#source')
-            .get(0)
-            .value = markdown;
-    };
-
-
-    var updateHtml = function(content) {
-        if (markdownize(jQuery('.editable')
-            .html()) == content) {
-            return;
-        }
-        var html = htmlize(content);
-        jQuery('.editable')
-            .html(html);
-    };
-
-    // Update Markdown every time content is modified
-    jQuery('.editable')
-        .bind('hallomodified', function(event, data) {
-        showSource(data.content);
-    });
+      
+var showSource = function(content) {
     jQuery('#source')
-        .bind('keyup', function() {
-        updateHtml(this.value);
-    });
-    showSource(jQuery('.editable')
-        .html());
+        .get(0)
+        .value = content;
+};
+
+// update source code when typing
+jQuery('div.editable')
+    .bind('keypress', function() {
+    var html = $('.editable').html();
+    showSource(html);
+});
+
+// update source code when clicking editor
+jQuery(document)
+    .on('click', '.mce-btn, a[data-target="#myModal"]', function() {
+    var html = $('.editable').html();
+    showSource(html);
+});
+
+var html = 
+  jQuery('div.editable').length > 0 ? 
+  jQuery('div.editable').html() : 
+  jQuery('div.not-editable').html();
+  
+showSource(html);
+
 });

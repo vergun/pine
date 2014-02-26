@@ -1,3 +1,19 @@
+i:not(.initial-load), .article-buttons a {
+    margin:2px;
+}
+.attention {
+    display:none;
+    position:absolute;
+    top:0;
+    left:42%;
+    margin:0 auto;
+    padding-left:4%;
+    padding-right:4%;
+    background-color:yellow;
+    color:black;
+    z-index:99999!important;
+    text-align:center;
+}
 textarea {
     width: 100%;
     min-height: 300px;
@@ -5,30 +21,41 @@ textarea {
     padding: 5px;
 }
 .github-cover {
-  display:none;
-  background:grey;
-  position:fixed;
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
-  padding:0;
-  margin:0;
-  background-size:100%;
-  opacity:.95;
+    display:none;
+    background:grey;
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    padding:0;
+    margin:0;
+    background-size:100%;
+    opacity:.95;
+    z-index:500!important;
 }
 .github-progress {
-  display:none;
-  position:fixed;
-  left:20%;
-  right:20%;
-  top:35%;
-  z-index:9998!important;
+    display:none;
+    position:fixed;
+    left:20%;
+    right:20%;
+    top:35%;
+    z-index:9998!important;
 }
-.progress span {
+.progress-bar-message {
+    width:100%;
+    text-align:center;
+    position:relative;
+    margin: 0 auto;
+    left:0;
+    right:0;
+    top:50px;
+    color: #fff;
+    font-size:2em;
+    display:none;
+    z-index:9998!important;
 }
-
-.article-list li {
+.article-list li, .panel li {
   list-style-type: none;
 
   &:hover:not(.list-home) {
@@ -36,19 +63,16 @@ textarea {
     cursor: pointer;
   }
 }
-
-
 .article-buttons {
   display: none;
   margin-left: 20px;
 }
-
 .file:hover {
   .article-buttons {
     display: inline-block;
+    margin: -10px 0;
   }
 }
-
 .list-home ~ .article-list {
   display: block;
 
@@ -56,3 +80,81 @@ textarea {
     display: none;
   }
 }
+.z-index-fix {
+  z-index:-1;
+}
+.panel li a {
+  background:none;
+  border:none;
+  outline:none;
+  border-style:none;
+  font:inherit;
+  padding:0px;
+  margin:0px;
+  text-decoration:none;
+  font-weight:bold;
+  color:#005580;
+}
+.panel form {
+  margin:0px;
+  padding:0px;
+}
+.panel a:hover {
+  text-decoration:underline;
+}
+.panel li:not(.not-a-link) i {
+  color:#005580;
+}
+.panel li:hover, label:hover {
+  color:black!important;
+  cursor:default!important;
+}
+.dl-horizontal dd {
+  padding-top:11px;
+}
+.editable:hover, input[contenteditable=true]:hover {
+  cursor:pointer;
+}
+/* repeated in html 
+because css isn't loaded
+in the head */
+#save-article-form {
+  display:none;
+}
+
+
+
+
+
+
+
+#loginlogout {
+  .btn {
+    margin-top: 2px;
+  }
+  form {
+    margin-top: 1px;
+  }
+}
+
+
+.list-home {
+  margin-top: 20px;
+}
+
+.article-list {
+  padding-left: 20px;
+}
+
+
+.article-headers {
+  input {
+    display: block;
+  }
+}
+
+
+
+
+
+@import "theme.less";

@@ -1,0 +1,57 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Action menu</div>
+  <div class="panel-body">
+    <ul>
+      <li><a href="/article"><i class="icon-reply"></i> Back to articles</a></li>  
+      <li><a href=<%= "/article/sendFile?file=" + article.path.replace(/\.[^/.]+$/, ".pdf") %> download><i class="icon-download-alt"></i> Download as PDF</a></li>  
+      <li><a href=<%= "/article/sendFile?file=" + article.path %> download><i class="icon-cloud-download"></i>  Download as HTML</a></li>  
+      <% if (session.authenticated) { %>    
+        <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="icon-code"></i> Show source code</a></li>  
+        <li><a href="/article/destroy?path=<%= article.path %>"><i class="icon-remove"></i>  Destroy article</a></li>
+        <% if (typeof(edit) != "undefined" && edit) { %>
+          <li><a href="javascript:history.back()"><i class="icon-remove"></i>  Cancel</a></li>
+          <li><%= include _save_article_form %></li>
+          <li><a href="#" id="edit-article-save"><i class="icon-edit"></i> Save</a></li> 
+          <li><a href="/article/publish?path=<%= article.path %>"><i class="icon-thumbs-up"></i> Publish</a></li>   
+        <% } else { %>
+          <li><a href="/article/edit?path=<%= article.path %>"><i class="icon-edit"></i> Edit article</a></li>
+          <li><a href="/article/publish?path=<%= article.path %>"><i class="icon-thumbs-up"></i> Publish</a></li>  
+        <% } %>
+      <% } %>
+    </ul>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Article</div> 
+  <ul class="list-group">
+    <% if (article.history && article.history.length) { %>  
+        <% article.history.forEach(function(history) { %> 
+           <li class="list-group-item"><%= history.author_name %> (<%= history.author_email %>) (<a data-target="#commit" data-path="<%= article.path %>" data-commit="<%= history.long_hash %>" data-toggle="modal" href="#"><%= history.commit_date %></a> )</li>
+        <% }) %>
+    <% } else { %>
+      <li class="list-group-item">No edit history for this article.</li>
+    <% } %>  
+  </ul>
+  <div class="panel-body">
+    <ul>
+      <li>Stats</li>
+      <li class="not-a-link"><i class="icon-book"></i><span id="word-count"></span></li>  
+      <li class="not-a-link"><i class="icon-sort-by-alphabet"></i><span id="character-count"></span></li>
+      <li class="not-a-link"></li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="panel panel-default" style="display:none">
+  <div class="panel-heading">Stats</div>
+  <div class="panel-body">
+    <ul>
+      <li class="not-a-link"><i class="icon-book"></i></li>  
+      <li class="not-a-link"><i class="icon-sort-by-alphabet"></i></li>
+      <li class="not-a-link"></li>
+    </ul>
+  </div>
+</div>
+

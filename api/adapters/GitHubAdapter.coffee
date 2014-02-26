@@ -8,11 +8,11 @@ mkdirp      = require "mkdirp"
 wrench      = require "wrench"
 git         = require "gift"
 path        = require "path"
-repo        = git 'Pine_Needles'
+repo        = git 'pineneedles'
 
 
 global.GitHubHelper = (collectionName, req, file, content, method, next) ->
-  @lockfile = '.git/modules/Pine_Needles/index.lock'
+  @lockfile = '.git/modules/pineneedles/index.lock'
   @submodule = appConfig.submodule
   @collectionName = collectionName.charAt(0).toUpperCase() + collectionName.slice(1)
   @req = req
@@ -24,7 +24,6 @@ global.GitHubHelper = (collectionName, req, file, content, method, next) ->
 
 GitHubHelper::progressEmitter = (message, amount) ->
   global[@collectionName]["publish"] @req, type: "progress-bar", message: message, amount: amount, method: @method
-  log.info "Update published."
 
 GitHubHelper::writeFile = (callback) -> 
   @create_missing_directories =>
@@ -74,6 +73,14 @@ GitHubHelper::get_repository_status = (callback) ->
     else
       callback(null)
       
+GitHubHelper::setAuthorship = (callback) ->
+  log.info "Setting authorship", 20
+  repo.identify @req.session.User, (err) ->
+    if err
+      callback(err)
+    else
+      callback(null)
+  
 GitHubHelper::commitFiles = (callback) ->  
   log.info "Committing files"
   @progressEmitter "Committing files", 20
@@ -126,8 +133,9 @@ GitHubHelper::save = (file, content, next) ->
       @add_files_to_git.bind(@)
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
+      @setAuthorship.bind(@)
       @commitFiles.bind(@)
-      @pushFiles.bind(@)
+      # @pushFiles.bind(@)
     ],
     (err) =>
       if err
@@ -144,8 +152,9 @@ GitHubHelper::destroy = (file, content, next) ->
       @add_files_to_git.bind(@)
       @remove_index_lock_file.bind(@)
       @get_repository_status.bind(@)
+      @setAuthorship.bind(@)
       @commitFiles.bind(@)
-      @pushFiles.bind(@)
+      # @pushFiles.bind(@)
     ],
     (err) =>
       if err
@@ -177,29 +186,24 @@ module.exports = (->
         ErrorLogHelper err, "GITHUB:"
         self.next(err, null)
         
-    read: (collectionName, file, next) ->
-      breadcrumbs = path.normalize(file).split(path.sep)
-      content = fs.readFileSync file, encoding: "utf-8"
-      file = file.replace(appConfig.submodule.path, "")
+    read: (collectionName, filename, next) ->
+      name = filename.replace(appConfig.submodule.path, "")
+      content = fs.readFileSync filename, encoding: "utf-8"
+      breadcrumbs = path.normalize(filename).split(path.sep)
+      _path = filename
       article =
-        file: file
+        name: name
         content: content
         breadcrumbs: breadcrumbs
+        path: _path
  
       next null, article
-
-    # list: (collectionName, path, next) ->  
-    #   results = new Array()  
-    #   _.each wrench.readdirSyncRecursive(path), (file) ->
-    #     results.push(file) if file.match(/\.[md]+$/i)
-    #   
-    #   next results
       
     list: (collectionName, filename, next) ->
       results = adapter.dirTree filename
       next results
  
-    dirTree: (filename) ->
+    dirTree: (filename, tracker) ->
       stats = fs.lstatSync filename
       info = 
         path: path.normalize filename
@@ -207,10 +211,13 @@ module.exports = (->
       
       if stats.isDirectory()
         info.type = "folder"
-        info.children = fs.readdirSync(filename).map (child) -> adapter.dirTree(filename + "/" + child)
+        if !tracker?
+          info.children = fs.readdirSync(filename).map (child) -> adapter.dirTree(filename + "/" + child, 1)        
+        else
+          info.children = []
       else
         info.type = "file"
-      
+                    
       info
       
   adapter

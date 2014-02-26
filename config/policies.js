@@ -30,7 +30,8 @@ module.exports.policies = {
     edit:       ["flash", "authenticated", "nav", "currentUser"],
     update:     ["flash", "authenticated", "nav", "currentUser"],
     save:       ["flash", "authenticated", "nav", "currentUser"],
-    destroy:    ["flash", "authenticated", "nav", "currentUser"]
+    destroy:    ["flash", "authenticated", "nav", "currentUser"],
+    fetch:      ["flash", "currentUser"]
   }
   
 };

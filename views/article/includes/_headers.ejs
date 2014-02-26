@@ -1,0 +1,17 @@
+<h3>Attributes</h3>
+<% if (typeof(edit) != "undefined" && edit) { %>      
+    <a href="#" id="add-new-metadata" class="btn btn-xs btn-primary"><i class="icon-plus"></i> Add attribute</a>
+<% } %>
+
+<div class="article-headers">
+  <% if (article.headers && typeof(article.headers) == "object") { %>  
+  <% Object.keys(article.headers).forEach(function(header) { %>
+    <label class="control-label" for="<%= header %>"><%= header.charAt(0).toUpperCase() + header.slice(1) %></label>        
+    <% if (typeof(edit) != "undefined" && edit) { %>
+      <input type="text" form="save-article-form" name="<%= header %>" value="<%= article.headers[header] %>" contenteditable=true>        
+    <% } else { %>
+      <input type="text" form="save-article-form" name="<%= header %>" value="<%= article.headers[header] %>" readonly=true>
+    <% } %>
+  <% }) %>
+  <% } %>
+</div>

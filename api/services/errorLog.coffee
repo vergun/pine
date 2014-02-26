@@ -86,3 +86,8 @@ global.ErrorLogHelper = (err, prefix) ->
   log.warn prefix + "Type: " + err.type
   log.warn prefix + "Arguments: " + err.arguments
   log.warn prefix + "Stack: " + err.stack
+  
+global.SuccessLogHelper = (data, prefix) ->
+  prefix = "LOG: " unless prefix
+  log.info prefix + "Success:"
+  log.info prefix + JSON.stringify(data, ' ', null)

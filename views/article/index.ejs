@@ -1,13 +1,15 @@
+<%= include includes/_loading %>
 <%= include includes/_progressBar %>
-
-<div class="container" ng-controller="ArticleCtrl">
+<%= include includes/_tree %>
+<%= include modals/_copy %>
+<%= include modals/_move %>
+ 
+<div class="container">
   <div class="row">
-  
-  <% if (session.authenticated) { %>         
-      <a href="/article/new" class="btn btn-sm btn-primary">+ New article</a>
-  <% } %>
-  
   <ul class="article-list">
+  <% if (session.authenticated) { %>         
+    <li><a href="/article/new" class="btn btn-xs btn-primary"><i class="icon-plus"></i> Add article</a></li>
+  <% } %>
     <li class="list-home">
       <i class="icon-home"></i>
       <b>Sugar CRM Support</b>
