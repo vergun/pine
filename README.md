@@ -74,7 +74,7 @@ Server Setup Instructions
 2 Generated an ssh key for the user, and add it to deploy keys on github
 
     ssh-keygen
-    *copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pine_needles repos
+    *copy ~/.ssh/id_rsa.pub contents to github.com/settings/ssh, "Add SSH Key" on pine and pineneedles repos
 
 3 cloned the project into releases/20132411114612
 

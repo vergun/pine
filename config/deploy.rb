@@ -52,7 +52,7 @@ namespace :deploy do
 
   desc "Initialize submodule"
   task :init_submodule do
-    submodule = "#{release_path}/Pine_Needles"
+    submodule = "#{release_path}/pineneedles"
     run <<-EOS
       if [ -d #{submodule} ]; then
         if [ -L #{submodule} ]; then
@@ -62,7 +62,7 @@ namespace :deploy do
         fi
       fi
     EOS
-    run "ln -s #{shared_path}/submodules/Pine_Needles #{release_path}/Pine_Needles"
+    run "ln -s #{shared_path}/submodules/pineneedles #{release_path}/pineneedles"
   end
   
 end
