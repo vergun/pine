@@ -5,7 +5,15 @@ development:
     user: ''
     password: ''
     database: 'pine'
-    
+  
+test:
+  mongo:
+    host: 'localhost'
+    port: 27017
+    user: ''
+    password: ''
+    database: 'pine_test'
+  
 production:
   mongo:
     host: 'localhost'

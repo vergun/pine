@@ -1,0 +1,69 @@
+@import "mixins.less";
+@import "alerts.less";
+@import "nav.less";
+@import "widgets.less";
+@import "page.less";
+@import "breadcrumbs.less";
+@import "search.less";
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Source Sans Pro",Helvetica,Arial,sans-serif;
+    line-height: 1.25em;
+    color: #E61718;
+}
+
+a {
+    color: #1774E6;
+    &:hover {
+        color: #1262B3;
+        text-decoration: none;
+    }
+}
+
+h2 {
+    line-height: 30px;
+    padding-top: 4px;
+    padding-bottom: 12px;
+
+    font-size: 24px;
+}
+
+.comment {
+    display: none;
+}
+
+
+td { padding: 5px; }
+
+.shadow {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    .transitions(all 0.1s ease-in-out 0s);
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+.rounded-corners {
+    border-radius: 2px;
+    border: 1px solid #DDDDDD !important;
+    .transitions(all 0.1s ease-in-out 0s);
+
+    &:hover {
+        border: 1px solid #999999 !important;
+    }
+}
+.enclosed-block {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    margin-right: -2px; // counteract additional px from border
+    line-height: 20px;
+    padding: 0 20px 10px 20px;
+    .transitions(all 0.1s ease-in-out 0s);
+
+    &:hover {
+        margin-top: -2px;
+        margin-bottom: 22px;
+    }
+}

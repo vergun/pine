@@ -1,0 +1,26 @@
+<div class="modal fade z-index-fix" id="copyArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Copy</h4>
+      </div>
+
+      <div class="modal-body" aria-hidden="true">
+        <form action="/article/copy">
+          Source
+          <input id="copyArticleSource" name="path" type="text" placeholder="filename" class="input-xxlarge uneditable-input" />
+          <br>
+          Destination
+          <input id="copyArticleDestination" name="destination" type="text" placeholder="filename" class="input-xxlarge" />
+          <br>
+        </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-primary">
+        </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+  </div>
+</div>

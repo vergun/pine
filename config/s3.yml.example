@@ -1,0 +1,26 @@
+development:
+  accessKeyId: 'akid'
+  secretAccessKey: 'secret'
+  region: 'us-west-2'
+  sslEnabled: false
+  maxRetries: 5
+  bucket: 'pineneedles.sugarcrm.com'
+  rejectUnauthorized: false
+  
+test:
+  accessKeyId: 'akid'
+  secretAccessKey: 'secret'
+  region: 'us-west-2'
+  sslEnabled: false
+  maxRetries: 5
+  bucket: 'pineneedles.sugarcrm.com'
+  rejectUnauthorized: false
+  
+production:
+  accessKeyId: 'akid'
+  secretAccessKey: 'secret'
+  region: 'us-west-2'
+  sslEnabled: false
+  maxRetries: 5
+  bucket: 'pineneedles.sugarcrm.com'
+  rejectUnauthorized: false

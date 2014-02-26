@@ -10,6 +10,8 @@ global.async = require('async')
 global.log = require('winston')
 global.appConfig = require('./application.yml')[NODE_ENV]
 global.dbConfig = require('./database.yml')[NODE_ENV]
+global.s3Config = require('./s3.yml')[NODE_ENV]
+global.startDate = new Date()
 
 // Export configuration
 module.exports = {

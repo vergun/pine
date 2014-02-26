@@ -1,8 +1,7 @@
-
-  <span class="article-buttons">
-    <button class="btn btn-mini btn-primary">Show</button>
-    <button class="btn btn-mini btn-warning">Edit</button>
-    <button class="btn btn-mini btn-danger">Delete</button>
-  </span>
-
-
+<span class="article-buttons">
+  <a href="/article/show?path=<%= article.path %>" class="btn btn-xs btn-primary">Show</a>
+  <% if (session.authenticated) { %>  
+    <a href="/article/edit?path=<%= article.path %>" class="btn btn-xs btn-warning">Edit</a>
+    <a href="/article/destroy?path=<%= article.path %>" class="btn btn-xs btn-danger">Destroy</a>
+  <% } %>    
+</span>

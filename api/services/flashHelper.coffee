@@ -12,6 +12,9 @@ module.exports = (->
     # @param : subject [article, user]
     # @param : action  describes what the subject is doing
     
+    # todo enable messages to be passed by the client
+    # i.e. socket requests that are successful (github progress bar)
+    
     msg: (req, type, subject, action) ->
       subject = subject.charAt(0).toUpperCase() + subject.slice(1)
       process[type+subject] = [
