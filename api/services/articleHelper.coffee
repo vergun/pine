@@ -1,5 +1,7 @@
-yaml  = require 'js-yaml'
-fse   = require 'fs-extra'
+yaml         = require 'js-yaml'
+fse          = require 'fs-extra'
+path         = require 'path'
+$            = require 'cheerio'
 childProcess = require 'child_process'
 
 _error = (article, callback) ->
@@ -52,6 +54,13 @@ _get_submodule_path = (path) ->
   filePath = filePath.join("/")
   filePath
   
+_get_root_file_path = (path) ->
+  filePath = path.split("/")
+  filePath.pop()
+  filePath = filePath.join("/")
+  filePath
+  
+_get_file_name = (pathow )
   
 _read_commits = (article, path, next) ->
   
@@ -87,9 +96,41 @@ _get_diff = (commit, path, next) ->
         diff: stdout
         
       next(null, article)
+      
+_get_images = (htmlContent, destinationPath, callback) ->
+  if htmlContent && destinationPath
+    $.load htmlContent
+    $documentImages = $('img').clone();
+    for img in $documentImages
+      _store_image img, destinationPath
+  else
+    error = err:
+      message: "Content is missing or absent from article."
+      code: "article_is_missing_content"
+  if typeof callback is "function" then callback.apply(error, article)
+        
+_store_image = (image, destinationPath, callback) ->
+  sourcePath = image.src
+  fileName   = path.basename(sourcePath) 
+  destinationPath = destinationPath + fileName 
+  fse.readfile sourcePath, (err, data) ->
+    if (err) throw err   
+    fse.writeFile destinationPath, data, (err) ->
+      if (err) throw err
+        log.info "Saved image #{fileName} to #{destinationPath}"
 
 global.ArticleHelper =
   
+  storeImages: (req, callback) ->
+    if req && req.param("content") && req.param("path")?
+      htmlContent     = req.param("content")
+      destinationPath = _get_root_file_path(req.param("path"))
+      
+      _get_images htmlContent, destinationPath, (error, article) ->
+        callback error, article
+    else      
+      @error article, callback
+    
   copy: (source, destination, next) ->
     stats = fse.lstatSync source
     if stats.isDirectory()
