@@ -4,6 +4,9 @@ require('js-yaml')
 // Node environment
 NODE_ENV = process.env.ENV || 'development'
 
+// Fix for host/mismatch for s3 SDK
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
+
 // Global configuration
 global._ = require('underscore')
 global.async = require('async')
