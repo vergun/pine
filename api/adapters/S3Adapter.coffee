@@ -17,8 +17,6 @@ global.S3Helper = (req, file, next) ->
   @
   
 S3Helper::put = (path) ->
-  log.info "PATH"
-  log.info path
   config = 
     ACL: "public-read-write"
     Key: path
